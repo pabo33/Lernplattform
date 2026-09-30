@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETH-Aufnahmeprüfung · Lernplattform</title>
+<meta name="description" content="Lernplattform für die reduzierte Aufnahmeprüfung der ETH Zürich: Mathematik, Physik, Chemie und Biologie mit Erklärungen, Beispielen und Übungsaufgaben.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d2a24'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' fill='%23fff' text-anchor='middle'%3EETH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']], packages: {'[+]': ['mhchem']} },
+  loader: { load: ['[tex]/mhchem'] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --ink:#0f1720; --ink-2:#18222f; --ink-line:#26333f;
+    --paper:#f5f6f4; --surface:#ffffff; --surface-2:#fbfcfb;
+    --line:#e6e8e4; --line-strong:#d6dad3;
+    --text:#1a2431; --text-2:#5c6773; --text-3:#8a949e;
+    --inv:#eef2f6; --inv-2:#9db0c1; --inv-3:#63768a;
+    --accent:#1f5f97; --accent-2:#2b74b3; --accent-bg:#e7eff7; --accent-ink:#123a5e;
+    --review:#1f7a52; --review-bg:#e6f2ec; --review-line:#bfe0cd;
+    --deepen:#9a6410; --deepen-bg:#f8efda; --deepen-line:#ecd6a5;
+    --new:#b23f36; --new-bg:#f7e6e3; --new-line:#eec7c1;
+    --radius:10px; --radius-sm:7px;
+    --shadow:0 1px 2px rgba(16,23,32,.04), 0 6px 20px rgba(16,23,32,.05);
+    --sans:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+    --display:"Space Grotesk","IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--sans); color:var(--text); background:var(--paper); line-height:1.5; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; display:flex; min-height:100vh;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit}
+  a{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent-2); outline-offset:2px; border-radius:4px}
+
+  .rail{width:264px; flex-shrink:0; background:var(--ink); color:var(--inv); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; border-right:1px solid var(--ink-line);}
+  .brand{padding:22px 22px 18px; border-bottom:1px solid var(--ink-line)}
+  .brand__eth{font-family:var(--display); font-weight:700; font-size:22px; letter-spacing:-.02em; color:#fff}
+  .brand__sub{font-size:12.5px; color:var(--inv-2); margin-top:3px}
+  .brand__goal{font-size:12px; color:var(--inv-3); margin-top:10px; line-height:1.45}
+  .nav{padding:12px 12px; overflow-y:auto; flex:1}
+  .nav__label{font-size:11px; color:var(--inv-3); padding:8px 10px 6px; font-weight:500}
+  .navitem{width:100%; text-align:left; display:flex; align-items:center; gap:11px; padding:9px 10px; border-radius:var(--radius-sm); color:var(--inv-2); font-size:14px; margin-bottom:2px; transition:background .15s,color .15s;}
+  .navitem:hover{background:var(--ink-2); color:var(--inv)}
+  .navitem.is-active{background:var(--ink-2); color:#fff}
+  .navitem__dot{width:9px; height:9px; border-radius:50%; flex-shrink:0; background:var(--inv-3)}
+  .navitem.is-active .navitem__dot{box-shadow:0 0 0 3px rgba(255,255,255,.08)}
+  .navitem__name{flex:1; font-weight:500}
+  .navitem__pct{font-family:var(--mono); font-size:12px; color:var(--inv-3)}
+  .navitem.is-active .navitem__pct{color:var(--inv-2)}
+  .rail__foot{padding:14px 16px; border-top:1px solid var(--ink-line); font-size:11.5px; color:var(--inv-3)}
+  .rail__reset{color:var(--inv-2); font-size:12px; text-decoration:underline; text-underline-offset:2px; padding:0}
+  .rail__reset:hover{color:#fff}
+
+  .main{flex:1; min-width:0; display:flex; flex-direction:column}
+  .wrap{max-width:940px; width:100%; margin:0 auto; padding:34px 30px 90px}
+  .view-head{margin-bottom:24px}
+  .view-title{font-family:var(--display); font-weight:600; font-size:30px; letter-spacing:-.02em; margin:0}
+  .view-desc{color:var(--text-2); font-size:14.5px; margin:9px 0 0; max-width:66ch}
+
+  .advisory{background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:var(--radius); padding:16px 18px; margin-bottom:26px; box-shadow:var(--shadow); position:relative;}
+  .advisory h3{font-family:var(--display); font-size:15px; margin:0 0 6px; font-weight:600}
+  .advisory p{margin:0; font-size:13.5px; color:var(--text-2); line-height:1.55}
+  .advisory p + p{margin-top:8px}
+  .advisory__close{position:absolute; top:10px; right:10px; color:var(--text-3); font-size:18px; line-height:1; padding:4px 7px; border-radius:6px}
+  .advisory__close:hover{background:var(--paper); color:var(--text)}
+
+  .panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow)}
+  .instrument{padding:24px 26px 26px; margin-bottom:22px}
+  .instrument__top{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:18px}
+  .instrument__big{font-family:var(--display); font-weight:700; font-size:52px; line-height:.9; letter-spacing:-.03em}
+  .instrument__big span{font-size:26px; color:var(--text-3)}
+  .instrument__cap{font-size:13.5px; color:var(--text-2); max-width:34ch}
+  .instrument__count{font-family:var(--mono); color:var(--text); font-weight:500}
+  .segbar{display:flex; height:22px; border-radius:6px; overflow:hidden; background:var(--paper); border:1px solid var(--line)}
+  .segbar__seg{height:100%; transition:width .5s cubic-bezier(.4,0,.2,1)}
+  .seg--done{background:var(--accent)} .seg--review{background:var(--review)} .seg--deepen{background:var(--deepen)} .seg--new{background:var(--new)}
+  .legend{display:flex; flex-wrap:wrap; gap:18px 22px; margin-top:16px}
+  .legend__item{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-2)}
+  .legend__sw{width:12px; height:12px; border-radius:3px; flex-shrink:0}
+  .legend__n{font-family:var(--mono); color:var(--text); font-weight:500}
+  .subj-prog{padding:8px 6px 6px}
+  .subjrow{display:block; width:100%; text-align:left; padding:15px 20px; border-bottom:1px solid var(--line); transition:background .15s}
+  .subjrow:last-child{border-bottom:none}
+  .subjrow:hover{background:var(--surface-2)}
+  .subjrow__top{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:9px}
+  .subjrow__name{font-family:var(--display); font-weight:600; font-size:16.5px}
+  .subjrow__meta{font-size:12.5px; color:var(--text-3)}
+  .subjrow__meta b{font-family:var(--mono); font-weight:500; color:var(--text-2)}
+  .how{margin-top:26px}
+  .how h3{font-family:var(--display); font-size:16px; margin:0 0 12px; font-weight:600}
+  .how ul{margin:0; padding-left:0; list-style:none}
+  .how li{position:relative; padding:8px 0 8px 26px; font-size:14px; color:var(--text-2); border-top:1px solid var(--line)}
+  .how li:first-child{border-top:none}
+  .how li b{color:var(--text)}
+  .how li::before{content:""; position:absolute; left:4px; top:15px; width:8px; height:8px; border-radius:50%; background:var(--accent)}
+
+  .subhead{display:flex; flex-direction:column; gap:16px; margin-bottom:22px}
+  .subhead__bar .segbar{height:14px}
+  .subhead__stats{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+  .stat{display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:100px; padding:6px 13px 6px 11px; font-size:12.5px; color:var(--text-2)}
+  .stat__dot{width:9px; height:9px; border-radius:50%}
+  .stat__n{font-family:var(--mono); font-weight:600; color:var(--text)}
+  .toolbar{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:20px; padding-bottom:18px; border-bottom:1px solid var(--line)}
+  .chips{display:flex; gap:6px; flex-wrap:wrap}
+  .chip{padding:6px 13px; border-radius:100px; font-size:13px; color:var(--text-2); border:1px solid var(--line); background:var(--surface); transition:.15s; font-weight:500}
+  .chip:hover{border-color:var(--line-strong)}
+  .chip.is-on{background:var(--ink); color:#fff; border-color:var(--ink)}
+  .toolbar__spacer{flex:1}
+  .toggle{display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--text-2); user-select:none; cursor:pointer}
+  .toggle input{position:absolute; opacity:0; width:0; height:0}
+  .toggle__track{width:36px; height:20px; border-radius:100px; background:var(--line-strong); position:relative; transition:background .18s; flex-shrink:0}
+  .toggle__track::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.2); transition:transform .18s}
+  .toggle input:checked + .toggle__track{background:var(--accent)}
+  .toggle input:checked + .toggle__track::after{transform:translateX(16px)}
+  .toggle input:focus-visible + .toggle__track{outline:2px solid var(--accent-2); outline-offset:2px}
+
+  .area{margin-bottom:30px}
+  .area__head{display:flex; align-items:center; gap:12px; margin:0 0 4px}
+  .area__title{font-family:var(--display); font-weight:600; font-size:18px; letter-spacing:-.01em; margin:0}
+  .area__count{font-family:var(--mono); font-size:12px; color:var(--text-3)}
+  .area__rule{flex:1; height:1px; background:var(--line)}
+  .list{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow)}
+  .topic{border-top:1px solid var(--line); border-left:3px solid transparent}
+  .topic:first-child{border-top:none}
+  .topic[data-status="review"]{border-left-color:var(--review)}
+  .topic[data-status="deepen"]{border-left-color:var(--deepen)}
+  .topic[data-status="new"]{border-left-color:var(--new)}
+  .topic.is-done{background:var(--surface-2)}
+  .topic__row{display:flex; align-items:flex-start; gap:13px; padding:13px 16px 13px 15px}
+  .check{appearance:none; -webkit-appearance:none; width:21px; height:21px; border:1.8px solid var(--line-strong); border-radius:6px; flex-shrink:0; margin-top:1px; position:relative; transition:.15s; background:var(--surface)}
+  .check:hover{border-color:var(--accent-2)}
+  .check:checked{background:var(--accent); border-color:var(--accent)}
+  .check:checked::after{content:""; position:absolute; left:6px; top:2px; width:6px; height:11px; border:solid #fff; border-width:0 2.2px 2.2px 0; transform:rotate(43deg)}
+  .topic__body{flex:1; min-width:0}
+  .topic__line{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+  .topic__name{font-size:14.5px; font-weight:500; color:var(--text)}
+  .topic.is-done .topic__name{text-decoration:line-through; text-decoration-color:var(--text-3); color:var(--text-2)}
+  .topic__hint{font-size:12.8px; color:var(--text-2); margin-top:3px; line-height:1.45}
+  .badge{font-size:11px; font-weight:600; padding:2.5px 9px; border-radius:100px; white-space:nowrap; border:1px solid transparent; transition:.12s}
+  .badge[data-s="review"]{color:var(--review); background:var(--review-bg); border-color:var(--review-line)}
+  .badge[data-s="deepen"]{color:var(--deepen); background:var(--deepen-bg); border-color:var(--deepen-line)}
+  .badge[data-s="new"]{color:var(--new); background:var(--new-bg); border-color:var(--new-line)}
+  .badge:hover{filter:brightness(.97)}
+  .badge__edit{opacity:.55; font-weight:400}
+  .topic{cursor:pointer}
+  .topic__row{transition:background .12s}
+  .topic:hover > .topic__row{background:var(--surface-2)}
+  .topic.is-done:hover > .topic__row{background:var(--paper)}
+  .topic__go{flex-shrink:0; color:var(--text-3); padding:2px; align-self:center; display:flex; transition:transform .15s,color .15s}
+  .topic:hover .topic__go{color:var(--accent); transform:translateX(2px)}
+  .topic:focus-visible{outline:2px solid var(--accent-2); outline-offset:-2px}
+
+  /* Detailseite eines Themas */
+  .tp-back{display:inline-flex; align-items:center; gap:6px; font-size:13.5px; color:var(--text-2); font-weight:500; margin-bottom:16px; padding:7px 15px 7px 12px; border:1px solid var(--line); border-radius:100px; background:var(--surface); transition:.15s}
+  .tp-back:hover{border-color:var(--line-strong); color:var(--text); background:var(--surface-2)}
+  .tp-crumb{font-size:12.5px; color:var(--text-3); margin-bottom:9px}
+  .tp-crumb b{color:var(--text-2); font-weight:600}
+  .tp-head{display:flex; align-items:flex-start; justify-content:space-between; gap:18px; flex-wrap:wrap; margin-bottom:12px}
+  .tp-title{font-family:var(--display); font-weight:600; font-size:28px; letter-spacing:-.02em; margin:0; line-height:1.15}
+  .tp-badge{font-size:12px; font-weight:600; padding:5px 13px; border-radius:100px; border:1px solid transparent; white-space:nowrap; margin-top:5px}
+  .tp-badge[data-s="review"]{color:var(--review); background:var(--review-bg); border-color:var(--review-line)}
+  .tp-badge[data-s="deepen"]{color:var(--deepen); background:var(--deepen-bg); border-color:var(--deepen-line)}
+  .tp-badge[data-s="new"]{color:var(--new); background:var(--new-bg); border-color:var(--new-line)}
+  .tp-hint{color:var(--text-2); font-size:14.5px; margin:0 0 20px; max-width:64ch; line-height:1.55}
+  .tp-mark{display:inline-flex; align-items:center; gap:10px; font-size:14px; font-weight:600; padding:11px 20px; border-radius:10px; border:1.5px solid var(--accent); color:var(--accent); background:var(--surface); margin-bottom:24px; transition:.15s}
+  .tp-mark:hover{background:var(--accent-bg)}
+  .tp-mark.is-done{background:var(--accent); color:#fff; border-color:var(--accent)}
+  .tp-mark .box{width:18px; height:18px; border:1.9px solid currentColor; border-radius:5px; position:relative; flex-shrink:0}
+  .tp-mark.is-done .box{background:#fff; border-color:#fff}
+  .tp-mark.is-done .box::after{content:""; position:absolute; left:5px; top:1px; width:5px; height:10px; border:solid var(--accent); border-width:0 2px 2px 0; transform:rotate(43deg)}
+  .tp-panel{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:26px 30px; box-shadow:var(--shadow)}
+  .tp-panel .lesson{padding-top:0; font-size:14.5px}
+  .tp-panel .lesson__label{font-size:12.5px}
+  .tp-panel .lesson__sec{margin-bottom:22px}
+  .tp-nav{display:flex; justify-content:space-between; gap:12px; margin-top:22px}
+  .tp-navbtn{flex:1 1 0; min-width:0; text-align:left; border:1px solid var(--line); border-radius:10px; padding:12px 16px; background:var(--surface); transition:.15s}
+  .tp-navbtn:hover{border-color:var(--accent); background:var(--surface-2)}
+  .tp-navbtn.next{text-align:right}
+  .tp-navbtn__lbl{font-size:11.5px; color:var(--text-3); display:block; margin-bottom:3px}
+  .tp-navbtn__name{font-size:13.5px; color:var(--text); font-weight:500; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .tp-navbtn.is-empty{visibility:hidden; border:none; background:none}
+  @media (max-width:860px){ .tp-panel{padding:18px 16px} .tp-title{font-size:23px} }
+
+  .lesson{font-size:13.7px; color:var(--text); line-height:1.62; padding-top:12px}
+  .lesson__sec{margin-bottom:18px}
+  .lesson__sec:last-child{margin-bottom:0}
+  .lesson__label{font-family:var(--display); font-size:12px; font-weight:600; color:var(--accent); margin-bottom:7px; letter-spacing:.01em}
+  .lesson__body p{margin:0 0 9px}
+  .lesson__body p:last-child{margin-bottom:0}
+  .lesson__body ul{margin:7px 0; padding-left:20px}
+  .lesson__body li{margin:4px 0}
+  .keybox{background:var(--accent-bg); border:1px solid #cfe0f0; border-radius:8px; padding:10px 13px; margin:10px 0}
+  .keybox b{color:var(--accent-ink)}
+  .example{background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--deepen); border-radius:8px; padding:13px 15px}
+  .example__q{font-weight:500; margin-bottom:9px}
+  .example__a{color:var(--text-2)}
+  .example__a p{margin:0 0 7px}
+  .prob{border-top:1px dashed var(--line-strong); padding:13px 0 4px}
+  .prob:first-of-type{border-top:none; padding-top:2px}
+  .prob__q{display:flex; gap:10px; align-items:baseline}
+  .prob__num{font-family:var(--mono); font-size:12px; font-weight:600; color:var(--accent); background:var(--accent-bg); border-radius:5px; padding:1px 8px; flex-shrink:0}
+  .prob__reveal{margin-top:10px; font-size:12.5px; font-weight:500; color:var(--accent); border:1px solid var(--accent); background:var(--surface); border-radius:100px; padding:5px 15px; transition:.15s}
+  .prob__reveal:hover{background:var(--accent-bg)}
+  .prob__sol{display:none; margin-top:11px; padding:11px 14px; background:var(--review-bg); border:1px solid var(--review-line); border-radius:8px; color:var(--text)}
+  .prob__sol.is-shown{display:block}
+  .prob__sol p{margin:0 0 7px} .prob__sol p:last-child{margin-bottom:0}
+  .lesson-placeholder{color:var(--text-3); font-size:13px; padding:12px 0 2px; line-height:1.55}
+  .lesson-placeholder b{color:var(--text-2)}
+
+  .note-block{margin-top:18px; padding-top:16px; border-top:1px solid var(--line)}
+  .note-label{font-size:11.5px; color:var(--text-3); margin:0 0 6px; display:block}
+  .note{width:100%; min-height:56px; resize:vertical; font-family:var(--sans); font-size:13px; color:var(--text); background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-sm); padding:9px 11px; line-height:1.5}
+  .note:focus{border-color:var(--accent-2); outline:none}
+  .note::placeholder{color:var(--text-3)}
+  .drawer__reset{font-size:12px; color:var(--text-3); margin-top:10px; text-decoration:underline; text-underline-offset:2px}
+  .drawer__reset:hover{color:var(--text)}
+  .empty{padding:40px 20px; text-align:center; color:var(--text-3); font-size:14px; border:1px dashed var(--line-strong); border-radius:var(--radius)}
+  mjx-container{overflow-x:auto; overflow-y:hidden; max-width:100%}
+
+  .rail__toggle{display:none}
+  @media (max-width:860px){
+    body{flex-direction:column}
+    .rail{width:100%; height:auto; position:sticky; top:0; z-index:20; flex-direction:column}
+    .brand{display:flex; align-items:center; justify-content:space-between; padding:14px 16px}
+    .brand__goal, .brand__sub{display:none}
+    .rail__toggle{display:block; color:var(--inv); font-size:22px; padding:4px 8px}
+    .nav{display:none; padding:8px 10px 12px}
+    .nav.is-open{display:block}
+    .rail__foot{display:none}
+    .nav.is-open ~ .rail__foot{display:block}
+    .wrap{padding:24px 18px 80px}
+    .view-title{font-size:25px}
+    .instrument__big{font-size:44px}
+    .instrument{padding:20px}
+    .topic__drawer{padding:4px 15px 18px 15px}
+  }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important} }
+</style>
+</head>
+<body>
+  <aside class="rail">
+    <div class="brand">
+      <div>
+        <div class="brand__eth">ETH-Prüfung</div>
+        <div class="brand__sub">Reduzierte Aufnahmeprüfung · Lernplattform</div>
+        <div class="brand__goal">Fächergruppe 1 · Mathematik, Physik, Chemie, Biologie auf Maturitätsniveau</div>
+      </div>
+      <button class="rail__toggle" id="railToggle" aria-label="Menü">☰</button>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="rail__foot"><button class="rail__reset" id="resetAll">Fortschritt zurücksetzen</button></div>
+  </aside>
+  <main class="main"><div class="wrap" id="wrap"></div></main>
+<script>
+const L = String.raw;
+const SUBJECTS = [];
+SUBJECTS.push({
+  id:'mathe', name:'Mathematik', dot:'#2b74b3',
+  note:'Dein Leistungskurs — hier stehst du am besten. Die ETH prüft auf Maturitätsniveau: das meiste ist Wiederholung, einige Bereiche (Trigonometrie, Grenzwerte, Integrationsverfahren) werden strenger und breiter behandelt als im deutschen LK.',
+  areas:[]
+});
+SUBJECTS[0].areas.push({name:'Algebra & Arithmetik', topics:[
+  {id:'m-a1', t:'Zahlmengen & Rechengesetze', h:'Reelle Zahlen, Bruch-, Klammer- und Vorzeichenrechnung sicher und ohne Taschenrechner.', s:'review', learn:{
+    explain: L`<p>Die Zahlbereiche schachteln sich: \(\mathbb{N}\subset\mathbb{Z}\subset\mathbb{Q}\subset\mathbb{R}\). \(\mathbb{Q}\) sind alle Brüche \(\frac{p}{q}\), \(\mathbb{R}\) enthält zusätzlich die irrationalen Zahlen wie \(\sqrt{2}\) oder \(\pi\).</p>
+    <p><b>Rechengesetze:</b> Kommutativ \(a+b=b+a\), Assoziativ \((a+b)+c=a+(b+c)\), Distributiv \(a(b+c)=ab+ac\). Reihenfolge: Klammer vor Potenz vor Punkt vor Strich.</p>
+    <div class="keybox"><b>Brüche:</b> \(\frac{a}{b}\pm\frac{c}{d}=\frac{ad\pm bc}{bd}\), \(\frac{a}{b}\cdot\frac{c}{d}=\frac{ac}{bd}\), \(\dfrac{a/b}{c/d}=\frac{a}{b}\cdot\frac{d}{c}\). <b>Binomische Formeln:</b> \((a\pm b)^2=a^2\pm2ab+b^2\), \((a+b)(a-b)=a^2-b^2\).</div>`,
+    example:{ task: L`Vereinfache \(\;\frac{2}{3}-\frac{3}{4}+\frac{1}{6}\).`,
+      solution: L`<p>Hauptnenner ist 12: \(\frac{8}{12}-\frac{9}{12}+\frac{2}{12}=\frac{8-9+2}{12}=\frac{1}{12}\).</p>` },
+    problems:[
+      {q: L`Vereinfache \(\;\frac{5}{6}+\frac{2}{9}-\frac{1}{3}\).`,
+       a: L`<p>Hauptnenner 18: \(\frac{15}{18}+\frac{4}{18}-\frac{6}{18}=\frac{13}{18}\).</p>`},
+      {q: L`Multipliziere aus und fasse zusammen: \(\;(2x-3)^2-(x+1)(x-1)\).`,
+       a: L`<p>\((2x-3)^2=4x^2-12x+9\) und \((x+1)(x-1)=x^2-1\).</p><p>\(4x^2-12x+9-(x^2-1)=3x^2-12x+10\).</p>`}
+    ]}},
+  {id:'m-a2', t:'Potenzen & Wurzeln', h:'Potenzgesetze, rationale Exponenten, Wurzeln umformen und vereinfachen.', s:'review', learn:{
+    explain: L`<div class="keybox"><b>Potenzgesetze:</b> \(a^m a^n=a^{m+n}\), \(\dfrac{a^m}{a^n}=a^{m-n}\), \((a^m)^n=a^{mn}\), \((ab)^n=a^n b^n\). Außerdem \(a^0=1\) und \(a^{-n}=\dfrac{1}{a^n}\).</div>
+    <p><b>Wurzeln sind Potenzen:</b> \(\sqrt[n]{a}=a^{1/n}\) und \(\sqrt[n]{a^m}=a^{m/n}\). Damit lassen sich Wurzelterme mit den Potenzgesetzen behandeln.</p>
+    <p><b>Nenner rational machen:</b> \(\dfrac{1}{\sqrt{a}}=\dfrac{\sqrt{a}}{a}\).</p>`,
+    example:{ task: L`Vereinfache \(\;\dfrac{a^3 b^{-2}}{a^{-1}b}\).`,
+      solution: L`<p>\(a\)-Anteil: \(a^{3-(-1)}=a^{4}\). \(b\)-Anteil: \(b^{-2-1}=b^{-3}\).</p><p>Ergebnis: \(a^4 b^{-3}=\dfrac{a^4}{b^3}\).</p>` },
+    problems:[
+      {q: L`Vereinfache \(\;\left(\dfrac{x^2 y^{-1}}{x^{-3}y^2}\right)^{-1}\).`,
+       a: L`<p>Klammer: \(x^{2-(-3)}y^{-1-2}=x^{5}y^{-3}\). Kehrwert (Hoch \(-1\)): \(x^{-5}y^{3}=\dfrac{y^3}{x^5}\).</p>`},
+      {q: L`Schreibe als eine Potenz von 2: \(\;\dfrac{\sqrt{8}\cdot 4}{2^{-1}}\).`,
+       a: L`<p>\(\sqrt{8}=2^{3/2}\), \(4=2^2\), Division durch \(2^{-1}\) heißt Mal \(2^{1}\).</p><p>Exponenten addieren: \(\tfrac{3}{2}+2+1=\tfrac{9}{2}\Rightarrow 2^{9/2}\).</p>`}
+    ]}},
+  {id:'m-a3', t:'Logarithmen', h:'Logarithmusgesetze, Basiswechsel, Anwendung beim Lösen von Gleichungen.', s:'review', learn:{
+    explain: L`<p><b>Definition:</b> \(\log_a x=y \;\Leftrightarrow\; a^y=x\) (mit \(a>0,\;a\neq1,\;x>0\)). Der Logarithmus ist die Umkehrung des Potenzierens. Spezialfälle: \(\ln=\log_e\), \(\lg=\log_{10}\).</p>
+    <div class="keybox"><b>Gesetze:</b> \(\log(xy)=\log x+\log y\), \(\;\log\dfrac{x}{y}=\log x-\log y\), \(\;\log(x^r)=r\log x\). <b>Basiswechsel:</b> \(\log_a x=\dfrac{\ln x}{\ln a}\).</div>`,
+    example:{ task: L`Berechne \(\;\log_2 40-\log_2 5\).`,
+      solution: L`<p>Differenz zusammenfassen: \(\log_2\dfrac{40}{5}=\log_2 8\). Und \(2^3=8\), also \(=3\).</p>` },
+    problems:[
+      {q: L`Fasse zu einem Logarithmus zusammen: \(\;2\ln x+\ln y-\ln z\).`,
+       a: L`<p>\(2\ln x=\ln x^2\), dann \(\ln x^2+\ln y-\ln z=\ln\dfrac{x^2 y}{z}\).</p>`},
+      {q: L`Berechne ohne Taschenrechner: \(\;\log_3 81+\log_5\tfrac{1}{25}\).`,
+       a: L`<p>\(\log_3 81=4\) (da \(3^4=81\)) und \(\log_5\tfrac{1}{25}=-2\) (da \(5^{-2}=\tfrac{1}{25}\)). Summe \(=2\).</p>`}
+    ]}},
+  {id:'m-a4', t:'Gleichungen', h:'Lineare, quadratische, Bruch-, Wurzel- und Betragsgleichungen.', s:'review', learn:{
+    explain: L`<p><b>Quadratische Gleichung</b> \(ax^2+bx+c=0\): <span></span></p>
+    <div class="keybox">\(x_{1,2}=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}\). Diskriminante \(D=b^2-4ac\): \(D>0\) zwei Lösungen, \(D=0\) eine, \(D<0\) keine reelle. <b>Vieta:</b> \(x_1+x_2=-\tfrac{b}{a}\), \(x_1 x_2=\tfrac{c}{a}\).</div>
+    <p><b>Wurzelgleichungen:</b> Wurzel isolieren, quadrieren, <b>Probe</b> machen (Quadrieren erzeugt Scheinlösungen). <b>Bruchgleichungen:</b> erst Definitionsbereich (Nenner \(\neq0\)), dann mit Hauptnenner multiplizieren.</p>`,
+    example:{ task: L`Löse \(\;x^2-5x+6=0\).`,
+      solution: L`<p>\(D=25-24=1\), also \(x=\dfrac{5\pm1}{2}\Rightarrow x_1=3,\;x_2=2\). (Probe mit Vieta: \(3+2=5\), \(3\cdot2=6\). ✓)</p>` },
+    problems:[
+      {q: L`Löse \(\;2x^2+3x-2=0\).`,
+       a: L`<p>\(D=9+16=25\), \(x=\dfrac{-3\pm5}{4}\Rightarrow x_1=\tfrac{1}{2},\;x_2=-2\).</p>`},
+      {q: L`Löse \(\;\sqrt{2x+3}=x\) (mit Probe).`,
+       a: L`<p>Quadrieren: \(2x+3=x^2\Rightarrow x^2-2x-3=0\Rightarrow(x-3)(x+1)=0\).</p><p>Kandidaten \(x=3\) und \(x=-1\). Probe: \(x=-1\) gibt \(\sqrt{1}=1\neq-1\) → verworfen. Lösung: \(x=3\).</p>`}
+    ]}},
+  {id:'m-a5', t:'Exponential- & Logarithmusgleichungen', h:'Gleichungen mit Unbekannten im Exponenten bzw. im Logarithmus lösen.', s:'review', learn:{
+    explain: L`<p><b>Unbekannte im Exponenten</b> → logarithmieren: aus \(a^{f(x)}=b\) folgt \(f(x)=\log_a b=\dfrac{\ln b}{\ln a}\). Wenn möglich, vorher <b>gleiche Basis</b> herstellen.</p>
+    <p><b>Unbekannte im Logarithmus:</b> Definitionsbereich beachten (Argument \(>0\)), zu einem Logarithmus zusammenfassen, dann entlogarithmieren. Immer Probe/Definitionsbereich prüfen.</p>`,
+    example:{ task: L`Löse \(\;3^{x}=20\).`,
+      solution: L`<p>\(x=\log_3 20=\dfrac{\ln 20}{\ln 3}\approx\dfrac{2{,}996}{1{,}099}\approx 2{,}73\).</p>` },
+    problems:[
+      {q: L`Löse \(\;2^{\,x+1}=5^{\,x}\).`,
+       a: L`<p>Logarithmieren: \((x+1)\ln2=x\ln5\Rightarrow x\ln2+\ln2=x\ln5\).</p><p>\(\ln2=x(\ln5-\ln2)\Rightarrow x=\dfrac{\ln2}{\ln5-\ln2}\approx\dfrac{0{,}693}{0{,}916}\approx 0{,}76\).</p>`},
+      {q: L`Löse \(\;\log_2 x+\log_2(x-2)=3\).`,
+       a: L`<p>Zusammenfassen: \(\log_2\big(x(x-2)\big)=3\Rightarrow x(x-2)=8\).</p><p>\(x^2-2x-8=0\Rightarrow(x-4)(x+2)=0\). Nur \(x=4\) erlaubt (\(x>2\)); \(x=-2\) verworfen.</p>`}
+    ]}},
+  {id:'m-a6', t:'Ungleichungen', h:'Lineare, quadratische und Bruchungleichungen, Lösungsmengen als Intervalle.', s:'deepen', learn:{
+    explain: L`<p>Wie bei Gleichungen umformen — <b>aber</b> beim Multiplizieren/Dividieren mit einer <b>negativen Zahl dreht sich das Ungleichheitszeichen um</b>.</p>
+    <p><b>Quadratisch:</b> Nullstellen bestimmen, dann Vorzeichen über eine Parabel-Skizze ablesen (öffnet nach oben bei \(a>0\)). <b>Bruch:</b> Vorzeichentabelle für Zähler und Nenner; die Polstelle nie in die Lösung nehmen.</p>
+    <p>Lösungen als Intervalle notieren, z. B. \((-2,3)\) oder \([1,\infty)\).</p>`,
+    example:{ task: L`Löse \(\;x^2-x-6<0\).`,
+      solution: L`<p>Nullstellen: \((x-3)(x+2)=0\Rightarrow x=3,\,x=-2\). Parabel öffnet nach oben, ist also <b>zwischen</b> den Nullstellen negativ.</p><p>Lösung: \(x\in(-2,\,3)\).</p>` },
+    problems:[
+      {q: L`Löse \(\;-3x+4\le 10\).`,
+       a: L`<p>\(-3x\le6\), dann durch \(-3\) (Zeichen dreht): \(x\ge-2\). Lösung: \([-2,\infty)\).</p>`},
+      {q: L`Löse \(\;\dfrac{x-1}{x+2}\ge 0\).`,
+       a: L`<p>Nullstelle \(x=1\), Polstelle \(x=-2\). Quotient ist \(\ge0\), wo Zähler und Nenner gleiches Vorzeichen haben: \(x<-2\) oder \(x\ge1\).</p><p>Lösung: \((-\infty,-2)\cup[1,\infty)\) (\(x=-2\) ausgeschlossen).</p>`}
+    ]}},
+  {id:'m-a7', t:'Lineare Gleichungssysteme', h:'Systeme auch mit drei Unbekannten (Einsetzen, Additionsverfahren, Gauss).', s:'review', learn:{
+    explain: L`<p>Verfahren: <b>Einsetzen</b>, <b>Gleichsetzen</b>, <b>Additionsverfahren</b> (Variable durch Addition/Subtraktion eliminieren). Bei 3×3 systematisch nach dem <b>Gauss-Verfahren</b> auf Stufenform bringen.</p>
+    <p>Ein System hat entweder <b>genau eine</b>, <b>keine</b> oder <b>unendlich viele</b> Lösungen.</p>`,
+    example:{ task: L`Löse \(\;2x+y=5,\quad x-y=1\).`,
+      solution: L`<p>Beide Gleichungen addieren: \(3x=6\Rightarrow x=2\). Einsetzen: \(2-y=1\Rightarrow y=1\). Lösung \((2,1)\).</p>` },
+    problems:[
+      {q: L`Löse \(\;x+2y=7,\quad 3x-y=0\).`,
+       a: L`<p>Aus der 2. Gleichung: \(y=3x\). Einsetzen: \(x+6x=7\Rightarrow x=1,\;y=3\).</p>`},
+      {q: L`Löse \(\;x+y+z=6,\;\; 2x-y+z=3,\;\; x+2y-z=2\).`,
+       a: L`<p>Gl.2 \(-\) Gl.1: \(x-2y=-3\). Gl.1 \(+\) Gl.3: \(2x+3y=8\).</p><p>Aus \(x=2y-3\) einsetzen: \(2(2y-3)+3y=8\Rightarrow7y=14\Rightarrow y=2,\;x=1\), dann \(z=6-1-2=3\). Lösung \((1,2,3)\).</p>`}
+    ]}}
+]});
+SUBJECTS[0].areas.push({name:'Funktionen', topics:[
+  {id:'m-f1', t:'Funktionsbegriff & Eigenschaften', h:'Definitions-/Wertebereich, Symmetrie, Monotonie, Umkehrfunktion.', s:'review', learn:{
+    explain: L`<p>Eine <b>Funktion</b> ordnet jedem \(x\) aus dem <b>Definitionsbereich</b> genau ein \(y\) zu. Wichtige Eigenschaften:</p>
+    <ul>
+      <li><b>Nullstellen:</b> \(f(x)=0\). <b>y-Achsenabschnitt:</b> \(f(0)\).</li>
+      <li><b>Symmetrie:</b> gerade Funktion \(f(-x)=f(x)\) (achsensymmetrisch zur \(y\)-Achse); ungerade Funktion \(f(-x)=-f(x)\) (punktsymmetrisch zum Ursprung).</li>
+      <li><b>Monotonie:</b> steigend/fallend. <b>Umkehrfunktion</b> existiert nur bei umkehrbaren (bijektiven) Funktionen; Graph durch Spiegelung an \(y=x\).</li>
+    </ul>`,
+    example:{ task: L`Prüfe die Symmetrie von \(\;f(x)=x^3-x\).`,
+      solution: L`<p>\(f(-x)=(-x)^3-(-x)=-x^3+x=-(x^3-x)=-f(x)\). Also <b>ungerade</b> → punktsymmetrisch zum Ursprung.</p>` },
+    problems:[
+      {q: L`Bestimme den größtmöglichen Definitionsbereich von \(\;f(x)=\dfrac{1}{x-3}+\sqrt{x}\).`,
+       a: L`<p>\(\sqrt{x}\) verlangt \(x\ge0\), der Bruch verlangt \(x\neq3\). Also \(D=[0,3)\cup(3,\infty)\).</p>`},
+      {q: L`Prüfe die Symmetrie von \(\;f(x)=x^4-3x^2+1\).`,
+       a: L`<p>\(f(-x)=x^4-3x^2+1=f(x)\) → <b>gerade</b>, achsensymmetrisch zur \(y\)-Achse.</p>`}
+    ]}},
+  {id:'m-f2', t:'Lineare & quadratische Funktionen', h:'Geraden, Parabeln, Scheitelform, Nullstellen.', s:'review', learn:{
+    explain: L`<p><b>Gerade:</b> \(y=mx+b\) mit Steigung \(m=\dfrac{\Delta y}{\Delta x}\) und \(y\)-Achsenabschnitt \(b\).</p>
+    <div class="keybox"><b>Parabel:</b> \(y=ax^2+bx+c\). Scheitelform \(y=a(x-d)^2+e\) mit Scheitel \((d\,|\,e)\) und \(d=-\dfrac{b}{2a}\). \(a>0\): nach oben offen (Minimum), \(a<0\): nach unten (Maximum).</div>`,
+    example:{ task: L`Bestimme den Scheitel von \(\;y=x^2-4x+1\).`,
+      solution: L`<p>\(d=-\dfrac{-4}{2}=2\), \(e=y(2)=4-8+1=-3\). Scheitel \((2\,|\,-3)\), Scheitelform \(y=(x-2)^2-3\).</p>` },
+    problems:[
+      {q: L`Bestimme die Geradengleichung durch \(A(1\,|\,2)\) und \(B(3\,|\,8)\).`,
+       a: L`<p>\(m=\dfrac{8-2}{3-1}=3\). Einsetzen von \(A\): \(2=3\cdot1+b\Rightarrow b=-1\). Also \(y=3x-1\).</p>`},
+      {q: L`Bestimme Scheitel und Nullstellen von \(\;y=x^2+2x-3\).`,
+       a: L`<p>\(d=-1,\;e=y(-1)=1-2-3=-4\) → Scheitel \((-1\,|\,-4)\). Nullstellen: \((x+3)(x-1)=0\Rightarrow x=-3,\;x=1\).</p>`}
+    ]}},
+  {id:'m-f3', t:'Ganzrationale Funktionen', h:'Polynome, Verhalten im Unendlichen, Nullstellen, Polynomdivision.', s:'review', learn:{
+    explain: L`<p>Ein Polynom \(f(x)=a_n x^n+\dots+a_0\) vom Grad \(n\) hat <b>höchstens \(n\) Nullstellen</b>. Das <b>Verhalten im Unendlichen</b> bestimmt der Leitterm \(a_n x^n\).</p>
+    <p><b>Nullstellen finden:</b> ausklammern, Substitution (biquadratisch), oder eine Nullstelle raten und per <b>Polynomdivision</b> abspalten.</p>`,
+    example:{ task: L`Bestimme die Nullstellen von \(\;f(x)=x^3-4x\).`,
+      solution: L`<p>Ausklammern: \(x(x^2-4)=x(x-2)(x+2)\). Nullstellen \(x=0,\;2,\;-2\).</p>` },
+    problems:[
+      {q: L`Bestimme die Nullstellen von \(\;f(x)=x^4-5x^2+4\).`,
+       a: L`<p>Substitution \(u=x^2\): \(u^2-5u+4=0\Rightarrow(u-1)(u-4)=0\Rightarrow u=1,4\). Rücksetzen: \(x=\pm1,\;\pm2\).</p>`},
+      {q: L`Rate eine Nullstelle und faktorisiere \(\;f(x)=x^3-2x^2-5x+6\).`,
+       a: L`<p>\(f(1)=1-2-5+6=0\) ✓. Polynomdivision durch \((x-1)\) gibt \(x^2-x-6=(x-3)(x+2)\). Nullstellen \(1,\;3,\;-2\).</p>`}
+    ]}},
+  {id:'m-f4', t:'Gebrochenrationale Funktionen', h:'Definitionslücken, Pol- und Nullstellen, Asymptoten.', s:'deepen', learn:{
+    explain: L`<p>\(f(x)=\dfrac{p(x)}{q(x)}\). An Nullstellen des Nenners liegt eine <b>Definitionslücke</b>: eine <b>Polstelle</b> (Zähler dort \(\neq0\)) oder eine <b>hebbare Lücke</b> (Zähler dort auch \(=0\), Faktor kürzbar).</p>
+    <div class="keybox"><b>Waagrechte/schräge Asymptote</b> aus dem Gradvergleich: Zählergrad \(<\) Nennergrad → \(y=0\); gleich → Verhältnis der Leitkoeffizienten; Zählergrad genau eins höher → <b>schräge Asymptote</b> via Polynomdivision.</div>`,
+    example:{ task: L`Untersuche \(\;f(x)=\dfrac{x^2-1}{x-1}\).`,
+      solution: L`<p>\(x^2-1=(x-1)(x+1)\), also \(f(x)=x+1\) für \(x\neq1\). Bei \(x=1\) <b>hebbare Lücke</b>, sonst die Gerade \(y=x+1\).</p>` },
+    problems:[
+      {q: L`Bestimme Definitionslücken und senkrechte Asymptoten von \(\;f(x)=\dfrac{x}{x^2-4}\).`,
+       a: L`<p>Nenner \(=0\) bei \(x=\pm2\); Zähler dort \(\neq0\) → zwei <b>Polstellen</b>, senkrechte Asymptoten \(x=2\) und \(x=-2\). \(D=\mathbb{R}\setminus\{-2,2\}\).</p>`},
+      {q: L`Bestimme die schräge Asymptote von \(\;f(x)=\dfrac{2x^2+1}{x-1}\).`,
+       a: L`<p>Polynomdivision: \(2x^2+1=(x-1)(2x+2)+3\), also \(f(x)=2x+2+\dfrac{3}{x-1}\). Asymptote: \(y=2x+2\).</p>`}
+    ]}},
+  {id:'m-f5', t:'Exponential- & Logarithmusfunktionen', h:'Wachstum/Zerfall, e-Funktion und natürlicher Logarithmus.', s:'review', learn:{
+    explain: L`<p><b>Exponentialfunktion</b> \(f(x)=a\cdot b^{x}\): \(b>1\) Wachstum, \(0<b<1\) Zerfall. Die \(e\)-Funktion \(e^x\) ist der Standardfall; jede Basis lässt sich schreiben als \(b^x=e^{x\ln b}\).</p>
+    <p>Die <b>Logarithmusfunktion</b> ist die Umkehrung. Nützlich: Halbwertszeit (Zerfall auf die Hälfte) und Verdopplungszeit.</p>`,
+    example:{ task: L`Bakterien verdoppeln sich stündlich, Start \(500\). Wie viele nach \(3\) Stunden?`,
+      solution: L`<p>\(N(t)=500\cdot 2^{t}\). Für \(t=3\): \(500\cdot 2^3=500\cdot 8=4000\).</p>` },
+    problems:[
+      {q: L`Ein Stoff zerfällt gemäß \(\;N(t)=200\cdot 0{,}5^{\,t/5}\) (\(t\) in Jahren). Wie viel bleibt nach \(15\) Jahren?`,
+       a: L`<p>\(15/5=3\) Halbwertszeiten: \(200\cdot(0{,}5)^3=200\cdot\tfrac{1}{8}=25\).</p>`},
+      {q: L`Löse \(\;e^{2x}=7\).`,
+       a: L`<p>\(2x=\ln 7\Rightarrow x=\dfrac{\ln 7}{2}\approx 0{,}973\).</p>`}
+    ]}},
+  {id:'m-f6', t:'Trigonometrische Funktionen', h:'Sinus, Kosinus, Tangens als Funktionen: Graphen, Amplitude, Periode.', s:'deepen', learn:{
+    explain: L`<p>\(\sin\) und \(\cos\) haben Periode \(2\pi\) und Wertebereich \([-1,1]\); \(\tan\) hat Periode \(\pi\).</p>
+    <div class="keybox">Allgemeine Form \(y=a\cdot\sin\big(b(x-c)\big)+d\): \(|a|\) <b>Amplitude</b>, Periode \(=\dfrac{2\pi}{|b|}\), \(c\) <b>Phasenverschiebung</b>, \(d\) Verschiebung nach oben/unten. Zusammenhang: \(\cos x=\sin\!\big(x+\tfrac{\pi}{2}\big)\).</div>`,
+    example:{ task: L`Gib Amplitude, Periode und Wertebereich von \(\;y=2\sin x\) an.`,
+      solution: L`<p>Amplitude \(2\), Periode \(2\pi\), Wertebereich \([-2,2]\).</p>` },
+    problems:[
+      {q: L`Bestimme Amplitude und Periode von \(\;y=3\sin(2x)\).`,
+       a: L`<p>Amplitude \(3\), Periode \(\dfrac{2\pi}{2}=\pi\).</p>`},
+      {q: L`Bestimme den Wertebereich von \(\;y=-\cos x+1\).`,
+       a: L`<p>\(\cos x\in[-1,1]\Rightarrow -\cos x\in[-1,1]\Rightarrow -\cos x+1\in[0,2]\).</p>`}
+    ]}}
+]});
+SUBJECTS[0].areas.push({name:'Trigonometrie', topics:[
+  {id:'m-t1', t:'Grad- & Bogenmass, Einheitskreis', h:'Winkel im Bogenmass; Sinus/Kosinus am Einheitskreis definieren.', s:'deepen', learn:{
+    explain: L`<p><b>Umrechnung:</b> \(\text{rad}=\dfrac{\pi}{180^\circ}\cdot\text{deg}\). Am <b>Einheitskreis</b> ist ein Punkt zum Winkel \(\varphi\) gegeben durch \((\cos\varphi,\;\sin\varphi)\); außerdem \(\tan\varphi=\dfrac{\sin\varphi}{\cos\varphi}\).</p>
+    <div class="keybox"><b>Wichtige Werte</b> für \(\sin\): \(0^\circ\!:0\), \(30^\circ\!:\tfrac{1}{2}\), \(45^\circ\!:\tfrac{\sqrt2}{2}\), \(60^\circ\!:\tfrac{\sqrt3}{2}\), \(90^\circ\!:1\). Für \(\cos\) genau umgekehrt.</div>`,
+    example:{ task: L`Rechne \(60^\circ\) ins Bogenmass um und gib \(\sin 60^\circ,\cos 60^\circ\) an.`,
+      solution: L`<p>\(60^\circ=\dfrac{\pi}{180}\cdot60=\dfrac{\pi}{3}\). \(\sin 60^\circ=\dfrac{\sqrt3}{2}\), \(\cos 60^\circ=\dfrac{1}{2}\).</p>` },
+    problems:[
+      {q: L`Wandle \(135^\circ\) ins Bogenmass um.`,
+       a: L`<p>\(135\cdot\dfrac{\pi}{180}=\dfrac{3\pi}{4}\).</p>`},
+      {q: L`Gib \(\sin 45^\circ\), \(\cos 45^\circ\), \(\sin 30^\circ\), \(\cos 30^\circ\) exakt an.`,
+       a: L`<p>\(\sin45^\circ=\cos45^\circ=\dfrac{\sqrt2}{2}\); \(\sin30^\circ=\dfrac{1}{2}\), \(\cos30^\circ=\dfrac{\sqrt3}{2}\).</p>`}
+    ]}},
+  {id:'m-t2', t:'Sinus- & Kosinussatz', h:'Beliebige Dreiecke berechnen; Anwendungsaufgaben.', s:'deepen', learn:{
+    explain: L`<div class="keybox"><b>Kosinussatz:</b> \(c^2=a^2+b^2-2ab\cos\gamma\) (verallgemeinerter Pythagoras). <b>Sinussatz:</b> \(\dfrac{a}{\sin\alpha}=\dfrac{b}{\sin\beta}=\dfrac{c}{\sin\gamma}\).</div>
+    <p>Kosinussatz, wenn zwei Seiten und der eingeschlossene Winkel (SWS) oder drei Seiten (SSS) bekannt sind. Sinussatz, wenn eine Seite mit ihrem Gegenwinkel plus eine weitere Angabe bekannt ist.</p>`,
+    example:{ task: L`Dreieck mit \(a=5,\;b=7,\;\gamma=60^\circ\). Berechne \(c\).`,
+      solution: L`<p>\(c^2=25+49-2\cdot5\cdot7\cdot\cos60^\circ=74-70\cdot0{,}5=39\). Also \(c=\sqrt{39}\approx6{,}24\).</p>` },
+    problems:[
+      {q: L`\(a=8,\;b=6,\;\gamma=40^\circ\). Berechne \(c\).`,
+       a: L`<p>\(c^2=64+36-2\cdot48\cdot\cos40^\circ=100-96\cdot0{,}766\approx26{,}5\). \(c\approx5{,}15\).</p>`},
+      {q: L`Im Dreieck ist \(\alpha=50^\circ,\;\beta=60^\circ,\;a=10\). Berechne \(b\).`,
+       a: L`<p>Sinussatz: \(b=a\cdot\dfrac{\sin\beta}{\sin\alpha}=10\cdot\dfrac{\sin60^\circ}{\sin50^\circ}\approx10\cdot\dfrac{0{,}866}{0{,}766}\approx11{,}3\).</p>`}
+    ]}},
+  {id:'m-t3', t:'Trigonometrische Gleichungen', h:'Gleichungen mit sin/cos/tan über einer Periode lösen.', s:'deepen', learn:{
+    explain: L`<p>Weil \(\sin,\cos\) periodisch sind, gibt es pro Periode meist <b>zwei</b> Lösungen. Im Intervall \([0,2\pi)\):</p>
+    <ul>
+      <li>\(\sin x=c\): \(x_1=\arcsin c\) und \(x_2=\pi-\arcsin c\).</li>
+      <li>\(\cos x=c\): \(x_1=\arccos c\) und \(x_2=2\pi-\arccos c\) (bzw. \(\pm\arccos c\)).</li>
+    </ul>`,
+    example:{ task: L`Löse \(\;\sin x=\tfrac{1}{2}\) in \([0,2\pi)\).`,
+      solution: L`<p>\(\arcsin\tfrac12=\tfrac{\pi}{6}\), zweite Lösung \(\pi-\tfrac{\pi}{6}=\tfrac{5\pi}{6}\). Also \(x=\tfrac{\pi}{6},\;\tfrac{5\pi}{6}\).</p>` },
+    problems:[
+      {q: L`Löse \(\;\cos x=-\tfrac{1}{2}\) in \([0,2\pi)\).`,
+       a: L`<p>\(\arccos(-\tfrac12)=\tfrac{2\pi}{3}\); zweite Lösung \(2\pi-\tfrac{2\pi}{3}=\tfrac{4\pi}{3}\). Also \(x=\tfrac{2\pi}{3},\;\tfrac{4\pi}{3}\).</p>`},
+      {q: L`Löse \(\;2\sin x-1=0\) in \([0,2\pi)\).`,
+       a: L`<p>\(\sin x=\tfrac12\Rightarrow x=\tfrac{\pi}{6},\;\tfrac{5\pi}{6}\).</p>`}
+    ]}},
+  {id:'m-t4', t:'Additionstheoreme', h:'Summen-/Doppelwinkelformeln zum Umformen und Vereinfachen.', s:'new', learn:{
+    explain: L`<div class="keybox">\(\sin(\alpha\pm\beta)=\sin\alpha\cos\beta\pm\cos\alpha\sin\beta\)<br>\(\cos(\alpha\pm\beta)=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta\)<br><b>Doppelwinkel:</b> \(\sin 2\alpha=2\sin\alpha\cos\alpha\), \(\;\cos 2\alpha=\cos^2\alpha-\sin^2\alpha\). <b>Pythagoras:</b> \(\sin^2\alpha+\cos^2\alpha=1\).</div>`,
+    example:{ task: L`Berechne \(\cos 75^\circ\) exakt.`,
+      solution: L`<p>\(\cos75^\circ=\cos(45^\circ+30^\circ)=\cos45^\circ\cos30^\circ-\sin45^\circ\sin30^\circ\).</p><p>\(=\dfrac{\sqrt2}{2}\cdot\dfrac{\sqrt3}{2}-\dfrac{\sqrt2}{2}\cdot\dfrac{1}{2}=\dfrac{\sqrt6-\sqrt2}{4}\).</p>` },
+    problems:[
+      {q: L`Berechne \(\sin 75^\circ\) exakt.`,
+       a: L`<p>\(\sin(45^\circ+30^\circ)=\sin45^\circ\cos30^\circ+\cos45^\circ\sin30^\circ=\dfrac{\sqrt6+\sqrt2}{4}\).</p>`},
+      {q: L`Vereinfache \(\;\dfrac{\sin 2x}{2\sin x}\).`,
+       a: L`<p>\(\sin2x=2\sin x\cos x\), also \(\dfrac{2\sin x\cos x}{2\sin x}=\cos x\).</p>`}
+    ]}}
+]});
+SUBJECTS[0].areas.push({name:'Analysis — Differentialrechnung', topics:[
+  {id:'m-d1', t:'Folgen, Grenzwerte, Stetigkeit', h:'Grenzwertbegriff; Grenzwerte von Folgen und Funktionen; Stetigkeit.', s:'deepen', learn:{
+    explain: L`<p>Ein <b>Grenzwert</b> beschreibt, welchem Wert \(f(x)\) beliebig nahe kommt, wenn \(x\) gegen eine Stelle oder gegen \(\pm\infty\) läuft. Merke: \(\lim_{x\to\infty}\dfrac{1}{x}=0\).</p>
+    <p>Bei \(\tfrac{0}{0}\)-Ausdrücken hilft <b>Kürzen/Umformen</b>. Bei Brüchen mit \(x\to\infty\) durch die <b>höchste Potenz</b> kürzen.</p>
+    <div class="keybox"><b>Stetigkeit:</b> \(f\) ist an der Stelle \(a\) stetig, wenn \(\lim_{x\to a}f(x)=f(a)\) — der Graph macht dort keinen Sprung.</div>`,
+    example:{ task: L`Berechne \(\;\lim_{x\to 2}\dfrac{x^2-4}{x-2}\).`,
+      solution: L`<p>Zähler faktorisieren: \(\dfrac{(x-2)(x+2)}{x-2}=x+2\) für \(x\neq2\). Grenzwert \(=4\).</p>` },
+    problems:[
+      {q: L`Berechne \(\;\lim_{x\to\infty}\dfrac{3x^2+1}{x^2-5}\).`,
+       a: L`<p>Durch \(x^2\) kürzen: \(\dfrac{3+1/x^2}{1-5/x^2}\to\dfrac{3}{1}=3\).</p>`},
+      {q: L`Berechne \(\;\lim_{x\to 3}\dfrac{x^2-9}{x-3}\).`,
+       a: L`<p>\(\dfrac{(x-3)(x+3)}{x-3}=x+3\to 6\).</p>`}
+    ]}},
+  {id:'m-d2', t:'Ableitung & Ableitungsregeln', h:'Differenzenquotient, Produkt-, Quotienten- und Kettenregel.', s:'review', learn:{
+    explain: L`<p>Die <b>Ableitung</b> \(f'(x)\) ist die Steigung der Tangente: \(f'(x)=\lim_{h\to0}\dfrac{f(x+h)-f(x)}{h}\).</p>
+    <div class="keybox"><b>Regeln:</b> Potenzregel \((x^n)'=n x^{n-1}\); Produktregel \((uv)'=u'v+uv'\); Quotientenregel \(\left(\tfrac{u}{v}\right)'=\dfrac{u'v-uv'}{v^2}\); Kettenregel \(\big(f(g(x))\big)'=f'(g)\cdot g'\). Wichtig: \((e^x)'=e^x\), \((\ln x)'=\tfrac1x\), \((\sin x)'=\cos x\), \((\cos x)'=-\sin x\).</div>`,
+    example:{ task: L`Leite ab: \(\;f(x)=x^3-4x^2+2x\).`,
+      solution: L`<p>Term für Term: \(f'(x)=3x^2-8x+2\).</p>` },
+    problems:[
+      {q: L`Leite ab: \(\;f(x)=(2x+1)^3\).`,
+       a: L`<p>Kettenregel: \(3(2x+1)^2\cdot 2=6(2x+1)^2\).</p>`},
+      {q: L`Leite ab: \(\;f(x)=x^2 e^x\).`,
+       a: L`<p>Produktregel: \(2x\,e^x+x^2 e^x=e^x(x^2+2x)\).</p>`}
+    ]}},
+  {id:'m-d3', t:'Kurvendiskussion', h:'Extrema, Wende-/Sattelpunkte, Monotonie, Krümmung vollständig untersuchen.', s:'review', learn:{
+    explain: L`<p>Ablauf: Definitionsbereich, Symmetrie, Nullstellen, dann die Ableitungen auswerten.</p>
+    <div class="keybox"><b>Extrema:</b> \(f'(x)=0\); Minimum falls \(f''>0\), Maximum falls \(f''<0\). <b>Wendepunkt:</b> \(f''(x)=0\) mit Vorzeichenwechsel. \(f'\) steuert die Monotonie, \(f''\) die Krümmung.</div>`,
+    example:{ task: L`Bestimme die Extrema von \(\;f(x)=x^3-3x\).`,
+      solution: L`<p>\(f'=3x^2-3=0\Rightarrow x=\pm1\). Mit \(f''=6x\): \(f''(1)=6>0\) → Minimum \((1|-2)\); \(f''(-1)=-6<0\) → Maximum \((-1|2)\).</p>` },
+    problems:[
+      {q: L`Bestimme das Extremum von \(\;f(x)=x^2-4x+1\).`,
+       a: L`<p>\(f'=2x-4=0\Rightarrow x=2\); \(f''=2>0\) → Minimum \((2|-3)\).</p>`},
+      {q: L`Bestimme den Wendepunkt von \(\;f(x)=x^3-6x^2+5\).`,
+       a: L`<p>\(f''=6x-12=0\Rightarrow x=2\); \(f(2)=8-24+5=-11\) → Wendepunkt \((2|-11)\).</p>`}
+    ]}},
+  {id:'m-d4', t:'Extremwertprobleme', h:'Optimierung mit Nebenbedingung (Sachkontext).', s:'review', learn:{
+    explain: L`<p><b>Optimierung:</b> Zielgröße als Funktion aufstellen, mit der <b>Nebenbedingung</b> auf eine Variable reduzieren, ableiten, \(=0\) setzen und Randwerte prüfen.</p>`,
+    example:{ task: L`Ein Rechteck hat Umfang \(20\). Für welche Seiten wird die Fläche maximal?`,
+      solution: L`<p>Nebenbedingung \(2a+2b=20\Rightarrow b=10-a\). Fläche \(A(a)=a(10-a)=10a-a^2\). \(A'=10-2a=0\Rightarrow a=5,\;b=5\) — ein Quadrat mit \(A=25\).</p>` },
+    problems:[
+      {q: L`Zwei Zahlen haben die Summe \(12\). Wann ist ihr Produkt maximal?`,
+       a: L`<p>\(P(x)=x(12-x)=12x-x^2\); \(P'=12-2x=0\Rightarrow x=6\). Beide Zahlen \(6\), Produkt \(36\).</p>`},
+      {q: L`Aus \(24\,\mathrm{cm}\) Draht wird ein Rechteck gebogen. Welche Seiten geben die größte Fläche?`,
+       a: L`<p>\(2a+2b=24\Rightarrow b=12-a\); \(A=a(12-a)\), \(A'=12-2a=0\Rightarrow a=6,\;b=6\). Fläche \(36\,\mathrm{cm}^2\).</p>`}
+    ]}}
+]});
+SUBJECTS[0].areas.push({name:'Analysis — Integralrechnung', topics:[
+  {id:'m-i1', t:'Stammfunktion & unbestimmtes Integral', h:'Aufleiten, Integrationsregeln, Zusammenhang mit der Ableitung.', s:'review', learn:{
+    explain: L`<p>\(F\) ist <b>Stammfunktion</b> von \(f\), wenn \(F'=f\). Das <b>unbestimmte Integral</b> ist \(\int f(x)\,dx=F(x)+C\).</p>
+    <div class="keybox">\(\int x^n\,dx=\dfrac{x^{n+1}}{n+1}+C\) (\(n\neq-1\)), \(\;\int e^x\,dx=e^x+C\), \(\;\int\tfrac1x\,dx=\ln|x|+C\), \(\;\int\sin x\,dx=-\cos x+C\).</div>`,
+    example:{ task: L`Berechne \(\;\int (3x^2-2x)\,dx\).`,
+      solution: L`<p>\(=x^3-x^2+C\). (Kontrolle: ableiten ergibt wieder \(3x^2-2x\).)</p>` },
+    problems:[
+      {q: L`Berechne \(\;\int (4x^3+6x)\,dx\).`,
+       a: L`<p>\(=x^4+3x^2+C\).</p>`},
+      {q: L`Berechne \(\;\int \left(e^x+\dfrac{2}{x}\right)dx\).`,
+       a: L`<p>\(=e^x+2\ln|x|+C\).</p>`}
+    ]}},
+  {id:'m-i2', t:'Bestimmtes Integral & Flächen', h:'Hauptsatz, Flächen zwischen Kurven berechnen.', s:'review', learn:{
+    explain: L`<div class="keybox"><b>Hauptsatz:</b> \(\int_a^b f(x)\,dx=F(b)-F(a)\).</div>
+    <p>Fläche zwischen zwei Kurven: \(\int_a^b\big(f(x)-g(x)\big)\,dx\) (obere minus untere Funktion). Bei Flächen unter der \(x\)-Achse auf das Vorzeichen achten und ggf. in Teilflächen zerlegen.</p>`,
+    example:{ task: L`Berechne \(\;\int_0^2 x^2\,dx\).`,
+      solution: L`<p>\(\left[\dfrac{x^3}{3}\right]_0^2=\dfrac{8}{3}-0=\dfrac{8}{3}\).</p>` },
+    problems:[
+      {q: L`Berechne \(\;\int_1^3 2x\,dx\).`,
+       a: L`<p>\([x^2]_1^3=9-1=8\).</p>`},
+      {q: L`Fläche zwischen \(f(x)=x^2\) und \(g(x)=x\) von \(0\) bis \(1\).`,
+       a: L`<p>\(\int_0^1(x-x^2)\,dx=\left[\tfrac{x^2}{2}-\tfrac{x^3}{3}\right]_0^1=\tfrac12-\tfrac13=\tfrac16\).</p>`}
+    ]}},
+  {id:'m-i3', t:'Integrationsverfahren', h:'Substitution und partielle Integration.', s:'deepen', learn:{
+    explain: L`<div class="keybox"><b>Substitution:</b> für \(\int f(g(x))\,g'(x)\,dx\) setze \(u=g(x)\). <b>Partielle Integration:</b> \(\int u\,v'\,dx=uv-\int u'\,v\,dx\).</div>`,
+    example:{ task: L`Berechne \(\;\int 2x\,e^{x^2}\,dx\).`,
+      solution: L`<p>Substitution \(u=x^2\), \(du=2x\,dx\): \(\int e^u\,du=e^u+C=e^{x^2}+C\).</p>` },
+    problems:[
+      {q: L`Berechne \(\;\int (2x+1)^4\,dx\).`,
+       a: L`<p>\(u=2x+1,\;du=2\,dx\): \(\tfrac12\int u^4\,du=\dfrac{u^5}{10}=\dfrac{(2x+1)^5}{10}+C\).</p>`},
+      {q: L`Berechne \(\;\int x\,e^x\,dx\).`,
+       a: L`<p>Partiell mit \(u=x,\;v'=e^x\): \(x e^x-\int e^x\,dx=e^x(x-1)+C\).</p>`}
+    ]}},
+  {id:'m-i4', t:'Rotationsvolumen & Anwendungen', h:'Volumen von Rotationskörpern, Mittelwerte, Anwendungen.', s:'deepen', learn:{
+    explain: L`<div class="keybox"><b>Rotationsvolumen</b> (um die \(x\)-Achse): \(V=\pi\int_a^b [f(x)]^2\,dx\). <b>Mittelwert</b> einer Funktion: \(\bar f=\dfrac{1}{b-a}\int_a^b f(x)\,dx\).</div>`,
+    example:{ task: L`\(f(x)=x\) rotiert um die \(x\)-Achse von \(0\) bis \(1\). Volumen?`,
+      solution: L`<p>\(V=\pi\int_0^1 x^2\,dx=\pi\cdot\tfrac13=\dfrac{\pi}{3}\).</p>` },
+    problems:[
+      {q: L`Volumen des Rotationskörpers von \(f(x)=\sqrt{x}\) um die \(x\)-Achse, \(0\) bis \(4\).`,
+       a: L`<p>\(V=\pi\int_0^4 x\,dx=\pi\left[\tfrac{x^2}{2}\right]_0^4=8\pi\).</p>`},
+      {q: L`Mittelwert von \(f(x)=x^2\) auf \([0,3]\).`,
+       a: L`<p>\(\tfrac13\int_0^3 x^2\,dx=\tfrac13\cdot 9=3\).</p>`}
+    ]}}
+]});
+SUBJECTS[0].areas.push({name:'Vektor- & analytische Geometrie', topics:[
+  {id:'m-v1', t:'Vektoren im Raum', h:'Vektoren in 2D/3D, Addition, Skalarmultiplikation, Betrag.', s:'review', learn:{
+    explain: L`<p>Ein <b>Vektor</b> beschreibt eine Verschiebung (Richtung und Länge) und wird komponentenweise gerechnet. <b>Verbindungsvektor:</b> \(\vec{AB}=\vec b-\vec a\).</p>
+    <div class="keybox"><b>Betrag (Länge):</b> \(|\vec a|=\sqrt{a_1^2+a_2^2+a_3^2}\). Zwei Vektoren sind <b>kollinear</b>, wenn einer ein Vielfaches des anderen ist.</div>`,
+    example:{ task: L`\(A(1|2|3)\), \(B(4|0|5)\). Bestimme \(\vec{AB}\) und \(|\vec{AB}|\).`,
+      solution: L`<p>\(\vec{AB}=(3,-2,2)\); \(|\vec{AB}|=\sqrt{9+4+4}=\sqrt{17}\).</p>` },
+    problems:[
+      {q: L`\(\vec a=(2,-1,3),\;\vec b=(0,4,-1)\). Berechne \(2\vec a-\vec b\) und \(|\vec a|\).`,
+       a: L`<p>\(2\vec a=(4,-2,6)\), minus \(\vec b\): \((4,-6,7)\). \(|\vec a|=\sqrt{4+1+9}=\sqrt{14}\).</p>`},
+      {q: L`Sind \(\vec u=(1,2,-1)\) und \(\vec v=(-2,-4,2)\) kollinear?`,
+       a: L`<p>\(\vec v=-2\,\vec u\) → ja, kollinear (entgegengesetzt gerichtet).</p>`}
+    ]}},
+  {id:'m-v2', t:'Skalarprodukt', h:'Winkel zwischen Vektoren, Orthogonalität, Projektionen.', s:'review', learn:{
+    explain: L`<div class="keybox">\(\vec a\cdot\vec b=a_1b_1+a_2b_2+a_3b_3=|\vec a|\,|\vec b|\cos\varphi\). Daraus \(\cos\varphi=\dfrac{\vec a\cdot\vec b}{|\vec a|\,|\vec b|}\). <b>Orthogonal</b> \(\Leftrightarrow \vec a\cdot\vec b=0\).</div>`,
+    example:{ task: L`Stehen \(\vec a=(1,2,2)\) und \(\vec b=(2,0,-1)\) senkrecht zueinander?`,
+      solution: L`<p>\(\vec a\cdot\vec b=2+0-2=0\) → ja, orthogonal.</p>` },
+    problems:[
+      {q: L`Bestimme den Winkel zwischen \(\vec a=(1,0,1)\) und \(\vec b=(1,1,0)\).`,
+       a: L`<p>\(\vec a\cdot\vec b=1\), \(|\vec a|=|\vec b|=\sqrt2\); \(\cos\varphi=\tfrac{1}{2}\Rightarrow\varphi=60^\circ\).</p>`},
+      {q: L`Bestimme \(t\), sodass \(\vec a=(2,t,-1)\) und \(\vec b=(3,-1,4)\) orthogonal sind.`,
+       a: L`<p>\(6-t-4=0\Rightarrow t=2\).</p>`}
+    ]}},
+  {id:'m-v3', t:'Vektorprodukt (Kreuzprodukt)', h:'Normalenvektor, Flächen- und Volumenberechnung.', s:'deepen', learn:{
+    explain: L`<p>Das <b>Vektorprodukt</b> \(\vec a\times\vec b\) steht senkrecht auf \(\vec a\) und \(\vec b\) — ideal, um einen <b>Normalenvektor</b> zu erzeugen.</p>
+    <div class="keybox">\(\vec a\times\vec b=\big(a_2b_3-a_3b_2,\;\;a_3b_1-a_1b_3,\;\;a_1b_2-a_2b_1\big)\). Der Betrag \(|\vec a\times\vec b|\) ist die <b>Fläche des Parallelogramms</b> aus \(\vec a\) und \(\vec b\).</div>`,
+    example:{ task: L`Berechne \(\vec a\times\vec b\) für \(\vec a=(1,0,0),\;\vec b=(0,1,0)\).`,
+      solution: L`<p>\((0\cdot0-0\cdot1,\;0\cdot0-1\cdot0,\;1\cdot1-0\cdot0)=(0,0,1)\).</p>` },
+    problems:[
+      {q: L`\(\vec a=(1,2,0),\;\vec b=(0,1,1)\). Berechne \(\vec a\times\vec b\).`,
+       a: L`<p>\((2\cdot1-0\cdot1,\;0\cdot0-1\cdot1,\;1\cdot1-2\cdot0)=(2,-1,1)\).</p>`},
+      {q: L`Fläche des von \(\vec a=(2,0,0)\) und \(\vec b=(0,3,0)\) aufgespannten Parallelogramms.`,
+       a: L`<p>\(\vec a\times\vec b=(0,0,6)\), Betrag \(6\). (Das zugehörige Dreieck hätte Fläche \(3\).)</p>`}
+    ]}},
+  {id:'m-v4', t:'Geraden im Raum', h:'Parameterform, Lagebeziehungen, Schnittpunkte.', s:'review', learn:{
+    explain: L`<div class="keybox"><b>Parameterform:</b> \(\vec x=\vec p+t\,\vec u\) mit Stützvektor \(\vec p\) und Richtungsvektor \(\vec u\).</div>
+    <p>Zwei Geraden sind <b>identisch, parallel, schneidend</b> oder <b>windschief</b>. Ein Punkt liegt auf \(g\), wenn ein \(t\) alle drei Koordinaten erfüllt.</p>`,
+    example:{ task: L`\(g:\vec x=(1,0,0)+t(1,1,0)\). Liegt \(P(3|2|0)\) auf \(g\)?`,
+      solution: L`<p>\(1+t=3\Rightarrow t=2\); Kontrolle: \(0+2=2\) ✓, \(0=0\) ✓ → ja.</p>` },
+    problems:[
+      {q: L`Gib die Geradengleichung durch \(A(1|1|2)\) und \(B(3|5|2)\) an.`,
+       a: L`<p>\(\vec u=\vec{AB}=(2,4,0)\); \(g:\vec x=(1,1,2)+t(2,4,0)\).</p>`},
+      {q: L`Liegt \(P(2|3|2)\) auf dieser Geraden?`,
+       a: L`<p>\(1+2t=2\Rightarrow t=0{,}5\); \(1+4\cdot0{,}5=3\) ✓, \(z=2\) ✓ → ja.</p>`}
+    ]}},
+  {id:'m-v5', t:'Ebenen', h:'Parameter-, Normalen- und Koordinatenform; Umrechnungen.', s:'review', learn:{
+    explain: L`<p>Darstellungen einer Ebene: <b>Parameterform</b> \(\vec x=\vec p+s\vec u+t\vec v\), <b>Normalenform</b> \(\vec n\cdot(\vec x-\vec p)=0\), <b>Koordinatenform</b> \(ax+by+cz=d\) mit Normalenvektor \(\vec n=(a,b,c)\).</p>
+    <p>Von der Parameter- zur Koordinatenform: \(\vec n=\vec u\times\vec v\), dann \(d\) durch Einsetzen eines Punktes bestimmen.</p>`,
+    example:{ task: L`Ebene durch \(P(1|0|0)\) mit \(\vec n=(2,1,2)\) in Koordinatenform.`,
+      solution: L`<p>\(2x+y+2z=d\); \(d=2\cdot1+0+0=2\) → \(2x+y+2z=2\).</p>` },
+    problems:[
+      {q: L`Ebene durch \(P(0|1|2)\) mit \(\vec n=(1,-1,3)\) in Koordinatenform.`,
+       a: L`<p>\(x-y+3z=d\); \(d=0-1+6=5\) → \(x-y+3z=5\).</p>`},
+      {q: L`Liegt \(Q(1|2|0)\) in der Ebene \(2x+y-z=4\)?`,
+       a: L`<p>\(2\cdot1+2-0=4\) ✓ → ja.</p>`}
+    ]}},
+  {id:'m-v6', t:'Abstände & Winkel', h:'Abstand Punkt–Gerade/Ebene, Winkel zwischen Geraden/Ebenen.', s:'review', learn:{
+    explain: L`<div class="keybox"><b>Abstand Punkt–Ebene</b> (Hesse-Form): \(d=\dfrac{|a x_0+b y_0+c z_0-d|}{\sqrt{a^2+b^2+c^2}}\).</div>
+    <p>Der Winkel zwischen zwei Ebenen ergibt sich aus ihren Normalenvektoren über die Skalarprodukt-Formel.</p>`,
+    example:{ task: L`Abstand von \(P(3|0|0)\) zur Ebene \(x+2y+2z=1\).`,
+      solution: L`<p>\(d=\dfrac{|3+0+0-1|}{\sqrt{1+4+4}}=\dfrac{2}{3}\).</p>` },
+    problems:[
+      {q: L`Abstand von \(P(1|1|1)\) zur Ebene \(2x-y+2z=5\).`,
+       a: L`<p>\(d=\dfrac{|2-1+2-5|}{\sqrt{4+1+4}}=\dfrac{2}{3}\).</p>`},
+      {q: L`Winkel zwischen den Ebenen mit Normalen \(\vec n_1=(1,0,0)\) und \(\vec n_2=(1,1,0)\).`,
+       a: L`<p>\(\cos\varphi=\dfrac{1}{1\cdot\sqrt2}=\dfrac{1}{\sqrt2}\Rightarrow\varphi=45^\circ\).</p>`}
+    ]}}
+]});
+SUBJECTS[0].areas.push({name:'Stochastik', topics:[
+  {id:'m-s1', t:'Kombinatorik', h:'Permutationen, Variationen, Kombinationen; Abzählen.', s:'deepen', learn:{
+    explain: L`<p><b>Zählprinzip:</b> unabhängige Auswahlmöglichkeiten werden multipliziert.</p>
+    <div class="keybox"><b>Permutationen:</b> \(n!\). <b>Variationen</b> (Reihenfolge zählt): mit Zurücklegen \(n^k\), ohne \(\dfrac{n!}{(n-k)!}\). <b>Kombinationen</b> (Reihenfolge egal): \(\binom{n}{k}=\dfrac{n!}{k!\,(n-k)!}\).</div>`,
+    example:{ task: L`Wie viele 3er-Teams lassen sich aus 10 Personen bilden?`,
+      solution: L`<p>Reihenfolge egal: \(\binom{10}{3}=\dfrac{10\cdot9\cdot8}{3\cdot2\cdot1}=120\).</p>` },
+    problems:[
+      {q: L`Wie viele vierstellige PINs (Ziffern \(0\)–\(9\), Wiederholung erlaubt) gibt es?`,
+       a: L`<p>\(10^4=10\,000\).</p>`},
+      {q: L`Aus 8 Büchern werden 3 ausgewählt (Reihenfolge egal). Wie viele Möglichkeiten?`,
+       a: L`<p>\(\binom{8}{3}=56\).</p>`}
+    ]}},
+  {id:'m-s2', t:'Wahrscheinlichkeit', h:'Laplace, Baumdiagramme, bedingte Wahrscheinlichkeit, Satz von Bayes.', s:'review', learn:{
+    explain: L`<div class="keybox"><b>Laplace:</b> \(P=\dfrac{\text{günstige}}{\text{mögliche}}\). Gegenereignis \(P(\bar A)=1-P(A)\). <b>Bedingt:</b> \(P(A|B)=\dfrac{P(A\cap B)}{P(B)}\). <b>Unabhängig:</b> \(P(A\cap B)=P(A)\,P(B)\).</div>
+    <p>Im Baumdiagramm entlang eines Pfades multiplizieren, verschiedene Pfade addieren.</p>`,
+    example:{ task: L`Ein Würfel wird geworfen. Wie groß ist \(P(\text{gerade Zahl})\)?`,
+      solution: L`<p>Günstig: \(2,4,6\) → \(P=\tfrac{3}{6}=\tfrac12\).</p>` },
+    problems:[
+      {q: L`Zwei Würfel werden geworfen. Wie groß ist \(P(\text{Summe}=7)\)?`,
+       a: L`<p>\(6\) günstige Kombinationen von \(36\) → \(\tfrac{6}{36}=\tfrac16\).</p>`},
+      {q: L`Urne mit 3 roten und 2 blauen Kugeln; zwei ohne Zurücklegen ziehen. \(P(\text{beide rot})\)?`,
+       a: L`<p>\(\tfrac{3}{5}\cdot\tfrac{2}{4}=\tfrac{6}{20}=\tfrac{3}{10}\).</p>`}
+    ]}},
+  {id:'m-s3', t:'Zufallsvariablen', h:'Erwartungswert, Varianz, Standardabweichung.', s:'review', learn:{
+    explain: L`<p>Eine <b>Zufallsvariable</b> \(X\) ordnet Ergebnissen Zahlen zu.</p>
+    <div class="keybox"><b>Erwartungswert:</b> \(E(X)=\sum x_i\,P(x_i)\). <b>Varianz:</b> \(V(X)=E(X^2)-\mu^2\). <b>Standardabweichung:</b> \(\sigma=\sqrt{V(X)}\).</div>`,
+    example:{ task: L`\(X\) = Augenzahl beim Würfel. Berechne \(E(X)\).`,
+      solution: L`<p>\(E(X)=\dfrac{1+2+3+4+5+6}{6}=3{,}5\).</p>` },
+    problems:[
+      {q: L`\(X\) nimmt \(0,1,2\) an mit \(P=0{,}2;\;0{,}5;\;0{,}3\). Berechne \(E(X)\).`,
+       a: L`<p>\(0\cdot0{,}2+1\cdot0{,}5+2\cdot0{,}3=1{,}1\).</p>`},
+      {q: L`Berechne für dieselbe Verteilung die Varianz.`,
+       a: L`<p>\(E(X^2)=0+0{,}5+4\cdot0{,}3=1{,}7\); \(V=1{,}7-1{,}1^2=0{,}49\); \(\sigma=0{,}7\).</p>`}
+    ]}},
+  {id:'m-s4', t:'Binomialverteilung', h:'Bernoulli-Ketten, Berechnung und Interpretation.', s:'review', learn:{
+    explain: L`<div class="keybox">\(n\) unabhängige Versuche, Erfolgswahrscheinlichkeit \(p\): \(P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}\). Außerdem \(E(X)=np\) und \(V(X)=np(1-p)\).</div>`,
+    example:{ task: L`\(n=5,\;p=0{,}5\). Berechne \(P(X=2)\).`,
+      solution: L`<p>\(\binom{5}{2}(0{,}5)^2(0{,}5)^3=10\cdot\tfrac{1}{32}=\tfrac{10}{32}\approx0{,}3125\).</p>` },
+    problems:[
+      {q: L`Ein Test hat 10 Fragen mit Ratewahrscheinlichkeit \(p=0{,}25\). \(P(\text{genau }3\text{ richtig})\)?`,
+       a: L`<p>\(\binom{10}{3}(0{,}25)^3(0{,}75)^7\approx120\cdot0{,}01563\cdot0{,}1335\approx0{,}250\).</p>`},
+      {q: L`\(n=20,\;p=0{,}1\): Erwartungswert und Standardabweichung.`,
+       a: L`<p>\(E=np=2\); \(V=20\cdot0{,}1\cdot0{,}9=1{,}8\); \(\sigma=\sqrt{1{,}8}\approx1{,}34\).</p>`}
+    ]}},
+  {id:'m-s5', t:'Normalverteilung', h:'Glockenkurve, Näherung der Binomialverteilung.', s:'deepen', learn:{
+    explain: L`<p>Stetige, glockenförmige Verteilung, symmetrisch um \(\mu\) mit Streuung \(\sigma\). <b>Standardisieren:</b> \(z=\dfrac{x-\mu}{\sigma}\), Werte über die Tabelle \(\Phi(z)\).</p>
+    <div class="keybox"><b>Faustregeln:</b> ca. \(68\%\) liegen in \([\mu-\sigma,\mu+\sigma]\), \(95\%\) in \([\mu-2\sigma,\mu+2\sigma]\), \(99{,}7\%\) in \(\pm3\sigma\).</div>`,
+    example:{ task: L`\(X\sim N(100,15^2)\) (IQ). Welcher Anteil hat \(X>115\)?`,
+      solution: L`<p>\(z=\dfrac{115-100}{15}=1\); \(P(Z>1)=1-\Phi(1)\approx1-0{,}841=0{,}159\) → ca. \(16\%\).</p>` },
+    problems:[
+      {q: L`\(X\sim N(50,10^2)\). Bestimme \(z\) für \(x=65\) und \(P(X<65)\).`,
+       a: L`<p>\(z=\dfrac{65-50}{10}=1{,}5\); \(\Phi(1{,}5)\approx0{,}933\) → ca. \(93{,}3\%\).</p>`},
+      {q: L`Wie viel Prozent liegen bei einer Normalverteilung etwa zwischen \(\mu-2\sigma\) und \(\mu+2\sigma\)?`,
+       a: L`<p>Etwa \(95\%\).</p>`}
+    ]}}
+]});
+SUBJECTS[0].areas.push({name:'Ergänzung (Relevanz mit ETH abgleichen)', topics:[
+  {id:'m-x1', t:'Komplexe Zahlen', h:'Im Schweizer Matura-Stoff teils enthalten, im NRW-Abitur nicht. Vor dem Lernen prüfen, ob geprüft.', s:'new', learn:{
+    explain: L`<p>Es gilt \(i^2=-1\). Eine <b>komplexe Zahl</b> \(z=a+bi\) hat Realteil \(a\) und Imaginärteil \(b\). Gerechnet wird wie mit gewöhnlichen Termen (mit \(i^2=-1\)).</p>
+    <div class="keybox"><b>Konjugiert:</b> \(\bar z=a-bi\). <b>Betrag:</b> \(|z|=\sqrt{a^2+b^2}\). Bei der Division mit dem Konjugierten des Nenners erweitern.</div>
+    <p style="color:var(--text-3);font-size:12.5px">Hinweis: Ob komplexe Zahlen in deiner konkreten ETH-Prüfung vorkommen, vorab abklären.</p>`,
+    example:{ task: L`Berechne \((2+3i)+(1-i)\) und \((1+i)^2\).`,
+      solution: L`<p>\((2+3i)+(1-i)=3+2i\). \((1+i)^2=1+2i+i^2=1+2i-1=2i\).</p>` },
+    problems:[
+      {q: L`Berechne \((3+2i)(1-i)\).`,
+       a: L`<p>\(3-3i+2i-2i^2=3-i+2=5-i\).</p>`},
+      {q: L`Berechne \(|3-4i|\) und das Konjugierte.`,
+       a: L`<p>\(|3-4i|=\sqrt{9+16}=5\); Konjugiert: \(3+4i\).</p>`}
+    ]}}
+]});
+SUBJECTS.push({
+  id:'physik', name:'Physik', dot:'#5a7d3c',
+  note:'Du hattest Physik als Grundkurs — die Grundlagen sind da, aber die ETH rechnet deutlich mathematischer und breiter (v. a. Mechanik und Thermodynamik). Elektrizität, Wellen und Quantenphysik aus der Q-Phase sind eher Wiederholung.',
+  areas:[
+    {name:'Mechanik', topics:[
+      {id:'p-m1', t:'Kinematik', h:'Gleichförmige und gleichmässig beschleunigte Bewegung, t-s-/t-v-Diagramme.', s:'deepen', learn:{
+        explain: L`<p><b>Gleichförmig</b> (konstante Geschwindigkeit): \(s=v\,t\). <b>Gleichmässig beschleunigt:</b> \(v=v_0+at\) und \(s=s_0+v_0 t+\tfrac12 a t^2\).</p>
+        <div class="keybox">Ohne Zeit sehr nützlich: \(v^2=v_0^2+2as\). Freier Fall: \(a=g\approx 9{,}81\,\mathrm{m/s^2}\).</div>`,
+        example:{ task: L`Ein Auto beschleunigt aus dem Stand mit \(a=2\,\mathrm{m/s^2}\) für \(5\,\mathrm{s}\). Berechne \(v\) und \(s\).`,
+          solution: L`<p>\(v=at=2\cdot5=10\,\mathrm{m/s}\); \(s=\tfrac12 a t^2=\tfrac12\cdot2\cdot25=25\,\mathrm{m}\).</p>` },
+        problems:[
+          {q: L`Ein Körper fällt \(3\,\mathrm{s}\) frei (\(g=9{,}81\)). Geschwindigkeit und Fallstrecke?`,
+           a: L`<p>\(v=gt=29{,}4\,\mathrm{m/s}\); \(s=\tfrac12 g t^2=\tfrac12\cdot9{,}81\cdot9\approx44{,}1\,\mathrm{m}\).</p>`},
+          {q: L`Ein Auto bremst von \(20\,\mathrm{m/s}\) mit \(a=-4\,\mathrm{m/s^2}\) bis zum Stillstand. Bremsweg?`,
+           a: L`<p>\(v^2=v_0^2+2as\Rightarrow 0=400-8s\Rightarrow s=50\,\mathrm{m}\).</p>`}
+        ]}},
+      {id:'p-m2', t:'Wurf- & Kreisbewegung', h:'Waagrechter/schräger Wurf, gleichförmige Kreisbewegung, Zentripetalkraft.', s:'deepen', learn:{
+        explain: L`<p><b>Waagrechter Wurf:</b> \(x=v_0 t\) und \(y=\tfrac12 g t^2\) laufen unabhängig ab. <b>Kreisbewegung:</b> \(v=\omega r\), \(\omega=\tfrac{2\pi}{T}\).</p>
+        <div class="keybox"><b>Zentripetalbeschleunigung</b> \(a_z=\dfrac{v^2}{r}\), <b>Zentripetalkraft</b> \(F_z=\dfrac{m v^2}{r}\) — sie zeigt zum Kreismittelpunkt.</div>`,
+        example:{ task: L`Ein Stein (\(m=0{,}2\,\mathrm{kg}\)) kreist an \(0{,}5\,\mathrm{m}\) Schnur mit \(v=4\,\mathrm{m/s}\). Zentripetalkraft?`,
+          solution: L`<p>\(F_z=\dfrac{m v^2}{r}=\dfrac{0{,}2\cdot16}{0{,}5}=6{,}4\,\mathrm{N}\).</p>` },
+        problems:[
+          {q: L`Waagrechter Wurf aus \(20\,\mathrm{m}\) Höhe, \(v_0=5\,\mathrm{m/s}\), \(g=10\). Flugzeit und Wurfweite?`,
+           a: L`<p>\(20=\tfrac12\cdot10\cdot t^2\Rightarrow t=2\,\mathrm{s}\); \(x=v_0 t=10\,\mathrm{m}\).</p>`},
+          {q: L`Karussell mit \(r=3\,\mathrm{m}\), Umlaufdauer \(T=6\,\mathrm{s}\). Bahngeschwindigkeit und \(a_z\)?`,
+           a: L`<p>\(v=\dfrac{2\pi r}{T}=\pi\approx3{,}14\,\mathrm{m/s}\); \(a_z=\dfrac{v^2}{r}=\dfrac{\pi^2}{3}\approx3{,}29\,\mathrm{m/s^2}\).</p>`}
+        ]}},
+      {id:'p-m3', t:'Newtonsche Gesetze & Kräfte', h:'Trägheit, Kraft=Masse·Beschleunigung, Wechselwirkung, Reibung.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>1.</b> Trägheit (ohne Kraft keine Änderung der Bewegung). <b>2.</b> \(F=m\,a\). <b>3.</b> actio = reactio.</div>
+        <p>Gewichtskraft \(F_G=m g\); Reibung \(F_R=\mu\,F_N\). Bei \(a=0\) herrscht Kräftegleichgewicht.</p>`,
+        example:{ task: L`Auf \(m=5\,\mathrm{kg}\) wirkt reibungsfrei \(F=20\,\mathrm{N}\). Beschleunigung?`,
+          solution: L`<p>\(a=\dfrac{F}{m}=\dfrac{20}{5}=4\,\mathrm{m/s^2}\).</p>` },
+        problems:[
+          {q: L`Auf \(2\,\mathrm{kg}\) wirkt eine Nettokraft von \(6\,\mathrm{N}\). Beschleunigung?`,
+           a: L`<p>\(a=F/m=3\,\mathrm{m/s^2}\).</p>`},
+          {q: L`Kiste \(m=10\,\mathrm{kg}\), \(\mu=0{,}3\), \(g=10\). Welche Horizontalkraft überwindet die Reibung?`,
+           a: L`<p>\(F_R=\mu\,m g=0{,}3\cdot10\cdot10=30\,\mathrm{N}\).</p>`}
+        ]}},
+      {id:'p-m4', t:'Arbeit, Energie, Leistung', h:'Energieformen, Energieerhaltung, Wirkungsgrad.', s:'review', learn:{
+        explain: L`<p>Arbeit \(W=F\,s\) (Kraft in Wegrichtung). Energieformen: \(E_{kin}=\tfrac12 m v^2\), \(E_{pot}=m g h\).</p>
+        <div class="keybox"><b>Energieerhaltung</b> in reibungsfreien Systemen. Leistung \(P=\dfrac{W}{t}=F\,v\); Wirkungsgrad \(\eta=\dfrac{E_{nutz}}{E_{zu}}\).</div>`,
+        example:{ task: L`\(m=2\,\mathrm{kg}\) fällt aus \(h=5\,\mathrm{m}\). Aufprallgeschwindigkeit über Energieerhaltung?`,
+          solution: L`<p>\(m g h=\tfrac12 m v^2\Rightarrow v=\sqrt{2 g h}=\sqrt{2\cdot9{,}81\cdot5}\approx9{,}9\,\mathrm{m/s}\).</p>` },
+        problems:[
+          {q: L`Kinetische Energie eines \(1000\,\mathrm{kg}\)-Autos bei \(20\,\mathrm{m/s}\)?`,
+           a: L`<p>\(E_{kin}=\tfrac12\cdot1000\cdot400=200\,000\,\mathrm{J}=200\,\mathrm{kJ}\).</p>`},
+          {q: L`Ein Motor hebt \(50\,\mathrm{kg}\) in \(4\,\mathrm{s}\) um \(10\,\mathrm{m}\) (\(g=10\)). Leistung?`,
+           a: L`<p>\(W=m g h=5000\,\mathrm{J}\); \(P=W/t=1250\,\mathrm{W}\).</p>`}
+        ]}},
+      {id:'p-m5', t:'Impuls & Stösse', h:'Impulserhaltung, elastische und unelastische Stösse.', s:'deepen', learn:{
+        explain: L`<p><b>Impuls</b> \(p=m v\). In einem abgeschlossenen System ist der Gesamtimpuls erhalten.</p>
+        <div class="keybox"><b>Elastisch:</b> Impuls und kinetische Energie erhalten. <b>Unelastisch:</b> Körper bewegen sich gemeinsam weiter, nur der Impuls ist erhalten.</div>`,
+        example:{ task: L`\(2\,\mathrm{kg}\) mit \(3\,\mathrm{m/s}\) trifft ruhende \(4\,\mathrm{kg}\); sie bleiben zusammen. Gemeinsame Geschwindigkeit?`,
+          solution: L`<p>\(p=2\cdot3=6\,\mathrm{kg\,m/s}\); \(v=\dfrac{p}{m_{ges}}=\dfrac{6}{6}=1\,\mathrm{m/s}\).</p>` },
+        problems:[
+          {q: L`Impuls eines \(0{,}5\,\mathrm{kg}\)-Balls mit \(8\,\mathrm{m/s}\)?`,
+           a: L`<p>\(p=m v=4\,\mathrm{kg\,m/s}\).</p>`},
+          {q: L`\(3\,\mathrm{kg}\) (\(+2\,\mathrm{m/s}\)) und \(1\,\mathrm{kg}\) (\(-2\,\mathrm{m/s}\)) stossen völlig unelastisch. Gemeinsame Geschwindigkeit?`,
+           a: L`<p>\(p=3\cdot2+1\cdot(-2)=4\); \(v=\dfrac{4}{4}=1\,\mathrm{m/s}\).</p>`}
+        ]}},
+      {id:'p-m6', t:'Rotation & Drehmoment', h:'Drehmoment, Trägheitsmoment, Drehimpuls — im NRW-GK meist nicht behandelt.', s:'new', learn:{
+        explain: L`<p><b>Drehmoment</b> \(M=F\cdot r\) (Hebelarm senkrecht zur Kraft). Gleichgewicht: Summe der Drehmomente \(=0\).</p>
+        <div class="keybox"><b>Trägheitsmoment</b> \(I\) ist das Rotations-Gegenstück zur Masse; Rotationsenergie \(\tfrac12 I\omega^2\), Drehimpuls \(L=I\omega\) (erhalten).</div>`,
+        example:{ task: L`Wippe: links \(200\,\mathrm{N}\) bei \(1{,}5\,\mathrm{m}\). Rechts \(300\,\mathrm{N}\) — bei welchem Abstand herrscht Gleichgewicht?`,
+          solution: L`<p>\(200\cdot1{,}5=300\cdot r\Rightarrow r=1\,\mathrm{m}\).</p>` },
+        problems:[
+          {q: L`Kraft \(50\,\mathrm{N}\) am Hebelarm \(0{,}4\,\mathrm{m}\). Drehmoment?`,
+           a: L`<p>\(M=F r=20\,\mathrm{N\,m}\).</p>`},
+          {q: L`Links sitzt \(40\,\mathrm{kg}\) bei \(2\,\mathrm{m}\). Wo muss \(50\,\mathrm{kg}\) rechts sitzen?`,
+           a: L`<p>\(40\cdot2=50\cdot r\Rightarrow r=1{,}6\,\mathrm{m}\).</p>`}
+        ]}},
+      {id:'p-m7', t:'Gravitation', h:'Gravitationsgesetz, Feldstärke, Keplersche Gesetze.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Gravitationsgesetz:</b> \(F=G\dfrac{m_1 m_2}{r^2}\), \(G=6{,}67\cdot10^{-11}\). Feldstärke \(g=\dfrac{G M}{r^2}\).</div>
+        <p>3. Keplersches Gesetz: \(\dfrac{T^2}{a^3}=\text{const}\). Auf einer Kreisbahn ist die Gravitationskraft die Zentripetalkraft.</p>`,
+        example:{ task: L`Ortsfaktor an der Erdoberfläche: \(g=\dfrac{G M}{R^2}\) mit \(M=5{,}97\cdot10^{24}\), \(R=6{,}37\cdot10^{6}\).`,
+          solution: L`<p>\(g\approx\dfrac{6{,}67\cdot10^{-11}\cdot5{,}97\cdot10^{24}}{(6{,}37\cdot10^{6})^2}\approx9{,}8\,\mathrm{m/s^2}\).</p>` },
+        problems:[
+          {q: L`Verdoppelt man den Abstand zweier Massen, wie ändert sich die Gravitationskraft?`,
+           a: L`<p>Sie sinkt auf \(\tfrac14\) (\(F\propto 1/r^2\)).</p>`},
+          {q: L`Zwei Massen je \(1000\,\mathrm{kg}\) im Abstand \(2\,\mathrm{m}\). Kraft?`,
+           a: L`<p>\(F=6{,}67\cdot10^{-11}\cdot\dfrac{10^6}{4}\approx1{,}7\cdot10^{-5}\,\mathrm{N}\).</p>`}
+        ]}},
+      {id:'p-m8', t:'Mechanische Schwingungen', h:'Harmonische Schwingung, Feder- und Fadenpendel.', s:'deepen', learn:{
+        explain: L`<p>Harmonische Schwingung: \(y(t)=A\sin(\omega t)\) mit \(\omega=2\pi f=\tfrac{2\pi}{T}\).</p>
+        <div class="keybox"><b>Federpendel:</b> \(T=2\pi\sqrt{\dfrac{m}{D}}\). <b>Fadenpendel:</b> \(T=2\pi\sqrt{\dfrac{l}{g}}\).</div>`,
+        example:{ task: L`Fadenpendel \(l=1\,\mathrm{m}\), \(g=9{,}81\). Periodendauer?`,
+          solution: L`<p>\(T=2\pi\sqrt{\tfrac{1}{9{,}81}}\approx2{,}0\,\mathrm{s}\).</p>` },
+        problems:[
+          {q: L`Federpendel \(m=0{,}5\,\mathrm{kg}\), \(D=200\,\mathrm{N/m}\). Periodendauer?`,
+           a: L`<p>\(T=2\pi\sqrt{\tfrac{0{,}5}{200}}=2\pi\cdot0{,}05\approx0{,}314\,\mathrm{s}\).</p>`},
+          {q: L`Wie ändert sich die Periodendauer eines Fadenpendels, wenn die Länge vervierfacht wird?`,
+           a: L`<p>\(T\propto\sqrt{l}\) → sie verdoppelt sich.</p>`}
+        ]}},
+      {id:'p-m9', t:'Mechanische Wellen', h:'Ausbreitung, Wellenlänge/Frequenz, Interferenz, stehende Wellen.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Grundgleichung:</b> \(c=\lambda f\). Transversal- vs. Longitudinalwelle.</div>
+        <p>Bei Überlagerung: konstruktive/destruktive <b>Interferenz</b>. Auf einer eingespannten Saite bildet sich der Grundton mit \(\lambda=2L\).</p>`,
+        example:{ task: L`Wasserwelle mit \(f=2\,\mathrm{Hz}\) und \(\lambda=0{,}5\,\mathrm{m}\). Ausbreitungsgeschwindigkeit?`,
+          solution: L`<p>\(c=\lambda f=0{,}5\cdot2=1\,\mathrm{m/s}\).</p>` },
+        problems:[
+          {q: L`Schall mit \(c=340\,\mathrm{m/s}\), \(f=170\,\mathrm{Hz}\). Wellenlänge?`,
+           a: L`<p>\(\lambda=\dfrac{c}{f}=2\,\mathrm{m}\).</p>`},
+          {q: L`Saite der Länge \(0{,}6\,\mathrm{m}\), Grundton. Wellenlänge?`,
+           a: L`<p>\(\lambda=2L=1{,}2\,\mathrm{m}\).</p>`}
+        ]}}
+    ]},
+    {name:'Thermodynamik', topics:[
+      {id:'p-t1', t:'Temperatur & Wärme', h:'Wärmemenge, spezifische Wärmekapazität, Wärmeausdehnung.', s:'new', learn:{
+        explain: L`<p>Temperatur in \(\mathrm{K}\) oder \(^\circ\mathrm{C}\): \(T[\mathrm K]=\vartheta[^\circ\mathrm C]+273{,}15\).</p>
+        <div class="keybox"><b>Wärmemenge:</b> \(Q=c\,m\,\Delta T\). Für Wasser \(c\approx4180\,\mathrm{J/(kg\,K)}\). Wärmeausdehnung \(\Delta L=\alpha\,L\,\Delta T\).</div>`,
+        example:{ task: L`\(2\,\mathrm{kg}\) Wasser von \(20\) auf \(80\,^\circ\mathrm{C}\) erwärmen. Wärmemenge?`,
+          solution: L`<p>\(Q=c m\Delta T=4180\cdot2\cdot60\approx502\,\mathrm{kJ}\).</p>` },
+        problems:[
+          {q: L`\(0{,}5\,\mathrm{kg}\) Wasser um \(40\,\mathrm{K}\) erwärmen (\(c=4180\)). Wärmemenge?`,
+           a: L`<p>\(Q=4180\cdot0{,}5\cdot40=83\,600\,\mathrm{J}\).</p>`},
+          {q: L`Wie viel \(^\circ\mathrm{C}\) sind \(300\,\mathrm{K}\)?`,
+           a: L`<p>\(300-273{,}15\approx26{,}9\,^\circ\mathrm{C}\).</p>`}
+        ]}},
+      {id:'p-t2', t:'Aggregatzustände', h:'Phasenübergänge, Schmelz- und Verdampfungswärme.', s:'new', learn:{
+        explain: L`<p>Bei einem Phasenübergang bleibt die Temperatur konstant; die zugeführte Energie ändert den Zustand.</p>
+        <div class="keybox"><b>Umwandlungswärme:</b> \(Q=m\cdot L\). Wasser: Schmelzwärme \(334\,\mathrm{kJ/kg}\), Verdampfungswärme \(2256\,\mathrm{kJ/kg}\).</div>`,
+        example:{ task: L`\(0{,}2\,\mathrm{kg}\) Eis bei \(0\,^\circ\mathrm{C}\) schmelzen. Wärmemenge?`,
+          solution: L`<p>\(Q=m L=0{,}2\cdot334\,000=66\,800\,\mathrm{J}\).</p>` },
+        problems:[
+          {q: L`\(1\,\mathrm{kg}\) Wasser bei \(100\,^\circ\mathrm{C}\) vollständig verdampfen (\(L=2256\,\mathrm{kJ/kg}\)).`,
+           a: L`<p>\(Q=2256\,\mathrm{kJ}\approx2{,}26\,\mathrm{MJ}\).</p>`},
+          {q: L`Warum bleibt die Temperatur beim Schmelzen konstant?`,
+           a: L`<p>Die zugeführte Energie löst die Bindungen zwischen den Teilchen, statt ihre Bewegung (Temperatur) zu erhöhen.</p>`}
+        ]}},
+      {id:'p-t3', t:'Gasgesetze', h:'Ideales Gas, Zustandsgleichung, isotherme/isobare Prozesse.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>Ideales Gas:</b> \(pV=nRT\) mit \(R=8{,}314\). Bei fester Gasmenge gilt \(\dfrac{pV}{T}=\text{const}\).</div>
+        <p><b>Isotherm</b> (\(T\) konstant): \(pV=\text{const}\) (Boyle). <b>Isobar</b> (\(p\) konstant): \(\dfrac{V}{T}=\text{const}\).</p>`,
+        example:{ task: L`Gas (\(1\,\mathrm{bar}\), \(2\,\mathrm{L}\)) wird isotherm auf \(1\,\mathrm{L}\) komprimiert. Neuer Druck?`,
+          solution: L`<p>\(p_1 V_1=p_2 V_2\Rightarrow p_2=\dfrac{1\cdot2}{1}=2\,\mathrm{bar}\).</p>` },
+        problems:[
+          {q: L`Gas \(3\,\mathrm{L}\) bei \(300\,\mathrm{K}\) wird isobar auf \(400\,\mathrm{K}\) erwärmt. Neues Volumen?`,
+           a: L`<p>\(\dfrac{V}{T}=\text{const}\Rightarrow V_2=3\cdot\dfrac{400}{300}=4\,\mathrm{L}\).</p>`},
+          {q: L`Verdoppelt man bei konstanter Temperatur das Volumen, was passiert mit dem Druck?`,
+           a: L`<p>Er halbiert sich (\(p\propto 1/V\)).</p>`}
+        ]}},
+      {id:'p-t4', t:'Hauptsätze der Thermodynamik', h:'Energieerhaltung, innere Energie, Wirkungsgrad, Entropie-Grundidee.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>1. Hauptsatz</b> (Energieerhaltung): \(\Delta U=Q+W\) (\(W\) = am System verrichtete Arbeit). <b>2. Hauptsatz:</b> Wärme fliesst von selbst nur von warm nach kalt; die Entropie eines abgeschlossenen Systems nimmt nicht ab.</div>
+        <p>Wirkungsgrad einer Wärmekraftmaschine \(\eta=\dfrac{W_{nutz}}{Q_{zu}}<1\).</p>`,
+        example:{ task: L`Einer Maschine werden \(1000\,\mathrm{J}\) zugeführt, \(300\,\mathrm{J}\) Nutzarbeit. Wirkungsgrad?`,
+          solution: L`<p>\(\eta=\dfrac{300}{1000}=0{,}3=30\%\).</p>` },
+        problems:[
+          {q: L`Ein System nimmt \(500\,\mathrm{J}\) Wärme auf und verrichtet \(200\,\mathrm{J}\) Arbeit nach aussen. Änderung der inneren Energie?`,
+           a: L`<p>\(\Delta U=Q-W_{ab}=500-200=300\,\mathrm{J}\).</p>`},
+          {q: L`Warum kann keine Wärmekraftmaschine \(100\%\) Wirkungsgrad haben?`,
+           a: L`<p>Nach dem 2. Hauptsatz muss immer ein Teil der Energie als Abwärme abgegeben werden.</p>`}
+        ]}}
+    ]},
+    {name:'Elektrizität & Magnetismus', topics:[
+      {id:'p-e1', t:'Ladung & elektrisches Feld', h:'Coulomb-Gesetz, Feldstärke, Potenzial und Spannung.', s:'review', learn:{
+        explain: L`<div class="keybox"><b>Coulomb-Gesetz:</b> \(F=k\dfrac{q_1 q_2}{r^2}\), \(k=8{,}99\cdot10^{9}\). <b>Feldstärke:</b> \(E=\dfrac{F}{q}\).</div>
+        <p>Im homogenen Feld (Plattenkondensator) gilt \(E=\dfrac{U}{d}\).</p>`,
+        example:{ task: L`Zwei Ladungen je \(1\,\mu\mathrm{C}\) im Abstand \(0{,}1\,\mathrm{m}\). Kraft?`,
+          solution: L`<p>\(F=8{,}99\cdot10^{9}\cdot\dfrac{(10^{-6})^2}{(0{,}1)^2}\approx0{,}9\,\mathrm{N}\).</p>` },
+        problems:[
+          {q: L`Auf \(2\cdot10^{-6}\,\mathrm{C}\) wirkt eine Kraft von \(0{,}1\,\mathrm{N}\). Feldstärke?`,
+           a: L`<p>\(E=\dfrac{F}{q}=\dfrac{0{,}1}{2\cdot10^{-6}}=5\cdot10^{4}\,\mathrm{N/C}\).</p>`},
+          {q: L`Plattenkondensator, \(U=100\,\mathrm{V}\), Abstand \(2\,\mathrm{mm}\). Feldstärke?`,
+           a: L`<p>\(E=\dfrac{U}{d}=\dfrac{100}{0{,}002}=5\cdot10^{4}\,\mathrm{V/m}\).</p>`}
+        ]}},
+      {id:'p-e2', t:'Kondensator', h:'Kapazität, Feld im Plattenkondensator, gespeicherte Energie.', s:'review', learn:{
+        explain: L`<div class="keybox"><b>Kapazität:</b> \(C=\dfrac{Q}{U}\) (Farad). Plattenkondensator: \(C=\varepsilon_0\varepsilon_r\dfrac{A}{d}\).</div>
+        <p>Gespeicherte Energie: \(E=\tfrac12 C U^2\).</p>`,
+        example:{ task: L`\(C=10\,\mu\mathrm{F}\) an \(U=12\,\mathrm{V}\). Ladung und Energie?`,
+          solution: L`<p>\(Q=C U=1{,}2\cdot10^{-4}\,\mathrm{C}\); \(E=\tfrac12 C U^2=\tfrac12\cdot10^{-5}\cdot144\approx7{,}2\cdot10^{-4}\,\mathrm{J}\).</p>` },
+        problems:[
+          {q: L`Kondensator \(100\,\mu\mathrm{F}\), geladen auf \(50\,\mathrm{V}\). Gespeicherte Energie?`,
+           a: L`<p>\(E=\tfrac12\cdot10^{-4}\cdot2500=0{,}125\,\mathrm{J}\).</p>`},
+          {q: L`Wie ändert sich die Kapazität, wenn man den Plattenabstand halbiert?`,
+           a: L`<p>Sie verdoppelt sich (\(C\propto 1/d\)).</p>`}
+        ]}},
+      {id:'p-e3', t:'Stromkreise', h:'Strom, Spannung, Widerstand, Reihen-/Parallelschaltung, Ohmsches Gesetz.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Ohmsches Gesetz:</b> \(U=R\,I\). <b>Reihe:</b> \(R=R_1+R_2\) (gleicher Strom). <b>Parallel:</b> \(\dfrac1R=\dfrac1{R_1}+\dfrac1{R_2}\) (gleiche Spannung).</div>
+        <p>Leistung: \(P=U I=R I^2=\dfrac{U^2}{R}\).</p>`,
+        example:{ task: L`\(R_1=4\,\Omega\) und \(R_2=6\,\Omega\) in Reihe an \(20\,\mathrm{V}\). Strom?`,
+          solution: L`<p>\(R=10\,\Omega\); \(I=\dfrac{U}{R}=2\,\mathrm{A}\).</p>` },
+        problems:[
+          {q: L`An \(12\,\mathrm{V}\) hängt ein \(6\,\Omega\)-Widerstand. Strom und Leistung?`,
+           a: L`<p>\(I=2\,\mathrm{A}\); \(P=U I=24\,\mathrm{W}\).</p>`},
+          {q: L`Zwei \(10\,\Omega\)-Widerstände parallel. Gesamtwiderstand?`,
+           a: L`<p>\(\dfrac1R=\dfrac1{10}+\dfrac1{10}=\dfrac15\Rightarrow R=5\,\Omega\).</p>`}
+        ]}},
+      {id:'p-e4', t:'Magnetisches Feld & Lorentzkraft', h:'Feld von Strömen, Kraft auf bewegte Ladungen und Leiter.', s:'review', learn:{
+        explain: L`<div class="keybox"><b>Kraft auf einen Leiter:</b> \(F=B\,I\,l\). <b>Lorentzkraft</b> auf eine bewegte Ladung: \(F=q\,v\,B\) (bei \(v\perp B\)).</div>
+        <p>Die Richtung folgt aus der Drei-Finger-/Rechte-Hand-Regel.</p>`,
+        example:{ task: L`Leiter \(l=0{,}2\,\mathrm{m}\), \(I=3\,\mathrm{A}\), \(B=0{,}5\,\mathrm{T}\) (senkrecht). Kraft?`,
+          solution: L`<p>\(F=B I l=0{,}5\cdot3\cdot0{,}2=0{,}3\,\mathrm{N}\).</p>` },
+        problems:[
+          {q: L`Elektron (\(q=1{,}6\cdot10^{-19}\,\mathrm{C}\)) mit \(v=10^{6}\,\mathrm{m/s}\) senkrecht zu \(B=0{,}1\,\mathrm{T}\). Lorentzkraft?`,
+           a: L`<p>\(F=q v B=1{,}6\cdot10^{-19}\cdot10^{6}\cdot0{,}1=1{,}6\cdot10^{-14}\,\mathrm{N}\).</p>`},
+          {q: L`Leiter \(0{,}5\,\mathrm{m}\), \(B=0{,}2\,\mathrm{T}\); gewünschte Kraft \(0{,}4\,\mathrm{N}\). Welcher Strom?`,
+           a: L`<p>\(I=\dfrac{F}{B l}=\dfrac{0{,}4}{0{,}2\cdot0{,}5}=4\,\mathrm{A}\).</p>`}
+        ]}},
+      {id:'p-e5', t:'Elektromagnetische Induktion', h:'Induktionsgesetz, Lenzsche Regel, Generatorprinzip.', s:'review', learn:{
+        explain: L`<div class="keybox"><b>Induktionsgesetz:</b> \(U_{ind}=-N\dfrac{\Delta\Phi}{\Delta t}\) mit magnetischem Fluss \(\Phi=B\cdot A\).</div>
+        <p><b>Lenzsche Regel:</b> Der induzierte Strom wirkt seiner Ursache entgegen. Ein rotierender Leiter im Magnetfeld liefert eine Wechselspannung (Generator).</p>`,
+        example:{ task: L`Fläche \(0{,}1\,\mathrm{m^2}\); \(B\) ändert sich in \(0{,}2\,\mathrm{s}\) von \(0\) auf \(0{,}4\,\mathrm{T}\) (1 Windung). Induzierte Spannung?`,
+          solution: L`<p>\(U=\dfrac{\Delta\Phi}{\Delta t}=\dfrac{0{,}4\cdot0{,}1}{0{,}2}=0{,}2\,\mathrm{V}\).</p>` },
+        problems:[
+          {q: L`Ein Magnet wird schneller durch eine Spule bewegt. Was passiert mit der induzierten Spannung?`,
+           a: L`<p>Sie wird grösser — sie hängt von der Änderungsrate des Flusses ab.</p>`},
+          {q: L`Spule mit \(200\) Windungen, \(\Delta\Phi=0{,}01\,\mathrm{Wb}\) in \(0{,}1\,\mathrm{s}\). Induzierte Spannung?`,
+           a: L`<p>\(U=N\dfrac{\Delta\Phi}{\Delta t}=200\cdot\dfrac{0{,}01}{0{,}1}=20\,\mathrm{V}\).</p>`}
+        ]}}
+    ]},
+    {name:'Optik', topics:[
+      {id:'p-o1', t:'Geometrische Optik', h:'Reflexion, Brechung, Linsen und Abbildungen.', s:'deepen', learn:{
+        explain: L`<p><b>Reflexion:</b> Einfallswinkel = Ausfallswinkel. <b>Brechung</b> (Snellius): \(n_1\sin\alpha_1=n_2\sin\alpha_2\).</p>
+        <div class="keybox"><b>Sammellinse:</b> \(\dfrac1f=\dfrac1g+\dfrac1b\) (Gegenstandsweite \(g\), Bildweite \(b\)); Abbildungsmassstab \(\dfrac{B}{G}=\dfrac{b}{g}\).</div>`,
+        example:{ task: L`Gegenstand \(g=30\,\mathrm{cm}\) vor einer Linse mit \(f=10\,\mathrm{cm}\). Bildweite?`,
+          solution: L`<p>\(\dfrac1b=\dfrac1f-\dfrac1g=\dfrac1{10}-\dfrac1{30}=\dfrac{2}{30}\Rightarrow b=15\,\mathrm{cm}\).</p>` },
+        problems:[
+          {q: L`Licht geht von Luft (\(n=1\)) in Glas (\(n=1{,}5\)), Einfallswinkel \(30^\circ\). Brechungswinkel?`,
+           a: L`<p>\(\sin\alpha_2=\dfrac{\sin30^\circ}{1{,}5}=0{,}333\Rightarrow\alpha_2\approx19{,}5^\circ\).</p>`},
+          {q: L`\(f=20\,\mathrm{cm}\), \(g=60\,\mathrm{cm}\). Bildweite?`,
+           a: L`<p>\(\dfrac1b=\dfrac1{20}-\dfrac1{60}=\dfrac{2}{60}\Rightarrow b=30\,\mathrm{cm}\).</p>`}
+        ]}},
+      {id:'p-o2', t:'Wellenoptik', h:'Interferenz und Beugung (Doppelspalt, Gitter).', s:'deepen', learn:{
+        explain: L`<p>Kohärentes Licht kann sich verstärken oder auslöschen (Interferenz) — das zeigt die Wellennatur des Lichts.</p>
+        <div class="keybox"><b>Maxima am Doppelspalt/Gitter:</b> \(d\sin\alpha=k\,\lambda\) (\(d\) = Spalt-/Gitterabstand, \(k=0,1,2,\dots\)).</div>`,
+        example:{ task: L`Doppelspalt \(d=0{,}1\,\mathrm{mm}\), \(\lambda=500\,\mathrm{nm}\), 1. Maximum. Winkel?`,
+          solution: L`<p>\(\sin\alpha=\dfrac{\lambda}{d}=\dfrac{5\cdot10^{-7}}{10^{-4}}=5\cdot10^{-3}\Rightarrow\alpha\approx0{,}29^\circ\).</p>` },
+        problems:[
+          {q: L`Gitter mit \(500\) Linien/mm, \(\lambda=600\,\mathrm{nm}\). Winkel des 1. Maximums?`,
+           a: L`<p>\(d=\dfrac{1}{500\,000}\,\mathrm{m}=2\cdot10^{-6}\,\mathrm{m}\); \(\sin\alpha=\dfrac{\lambda}{d}=0{,}3\Rightarrow\alpha\approx17{,}5^\circ\).</p>`},
+          {q: L`Was beweist das Interferenzmuster am Doppelspalt über die Natur des Lichts?`,
+           a: L`<p>Licht verhält sich als Welle.</p>`}
+        ]}}
+    ]},
+    {name:'Moderne Physik', topics:[
+      {id:'p-q1', t:'Elektromagnetische Wellen', h:'Spektrum, Ausbreitung, Eigenschaften von Licht als Welle.', s:'deepen', learn:{
+        explain: L`<p>Eine EM-Welle besteht aus schwingendem elektrischem und magnetischem Feld und breitet sich im Vakuum mit \(c=3\cdot10^{8}\,\mathrm{m/s}\) aus. Es gilt \(c=\lambda f\).</p>
+        <div class="keybox"><b>Spektrum</b> (steigende Frequenz): Radio → Mikrowelle → Infrarot → sichtbar → UV → Röntgen → Gamma.</div>`,
+        example:{ task: L`Radiowelle mit \(f=100\,\mathrm{MHz}\). Wellenlänge?`,
+          solution: L`<p>\(\lambda=\dfrac{c}{f}=\dfrac{3\cdot10^{8}}{10^{8}}=3\,\mathrm{m}\).</p>` },
+        problems:[
+          {q: L`Rotes Licht mit \(\lambda=700\,\mathrm{nm}\). Frequenz?`,
+           a: L`<p>\(f=\dfrac{c}{\lambda}=\dfrac{3\cdot10^{8}}{7\cdot10^{-7}}\approx4{,}3\cdot10^{14}\,\mathrm{Hz}\).</p>`},
+          {q: L`Ordne nach zunehmender Frequenz: Röntgen, Radio, sichtbares Licht.`,
+           a: L`<p>Radio &lt; sichtbar &lt; Röntgen.</p>`}
+        ]}},
+      {id:'p-q2', t:'Quantenphysik', h:'Photoeffekt, Photonen, Welle-Teilchen-Dualismus.', s:'review', learn:{
+        explain: L`<div class="keybox"><b>Photonenenergie:</b> \(E=h f=\dfrac{h c}{\lambda}\), \(h=6{,}63\cdot10^{-34}\).</div>
+        <p><b>Photoeffekt:</b> Erst ab einer Grenzfrequenz werden Elektronen ausgelöst: \(E_{kin}=h f-W_A\) (\(W_A\) = Austrittsarbeit). Licht zeigt Wellen- <i>und</i> Teilchencharakter.</p>`,
+        example:{ task: L`Photon mit \(\lambda=500\,\mathrm{nm}\). Energie?`,
+          solution: L`<p>\(E=\dfrac{h c}{\lambda}=\dfrac{6{,}63\cdot10^{-34}\cdot3\cdot10^{8}}{5\cdot10^{-7}}\approx4\cdot10^{-19}\,\mathrm{J}\).</p>` },
+        problems:[
+          {q: L`Energie eines Photons mit \(f=6\cdot10^{14}\,\mathrm{Hz}\)?`,
+           a: L`<p>\(E=h f=6{,}63\cdot10^{-34}\cdot6\cdot10^{14}\approx4\cdot10^{-19}\,\mathrm{J}\).</p>`},
+          {q: L`Austrittsarbeit \(3\cdot10^{-19}\,\mathrm{J}\); ein Photon liefert \(5\cdot10^{-19}\,\mathrm{J}\). Maximale kinetische Energie der Elektronen?`,
+           a: L`<p>\(E_{kin}=5\cdot10^{-19}-3\cdot10^{-19}=2\cdot10^{-19}\,\mathrm{J}\).</p>`}
+        ]}},
+      {id:'p-q3', t:'Atomphysik', h:'Bohrsches Modell, Energieniveaus, Linienspektren.', s:'deepen', learn:{
+        explain: L`<p>Im Bohr-Modell bewegen sich Elektronen auf diskreten Energieniveaus. Ein Übergang setzt Energie \(\Delta E=h f\) frei oder auf → charakteristische <b>Linienspektren</b>.</p>
+        <div class="keybox">Wasserstoff: \(E_n=-\dfrac{13{,}6\,\mathrm{eV}}{n^2}\).</div>`,
+        example:{ task: L`Übergang \(n=2\to n=1\) in Wasserstoff. Emittierte Energie?`,
+          solution: L`<p>\(E_1=-13{,}6\,\mathrm{eV}\), \(E_2=-3{,}4\,\mathrm{eV}\); \(\Delta E=10{,}2\,\mathrm{eV}\).</p>` },
+        problems:[
+          {q: L`Warum zeigen Gase Linien- statt kontinuierliche Spektren?`,
+           a: L`<p>Nur bestimmte, diskrete Energieübergänge zwischen den festen Niveaus sind möglich.</p>`},
+          {q: L`Energie des Grundzustands (\(n=1\)) von Wasserstoff?`,
+           a: L`<p>\(E_1=-13{,}6\,\mathrm{eV}\).</p>`}
+        ]}},
+      {id:'p-q4', t:'Kernphysik & Radioaktivität', h:'Zerfallsarten, Halbwertszeit, Kernreaktionen.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Zerfallsarten:</b> \(\alpha\) (Heliumkern), \(\beta\) (Elektron/Positron), \(\gamma\) (Photon).</div>
+        <p><b>Halbwertszeit</b> \(T_{1/2}\): Nach jeder \(T_{1/2}\) halbiert sich die Anzahl. \(N(t)=N_0\cdot\left(\tfrac12\right)^{t/T_{1/2}}\).</p>`,
+        example:{ task: L`Wie viel Anteil bleibt nach 3 Halbwertszeiten übrig?`,
+          solution: L`<p>\(\left(\tfrac12\right)^3=\tfrac18\).</p>` },
+        problems:[
+          {q: L`\(800\) Kerne, \(T_{1/2}=5\,\mathrm{min}\). Wie viele nach \(15\,\mathrm{min}\)?`,
+           a: L`<p>\(15/5=3\) HWZ → \(800\cdot\tfrac18=100\).</p>`},
+          {q: L`Welche Strahlung wird im Magnetfeld nicht abgelenkt?`,
+           a: L`<p>\(\gamma\)-Strahlung (ungeladen).</p>`}
+        ]}},
+      {id:'p-q5', t:'Spezielle Relativitätstheorie', h:'Zeitdilatation, Längenkontraktion, Masse-Energie-Äquivalenz.', s:'deepen', learn:{
+        explain: L`<p>Die Lichtgeschwindigkeit \(c\) ist für alle Beobachter gleich. Daraus folgen <b>Zeitdilatation</b> und <b>Längenkontraktion</b>.</p>
+        <div class="keybox">\(\Delta t=\gamma\,\Delta t_0\) mit \(\gamma=\dfrac{1}{\sqrt{1-v^2/c^2}}\). Masse-Energie: \(E=m c^2\).</div>`,
+        example:{ task: L`Ruheenergie von \(1\,\mathrm{g}\) Masse?`,
+          solution: L`<p>\(E=m c^2=0{,}001\cdot(3\cdot10^{8})^2=9\cdot10^{13}\,\mathrm{J}\).</p>` },
+        problems:[
+          {q: L`Bei \(v=0{,}6c\): Lorentzfaktor \(\gamma\)?`,
+           a: L`<p>\(\gamma=\dfrac{1}{\sqrt{1-0{,}36}}=\dfrac{1}{0{,}8}=1{,}25\).</p>`},
+          {q: L`Ruheenergie eines Elektrons (\(m=9{,}11\cdot10^{-31}\,\mathrm{kg}\))?`,
+           a: L`<p>\(E=m c^2=9{,}11\cdot10^{-31}\cdot9\cdot10^{16}\approx8{,}2\cdot10^{-14}\,\mathrm{J}\).</p>`}
+        ]}}
+    ]}
+  ]
+});
+SUBJECTS.push({
+  id:'chemie', name:'Chemie', dot:'#b23f36',
+  note:'Chemie hattest du zuletzt in der Sekundarstufe I. Die Grundlagen (Stoffe, Reaktionen, Atombau, Bindung, einfache Organik) sind Wiederholung — der grosse Oberstufen-Block (Gleichgewicht, Energetik, Elektrochemie, Reaktionsmechanismen) ist neu.',
+  areas:[
+    {name:'Grundlagen & Atombau', topics:[
+      {id:'c-g1', t:'Stoffe & Stofftrennung', h:'Reinstoffe/Gemische, Stoffeigenschaften, Trennverfahren.', s:'review', learn:{
+        explain: L`<div class="keybox"><b>Reinstoff</b> (Element oder Verbindung, feste Eigenschaften) vs. <b>Gemisch</b> (homogen: Lösung/Legierung; heterogen: Suspension/Emulsion).</div>
+        <p>Trennverfahren nutzen Eigenschaftsunterschiede: <b>Filtrieren</b> (Teilchengrösse), <b>Destillieren</b> (Siedepunkt), <b>Chromatographie</b> (Adsorption), <b>Extrahieren</b> (Löslichkeit).</p>`,
+        example:{ task: L`Wie trennt man gelöstes Salz von Wasser?`,
+          solution: L`<p>Durch Destillation/Eindampfen: Wasser verdampft, das Salz bleibt zurück.</p>` },
+        problems:[
+          {q: L`Welches Trennverfahren nutzt unterschiedliche Siedepunkte?`,
+           a: L`<p>Die Destillation.</p>`},
+          {q: L`Wie trennt man Sand von Wasser?`,
+           a: L`<p>Durch Filtration.</p>`}
+        ]}},
+      {id:'c-g2', t:'Chemische Reaktion & Gleichungen', h:'Reaktionsschema, Reaktionsgleichungen ausgleichen, Massenerhaltung.', s:'review', learn:{
+        explain: L`<p>Bei einer Reaktion werden Edukte zu Produkten umgewandelt (mit Energieumsatz). Wegen der <b>Massenerhaltung</b> muss jedes Element auf beiden Seiten gleich oft vorkommen.</p>
+        <div class="keybox">Ausgleichen nur über <b>Koeffizienten</b> — die Indizes in den Formeln dürfen nicht verändert werden.</div>`,
+        example:{ task: L`Gleiche aus: \(\ce{H2 + O2 -> H2O}\).`,
+          solution: L`<p>\(\ce{2 H2 + O2 -> 2 H2O}\).</p>` },
+        problems:[
+          {q: L`Gleiche aus: \(\ce{C + O2 -> CO2}\).`,
+           a: L`<p>Bereits ausgeglichen (\(1:1:1\)).</p>`},
+          {q: L`Gleiche aus: \(\ce{Fe + O2 -> Fe2O3}\).`,
+           a: L`<p>\(\ce{4 Fe + 3 O2 -> 2 Fe2O3}\).</p>`}
+        ]}},
+      {id:'c-g3', t:'Atombau', h:'Kern-Hülle-Modell, Protonen/Neutronen/Elektronen, Isotope.', s:'review', learn:{
+        explain: L`<div class="keybox">Kern aus <b>Protonen</b> (Ordnungszahl \(Z\)) und <b>Neutronen</b>; Hülle aus <b>Elektronen</b>. Neutral: \(Z\) Protonen = \(Z\) Elektronen. Massenzahl \(A=\)Protonen + Neutronen.</div>
+        <p><b>Isotope:</b> gleiche Protonenzahl, verschiedene Neutronenzahl.</p>`,
+        example:{ task: L`\(\ce{^{40}Ca}\) (\(Z=20\)). Zahl an Protonen, Neutronen, Elektronen?`,
+          solution: L`<p>20 Protonen, 20 Neutronen (\(40-20\)), 20 Elektronen.</p>` },
+        problems:[
+          {q: L`Ein Atom hat 17 Protonen und 18 Neutronen. Massenzahl und Element?`,
+           a: L`<p>\(A=35\); Element Chlor (\(\ce{Cl}\)).</p>`},
+          {q: L`Was unterscheidet zwei Isotope desselben Elements?`,
+           a: L`<p>Die Neutronenzahl (die Protonenzahl ist gleich).</p>`}
+        ]}},
+      {id:'c-g4', t:'Orbitalmodell & Elektronenkonfiguration', h:'Schalen/Orbitale, Besetzungsregeln — über das Sek-I-Schalenmodell hinaus.', s:'new', learn:{
+        explain: L`<p>Elektronen besetzen <b>Orbitale</b> (s, p, d) nach steigender Energie (Aufbauprinzip, Pauli, Hund). Die <b>Valenzelektronen</b> bestimmen das chemische Verhalten.</p>
+        <div class="keybox">Beispiel Sauerstoff (\(Z=8\)): \(1s^2\,2s^2\,2p^4\).</div>`,
+        example:{ task: L`Elektronenkonfiguration von Natrium (\(Z=11\))?`,
+          solution: L`<p>\(1s^2\,2s^2\,2p^6\,3s^1\).</p>` },
+        problems:[
+          {q: L`Wie viele Valenzelektronen hat Sauerstoff (\(2s^2\,2p^4\))?`,
+           a: L`<p>Sechs.</p>`},
+          {q: L`Elektronenkonfiguration von Kohlenstoff (\(Z=6\))?`,
+           a: L`<p>\(1s^2\,2s^2\,2p^2\).</p>`}
+        ]}},
+      {id:'c-g5', t:'Periodensystem & Periodizität', h:'Ordnungsprinzip, Trends (Atomradius, Elektronegativität, Ionisierung).', s:'deepen', learn:{
+        explain: L`<p>Anordnung nach steigender Kernladung: <b>Gruppen</b> (senkrecht, gleiche Valenzelektronenzahl), <b>Perioden</b> (waagrecht).</p>
+        <div class="keybox"><b>Trends:</b> Atomradius nimmt nach rechts ab und nach unten zu; Elektronegativität und Ionisierungsenergie nehmen nach rechts oben zu.</div>`,
+        example:{ task: L`Was hat die höhere Elektronegativität: \(\ce{F}\) oder \(\ce{I}\)?`,
+          solution: L`<p>Fluor (\(\ce{F}\)) — es steht weiter rechts oben.</p>` },
+        problems:[
+          {q: L`Welches Element hat den grösseren Atomradius: \(\ce{Na}\) oder \(\ce{Cl}\)?`,
+           a: L`<p>Natrium (weiter links in der Periode).</p>`},
+          {q: L`In welche Richtung im PSE steigt die Elektronegativität?`,
+           a: L`<p>Nach rechts oben (zum Fluor).</p>`}
+        ]}},
+      {id:'c-g6', t:'Stöchiometrie', h:'Stoffmenge, molare Masse, Konzentration, Rechnen mit Gleichungen.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Stoffmenge</b> \(n\) (mol): \(n=\dfrac{m}{M}\) (molare Masse \(M\) in g/mol). \(N_A=6{,}022\cdot10^{23}\) Teilchen/mol. <b>Konzentration</b> \(c=\dfrac{n}{V}\).</div>
+        <p>In Reaktionsgleichungen entsprechen die Koeffizienten den Stoffmengenverhältnissen.</p>`,
+        example:{ task: L`Wie viel mol sind \(36\,\mathrm{g}\) Wasser (\(M=18\,\mathrm{g/mol}\))?`,
+          solution: L`<p>\(n=\dfrac{m}{M}=\dfrac{36}{18}=2\,\mathrm{mol}\).</p>` },
+        problems:[
+          {q: L`Molare Masse von \(\ce{CO2}\) (\(\ce{C}=12\), \(\ce{O}=16\))?`,
+           a: L`<p>\(12+2\cdot16=44\,\mathrm{g/mol}\).</p>`},
+          {q: L`Welche Konzentration hat \(0{,}5\,\mathrm{mol}\) in \(2\,\mathrm{L}\) Lösung?`,
+           a: L`<p>\(c=\dfrac{n}{V}=0{,}25\,\mathrm{mol/L}\).</p>`}
+        ]}}
+    ]},
+    {name:'Chemische Bindung', topics:[
+      {id:'c-b1', t:'Ionenbindung & Salze', h:'Ionenbildung, Ionengitter, Eigenschaften von Salzen.', s:'review', learn:{
+        explain: L`<p>Metall + Nichtmetall: Elektronenübergang bildet <b>Kationen</b> (+) und <b>Anionen</b> (−), die sich im <b>Ionengitter</b> anziehen.</p>
+        <div class="keybox">Eigenschaften von Salzen: hohe Schmelzpunkte, spröde, leiten den Strom als Schmelze oder Lösung (frei bewegliche Ionen).</div>`,
+        example:{ task: L`Wie bildet sich \(\ce{NaCl}\)?`,
+          solution: L`<p>\(\ce{Na}\) gibt ein Elektron ab (\(\ce{Na+}\)), \(\ce{Cl}\) nimmt es auf (\(\ce{Cl-}\)): \(\ce{2 Na + Cl2 -> 2 NaCl}\).</p>` },
+        problems:[
+          {q: L`Warum leitet eine Kochsalzlösung den elektrischen Strom?`,
+           a: L`<p>Weil frei bewegliche Ionen vorliegen.</p>`},
+          {q: L`Welche Ionen bilden Magnesium und Sauerstoff in \(\ce{MgO}\)?`,
+           a: L`<p>\(\ce{Mg^2+}\) und \(\ce{O^2-}\).</p>`}
+        ]}},
+      {id:'c-b2', t:'Elektronenpaarbindung & Molekülgeometrie', h:'Lewis-Formeln und Molekülform (VSEPR/EPA-Modell).', s:'deepen', learn:{
+        explain: L`<p>Nichtmetalle teilen sich Elektronenpaare (kovalente Bindung). <b>Lewis-Formeln</b> zeigen bindende und freie Elektronenpaare.</p>
+        <div class="keybox"><b>EPA/VSEPR:</b> Elektronenpaare stossen sich maximal ab → Formen wie linear, gewinkelt, trigonal-planar, tetraedrisch.</div>`,
+        example:{ task: L`Welche Form hat das \(\ce{H2O}\)-Molekül?`,
+          solution: L`<p>Gewinkelt (\(\approx104{,}5^\circ\)) — bedingt durch zwei freie Elektronenpaare am Sauerstoff.</p>` },
+        problems:[
+          {q: L`Welche Molekülform hat \(\ce{CH4}\)?`,
+           a: L`<p>Tetraedrisch (\(\approx109{,}5^\circ\)).</p>`},
+          {q: L`Welche Molekülform hat \(\ce{CO2}\)?`,
+           a: L`<p>Linear (keine freien Paare am C, zwei Doppelbindungen).</p>`}
+        ]}},
+      {id:'c-b3', t:'Elektronegativität & Polarität', h:'Polare Bindungen, Dipolmoleküle.', s:'deepen', learn:{
+        explain: L`<p><b>Elektronegativität (EN)</b> misst die Anziehung der Bindungselektronen. Grosse \(\Delta\)EN → polare Bindung (Partialladungen \(\delta+/\delta-\)); sehr gross → ionisch.</p>
+        <div class="keybox">Ein Molekül ist ein <b>Dipol</b>, wenn sich die Bindungsdipole wegen der Geometrie nicht aufheben.</div>`,
+        example:{ task: L`Ist \(\ce{CO2}\) ein Dipolmolekül?`,
+          solution: L`<p>Nein: Die Bindungen sind polar, aber wegen der linearen Form heben sich die Dipole auf.</p>` },
+        problems:[
+          {q: L`Ist \(\ce{H2O}\) ein Dipolmolekül?`,
+           a: L`<p>Ja — durch die gewinkelte Form heben sich die Dipole nicht auf.</p>`},
+          {q: L`Welche Bindung ist stärker polar: \(\ce{C-H}\) oder \(\ce{O-H}\)?`,
+           a: L`<p>\(\ce{O-H}\) (grössere \(\Delta\)EN).</p>`}
+        ]}},
+      {id:'c-b4', t:'Metallbindung', h:'Elektronengasmodell, Eigenschaften von Metallen.', s:'review', learn:{
+        explain: L`<div class="keybox"><b>Elektronengasmodell:</b> positive Atomrümpfe in einem „See" frei beweglicher Elektronen.</div>
+        <p>Das erklärt elektrische und thermische Leitfähigkeit, Verformbarkeit (duktil) und metallischen Glanz.</p>`,
+        example:{ task: L`Warum sind Metalle verformbar?`,
+          solution: L`<p>Die Gitterschichten lassen sich gegeneinander verschieben; das Elektronengas hält den Verbund weiter zusammen.</p>` },
+        problems:[
+          {q: L`Warum leiten Metalle den elektrischen Strom?`,
+           a: L`<p>Durch die frei beweglichen Elektronen (Elektronengas).</p>`},
+          {q: L`Nenne zwei typische Metalleigenschaften.`,
+           a: L`<p>Zum Beispiel elektrische Leitfähigkeit und Verformbarkeit (auch Glanz).</p>`}
+        ]}},
+      {id:'c-b5', t:'Zwischenmolekulare Kräfte', h:'Van-der-Waals-Kräfte, Wasserstoffbrücken und ihre Folgen.', s:'new', learn:{
+        explain: L`<div class="keybox">Kräfte zwischen Molekülen (schwächer als Bindungen): <b>Van-der-Waals</b> (mit Molekülgrösse steigend), <b>Dipol-Dipol</b>, <b>Wasserstoffbrücken</b> (H an N, O oder F).</div>
+        <p>Sie bestimmen Siede-/Schmelzpunkte und die Löslichkeit.</p>`,
+        example:{ task: L`Warum hat Wasser einen ungewöhnlich hohen Siedepunkt?`,
+          solution: L`<p>Wegen der starken Wasserstoffbrücken zwischen den Molekülen.</p>` },
+        problems:[
+          {q: L`Welche zwischenmolekulare Kraft wirkt (am stärksten) zwischen Wassermolekülen?`,
+           a: L`<p>Wasserstoffbrücken.</p>`},
+          {q: L`Warum steigt der Siedepunkt der Alkane mit der Kettenlänge?`,
+           a: L`<p>Grössere Moleküle haben stärkere Van-der-Waals-Kräfte.</p>`}
+        ]}}
+    ]},
+    {name:'Energetik, Kinetik & Gleichgewicht', topics:[
+      {id:'c-k1', t:'Energetik chemischer Reaktionen', h:'Exo-/endotherm, Reaktionsenthalpie, Energiediagramme.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>Exotherm:</b> gibt Energie ab, \(\Delta H<0\). <b>Endotherm:</b> nimmt Energie auf, \(\Delta H>0\).</div>
+        <p>Im Energiediagramm ist die <b>Aktivierungsenergie</b> \(E_A\) der „Berg"; \(\Delta H\) ist die Energiedifferenz zwischen Edukten und Produkten.</p>`,
+        example:{ task: L`Eine Verbrennung gibt Wärme ab. Welches Vorzeichen hat \(\Delta H\)?`,
+          solution: L`<p>Negativ — die Reaktion ist exotherm.</p>` },
+        problems:[
+          {q: L`Eine Reaktion hat \(\Delta H=+50\,\mathrm{kJ/mol}\). Exo- oder endotherm?`,
+           a: L`<p>Endotherm (\(\Delta H>0\)).</p>`},
+          {q: L`Was beschreibt die Aktivierungsenergie?`,
+           a: L`<p>Die Energie, die nötig ist, um die Reaktion in Gang zu bringen (Energieberg).</p>`}
+        ]}},
+      {id:'c-k2', t:'Reaktionsgeschwindigkeit & Katalyse', h:'Einflussgrössen, Aktivierungsenergie, Wirkung von Katalysatoren.', s:'new', learn:{
+        explain: L`<div class="keybox">Einflüsse auf die Geschwindigkeit: Konzentration, Temperatur (RGT-Regel: \(+10\,^\circ\mathrm C\approx\) 2- bis 3-fach), Oberfläche/Zerteilungsgrad, Katalysator.</div>
+        <p>Ein <b>Katalysator</b> senkt die Aktivierungsenergie und wird selbst nicht verbraucht.</p>`,
+        example:{ task: L`Wie wirkt ein Katalysator?`,
+          solution: L`<p>Er senkt die Aktivierungsenergie, sodass die Reaktion schneller läuft — ohne selbst verbraucht zu werden.</p>` },
+        problems:[
+          {q: L`Was passiert mit der Reaktionsgeschwindigkeit bei höherer Temperatur?`,
+           a: L`<p>Sie steigt, weil mehr Teilchen genügend Energie haben.</p>`},
+          {q: L`Wird ein Katalysator bei der Reaktion verbraucht?`,
+           a: L`<p>Nein.</p>`}
+        ]}},
+      {id:'c-k3', t:'Chemisches Gleichgewicht & MWG', h:'Gleichgewichtszustand, Massenwirkungsgesetz, Gleichgewichtskonstante.', s:'new', learn:{
+        explain: L`<p>Umkehrbare Reaktionen erreichen ein <b>dynamisches Gleichgewicht</b> (Hin- und Rückreaktion gleich schnell).</p>
+        <div class="keybox"><b>MWG:</b> für \(\ce{aA + bB <=> cC + dD}\) gilt \(K=\dfrac{[C]^c[D]^d}{[A]^a[B]^b}\). Grosses \(K\) → Produkte überwiegen.</div>`,
+        example:{ task: L`Was bedeutet ein grosser Wert von \(K\)?`,
+          solution: L`<p>Im Gleichgewicht liegen überwiegend Produkte vor.</p>` },
+        problems:[
+          {q: L`Für \(\ce{A <=> B}\) ist \([B]=0{,}8\), \([A]=0{,}2\) (mol/L). Wie gross ist \(K\)?`,
+           a: L`<p>\(K=\dfrac{[B]}{[A]}=\dfrac{0{,}8}{0{,}2}=4\).</p>`},
+          {q: L`Was bedeutet „dynamisches" Gleichgewicht?`,
+           a: L`<p>Hin- und Rückreaktion laufen weiter, aber gleich schnell — die Konzentrationen bleiben konstant.</p>`}
+        ]}},
+      {id:'c-k4', t:'Prinzip von Le Chatelier', h:'Verschiebung durch Druck, Temperatur und Konzentration.', s:'new', learn:{
+        explain: L`<p><b>Prinzip vom kleinsten Zwang:</b> Stört man ein Gleichgewicht, verschiebt es sich so, dass die Störung verringert wird.</p>
+        <div class="keybox">Druckerhöhung → Seite mit weniger Gasteilchen. Temperaturerhöhung → in die endotherme Richtung.</div>`,
+        example:{ task: L`\(\ce{N2 + 3 H2 <=> 2 NH3}\) (exotherm). Wohin verschiebt eine Druckerhöhung das Gleichgewicht?`,
+          solution: L`<p>Nach rechts — dorthin, wo weniger Gasmoleküle stehen (\(4\to2\)).</p>` },
+        problems:[
+          {q: L`Bei einer exothermen Reaktion wird die Temperatur erhöht. Wohin verschiebt sich das Gleichgewicht?`,
+           a: L`<p>Nach links (zur endothermen Richtung, also zu den Edukten).</p>`},
+          {q: L`Man entfernt laufend ein Produkt. Was passiert mit dem Gleichgewicht?`,
+           a: L`<p>Es verschiebt sich zur Produktseite (es wird mehr Produkt nachgebildet).</p>`}
+        ]}}
+    ]},
+    {name:'Säuren, Basen & Redox', topics:[
+      {id:'c-r1', t:'Säuren & Basen (Brønsted)', h:'Protonendonator/-akzeptor, korrespondierende Paare.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Säure</b> = Protonendonator (gibt \(\ce{H+}\) ab), <b>Base</b> = Protonenakzeptor (nimmt \(\ce{H+}\) auf).</div>
+        <p><b>Korrespondierende Paare</b> unterscheiden sich um ein Proton. Wasser ist amphoter (kann beides).</p>`,
+        example:{ task: L`\(\ce{HCl + H2O -> Cl- + H3O+}\). Nenne die korrespondierenden Paare.`,
+          solution: L`<p>\(\ce{HCl}/\ce{Cl-}\) und \(\ce{H2O}/\ce{H3O+}\).</p>` },
+        problems:[
+          {q: L`Was ist eine Brønsted-Base?`,
+           a: L`<p>Ein Protonenakzeptor.</p>`},
+          {q: L`Nenne die korrespondierende Base zu \(\ce{NH4+}\).`,
+           a: L`<p>\(\ce{NH3}\).</p>`}
+        ]}},
+      {id:'c-r2', t:'pH-Wert & Titration', h:'pH/pOH, Säurestärke (Ks/pKs), Neutralisation, Titrationskurven.', s:'new', learn:{
+        explain: L`<div class="keybox">\(\mathrm{pH}=-\log[\ce{H3O+}]\); \(\mathrm{pH}+\mathrm{pOH}=14\) (bei \(25\,^\circ\mathrm C\)).</div>
+        <p>Neutralisation: \(\ce{H3O+ + OH- -> 2 H2O}\). Bei einer <b>Titration</b> wird mit einer Masslösung bis zum Äquivalenzpunkt gemessen.</p>`,
+        example:{ task: L`\([\ce{H3O+}]=10^{-3}\,\mathrm{mol/L}\). Wie gross ist der pH-Wert?`,
+          solution: L`<p>\(\mathrm{pH}=-\log(10^{-3})=3\).</p>` },
+        problems:[
+          {q: L`Eine Lösung hat \(\mathrm{pH}=11\). Sauer oder basisch?`,
+           a: L`<p>Basisch (\(\mathrm{pH}>7\)).</p>`},
+          {q: L`\([\ce{H3O+}]=10^{-5}\,\mathrm{mol/L}\). pH und pOH?`,
+           a: L`<p>\(\mathrm{pH}=5\), \(\mathrm{pOH}=9\).</p>`}
+        ]}},
+      {id:'c-r3', t:'Redoxreaktionen & Oxidationszahlen', h:'Elektronenübergang, Oxidationszahlen, Redoxgleichungen.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Oxidation</b> = Elektronenabgabe (OZ steigt), <b>Reduktion</b> = Elektronenaufnahme (OZ sinkt). Das Reduktionsmittel wird oxidiert.</div>
+        <p>Regeln für Oxidationszahlen: Element \(=0\), einfaches Ion \(=\) Ladung, \(\ce{O}\) meist \(-2\), \(\ce{H}\) meist \(+1\).</p>`,
+        example:{ task: L`Welche Oxidationszahl hat Eisen in \(\ce{Fe2O3}\)?`,
+          solution: L`<p>\(\ce{O}=-2\); \(2\cdot\mathrm{OZ(Fe)}+3\cdot(-2)=0\Rightarrow \mathrm{OZ(Fe)}=+3\).</p>` },
+        problems:[
+          {q: L`Oxidationszahl von Schwefel in \(\ce{SO4^2-}\)?`,
+           a: L`<p>\(4\cdot(-2)+\mathrm{OZ(S)}=-2\Rightarrow \mathrm{OZ(S)}=+6\).</p>`},
+          {q: L`\(\ce{Zn + Cu^2+ -> Zn^2+ + Cu}\): Was wird oxidiert?`,
+           a: L`<p>Zink — es gibt Elektronen ab (OZ \(0\to+2\)).</p>`}
+        ]}},
+      {id:'c-r4', t:'Elektrochemie', h:'Galvanische Zellen, Spannungsreihe, Elektrolyse.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>Galvanische Zelle:</b> freiwillige Redoxreaktion liefert Spannung. Anode = Oxidation (−), Kathode = Reduktion (+). \(U=E_{\text{Kathode}}-E_{\text{Anode}}\).</div>
+        <p>Die <b>Spannungsreihe</b> sagt Richtung und Spannung voraus. <b>Elektrolyse:</b> eine erzwungene Reaktion durch Stromzufuhr.</p>`,
+        example:{ task: L`Daniell-Element (\(\ce{Zn}\)/\(\ce{Cu}\)): Welche Elektrode ist die Anode?`,
+          solution: L`<p>Die Zink-Elektrode — Zink ist unedler und wird oxidiert.</p>` },
+        problems:[
+          {q: L`An welcher Elektrode findet die Reduktion statt?`,
+           a: L`<p>An der Kathode.</p>`},
+          {q: L`Was unterscheidet eine galvanische Zelle von einer Elektrolyse?`,
+           a: L`<p>Die galvanische Zelle liefert Energie (freiwillig); die Elektrolyse benötigt Energie (erzwungen).</p>`}
+        ]}}
+    ]},
+    {name:'Organische Chemie', topics:[
+      {id:'c-o1', t:'Kohlenwasserstoffe & Nomenklatur', h:'Alkane, Alkene, Alkine benennen; homologe Reihen.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Alkane</b> (nur Einfachbindungen, \(C_nH_{2n+2}\), Endung -an), <b>Alkene</b> (\(\ce{C=C}\), -en), <b>Alkine</b> (\(\ce{C#C}\), -in).</div>
+        <p>Homologe Reihe: Meth-, Eth-, Prop-, But-, Pent-… Der Stammname folgt der längsten Kette.</p>`,
+        example:{ task: L`Wie lautet die Summenformel von Propan?`,
+          solution: L`<p>\(\ce{C3H8}\) (\(n=3\): \(2\cdot3+2=8\) H-Atome).</p>` },
+        problems:[
+          {q: L`Wie heisst das Alkan mit 4 C-Atomen und wie lautet seine Summenformel?`,
+           a: L`<p>Butan, \(\ce{C4H10}\).</p>`},
+          {q: L`Welches Strukturmerkmal kennzeichnet ein Alken?`,
+           a: L`<p>Eine \(\ce{C=C}\)-Doppelbindung.</p>`}
+        ]}},
+      {id:'c-o2', t:'Isomerie', h:'Konstitutions-, Stereoisomerie, cis/trans.', s:'new', learn:{
+        explain: L`<p>Isomere haben die gleiche Summenformel, aber verschiedene Struktur.</p>
+        <div class="keybox"><b>Konstitutionsisomere</b> (verschiedene Verknüpfung). <b>Stereoisomere:</b> cis/trans an Doppelbindungen; Spiegelbildisomere (Enantiomere, Chiralität).</div>`,
+        example:{ task: L`\(\ce{C4H10}\) besitzt zwei Isomere. Welche?`,
+          solution: L`<p>n-Butan (gerade Kette) und Isobutan (verzweigt).</p>` },
+        problems:[
+          {q: L`Was sind Konstitutionsisomere?`,
+           a: L`<p>Verbindungen mit gleicher Summenformel, aber unterschiedlicher Verknüpfung der Atome.</p>`},
+          {q: L`Wodurch entsteht cis/trans-Isomerie?`,
+           a: L`<p>Durch die eingeschränkte Drehbarkeit um eine \(\ce{C=C}\)-Doppelbindung.</p>`}
+        ]}},
+      {id:'c-o3', t:'Funktionelle Gruppen', h:'Alkohole, Aldehyde, Ketone, Carbonsäuren, Ester und ihre Eigenschaften.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Alkohol</b> (\(\ce{-OH}\)), <b>Aldehyd</b> (\(\ce{-CHO}\)), <b>Keton</b> (\(\ce{C=O}\) innen), <b>Carbonsäure</b> (\(\ce{-COOH}\)), <b>Ester</b> (\(\ce{-COO-}\)).</div>
+        <p>Oxidationsreihe: Alkohol → Aldehyd → Carbonsäure.</p>`,
+        example:{ task: L`Welche funktionelle Gruppe kennzeichnet eine Carbonsäure?`,
+          solution: L`<p>Die Carboxygruppe \(\ce{-COOH}\).</p>` },
+        problems:[
+          {q: L`Welche funktionelle Gruppe hat ein Alkohol?`,
+           a: L`<p>Die Hydroxygruppe \(\ce{-OH}\).</p>`},
+          {q: L`Was entsteht bei der Oxidation eines primären Alkohols (erste Stufe)?`,
+           a: L`<p>Ein Aldehyd.</p>`}
+        ]}},
+      {id:'c-o4', t:'Reaktionstypen & Mechanismen', h:'Substitution, Addition, Eliminierung; Grundidee der Mechanismen.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>Substitution</b> (Austausch, z. B. radikalisch bei Alkanen), <b>Addition</b> (an Doppelbindungen), <b>Eliminierung</b> (Abspaltung, bildet eine Doppelbindung).</div>`,
+        example:{ task: L`Wie reagiert Ethen mit Brom?`,
+          solution: L`<p>Addition: \(\ce{C2H4 + Br2 -> C2H4Br2}\) (Bromwasser wird entfärbt).</p>` },
+        problems:[
+          {q: L`Welcher Reaktionstyp ist typisch für Alkene?`,
+           a: L`<p>Die Addition an die Doppelbindung.</p>`},
+          {q: L`Alkane reagieren mit Halogenen unter Lichteinwirkung. Welcher Reaktionstyp?`,
+           a: L`<p>(Radikalische) Substitution.</p>`}
+        ]}},
+      {id:'c-o5', t:'Aromaten', h:'Benzol, Mesomerie, Grundreaktionen.', s:'new', learn:{
+        explain: L`<p><b>Benzol</b> (\(\ce{C6H6}\)) ist ringförmig mit delokalisierten \(\pi\)-Elektronen (<b>Mesomerie</b>) und dadurch besonders stabil.</p>
+        <div class="keybox">Aromaten reagieren bevorzugt über <b>elektrophile Substitution</b> — so bleibt das stabile Ringsystem erhalten.</div>`,
+        example:{ task: L`Warum ist Benzol stabiler, als eine Struktur mit drei Doppelbindungen vermuten lässt?`,
+          solution: L`<p>Die sechs \(\pi\)-Elektronen sind über den ganzen Ring delokalisiert (Mesomerie).</p>` },
+        problems:[
+          {q: L`Welche Summenformel hat Benzol?`,
+           a: L`<p>\(\ce{C6H6}\).</p>`},
+          {q: L`Welcher Reaktionstyp ist für Aromaten typisch?`,
+           a: L`<p>Die elektrophile Substitution.</p>`}
+        ]}},
+      {id:'c-o6', t:'Makromoleküle & Kunststoffe', h:'Polymerisation, Polykondensation, Eigenschaften von Kunststoffen.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>Polymerisation:</b> Verknüpfung vieler Monomere an Doppelbindungen (z. B. Ethen → Polyethylen). <b>Polykondensation:</b> Verknüpfung unter Abspaltung kleiner Moleküle (z. B. Wasser).</div>
+        <p>Kunststofftypen: Thermoplaste, Duroplaste, Elastomere.</p>`,
+        example:{ task: L`Woraus entsteht Polyethylen?`,
+          solution: L`<p>Aus vielen Ethen-Molekülen durch Polymerisation.</p>` },
+        problems:[
+          {q: L`Was wird bei einer Polykondensation abgespalten?`,
+           a: L`<p>Kleine Moleküle, meist Wasser.</p>`},
+          {q: L`Worin unterscheiden sich Polymerisation und Polykondensation?`,
+           a: L`<p>Polymerisation läuft ohne Abspaltung (an Doppelbindungen), Polykondensation unter Abspaltung kleiner Moleküle.</p>`}
+        ]}},
+      {id:'c-o7', t:'Biomoleküle', h:'Kohlenhydrate, Fette, Proteine aus chemischer Sicht.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>Kohlenhydrate</b> (Zucker; Mono-/Di-/Polysaccharide). <b>Fette</b> (Ester aus Glycerin + 3 Fettsäuren). <b>Proteine</b> (Aminosäuren über Peptidbindungen).</div>
+        <p>Die funktionellen Gruppen bestimmen jeweils die chemischen Reaktionen.</p>`,
+        example:{ task: L`Aus welchen Bausteinen besteht ein Fett?`,
+          solution: L`<p>Aus Glycerin und drei Fettsäuren (ein Triester).</p>` },
+        problems:[
+          {q: L`Welche Bindung verknüpft Aminosäuren in einem Protein?`,
+           a: L`<p>Die Peptidbindung.</p>`},
+          {q: L`Zu welcher Stoffklasse gehört Glucose?`,
+           a: L`<p>Zu den Kohlenhydraten (ein Monosaccharid).</p>`}
+        ]}}
+    ]}
+  ]
+});
+SUBJECTS.push({
+  id:'biologie', name:'Biologie', dot:'#8a6d1f',
+  note:'Biologie hattest du bis zur 10. Klasse. Schulstoff wie Zell-, Ökologie- und klassische Genetik-Grundlagen ist Wiederholung — der molekulare Oberstufen-Stoff (Stoffwechsel, Molekulargenetik, Neurobiologie) ist neu. An der ETH ist die Evolution der rote Faden.',
+  areas:[
+    {name:'Cytologie', topics:[
+      {id:'b-c1', t:'Zelltypen & Zellorganellen', h:'Pro-/eukaryotische Zellen, Bau und Funktion der Organellen.', s:'deepen', learn:{
+        explain: L`<p><b>Prokaryoten</b> (Bakterien): kein echter Zellkern, keine Membranorganellen, DNA frei im Cytoplasma. <b>Eukaryoten</b> (Tier, Pflanze, Pilz): echter Zellkern und membranumhüllte Organellen.</p>
+        <div class="keybox">Wichtige Organellen: <b>Zellkern</b> (DNA), <b>Mitochondrium</b> (Zellatmung/ATP), <b>Ribosom</b> (Proteinsynthese), <b>ER</b> & <b>Golgi</b> (Synthese/Transport), <b>Chloroplast</b> (Fotosynthese, nur Pflanze), <b>Zellwand</b> & <b>Vakuole</b> (Pflanze).</div>`,
+        example:{ task: L`Nenne drei Merkmale, die eine Pflanzenzelle von einer Tierzelle unterscheiden.`,
+          solution: L`<p>Zellwand, Chloroplasten und eine grosse Zentralvakuole — alle drei fehlen der Tierzelle.</p>` },
+        problems:[
+          {q: L`Welches Organell liefert den Grossteil des ATP und wird „Kraftwerk der Zelle" genannt?`,
+           a: L`<p>Das Mitochondrium — dort läuft die Zellatmung ab.</p>`},
+          {q: L`Ein Organismus hat keinen Zellkern; die DNA liegt frei im Cytoplasma. Pro- oder eukaryotisch?`,
+           a: L`<p>Prokaryotisch (z. B. ein Bakterium).</p>`}
+        ]}},
+      {id:'b-c2', t:'Biomembran & Stofftransport', h:'Membranaufbau, Diffusion, Osmose, aktiver Transport.', s:'new', learn:{
+        explain: L`<p>Die <b>Biomembran</b> ist eine Phospholipid-Doppelschicht (hydrophile Köpfe aussen, hydrophobe Schwänze innen) mit eingelagerten Proteinen (Flüssigmosaik-Modell).</p>
+        <div class="keybox"><b>Diffusion:</b> passiv entlang des Konzentrationsgefälles. <b>Osmose:</b> Diffusion von Wasser durch eine semipermeable Membran. <b>Aktiver Transport:</b> gegen das Gefälle, verbraucht ATP (z. B. Na⁺/K⁺-Pumpe).</div>`,
+        example:{ task: L`Warum kann eine Zelle in reinem Wasser anschwellen und platzen?`,
+          solution: L`<p>Innen ist die Konzentration gelöster Teilchen höher; durch Osmose strömt Wasser hinein, bis die Zelle platzt.</p>` },
+        problems:[
+          {q: L`Ein Transport läuft gegen das Konzentrationsgefälle und verbraucht ATP. Wie heisst er?`,
+           a: L`<p>Aktiver Transport.</p>`},
+          {q: L`In welche Richtung bewegt sich Wasser bei der Osmose?`,
+           a: L`<p>Zur Seite mit der höheren Konzentration gelöster Teilchen (niedrigeres Wasserpotential).</p>`}
+        ]}},
+      {id:'b-c3', t:'Zellzyklus & Mitose', h:'Phasen der Zellteilung, Bedeutung für Wachstum.', s:'deepen', learn:{
+        explain: L`<p><b>Zellzyklus:</b> Interphase (G1, <b>S</b> = DNA-Verdopplung, G2) und Mitose.</p>
+        <div class="keybox"><b>Mitose-Phasen:</b> Prophase → Metaphase (Chromosomen in der Äquatorialebene) → Anaphase (Schwesterchromatiden trennen sich) → Telophase. Ergebnis: 2 genetisch identische Tochterzellen. Zweck: Wachstum und Regeneration.</div>`,
+        example:{ task: L`In welcher Phase wird die DNA verdoppelt?`,
+          solution: L`<p>In der S-Phase der Interphase, also vor der eigentlichen Mitose.</p>` },
+        problems:[
+          {q: L`Wie viele Tochterzellen entstehen bei einer Mitose und wie ähnlich sind sie der Mutterzelle?`,
+           a: L`<p>Zwei Tochterzellen, genetisch identisch zur Mutterzelle.</p>`},
+          {q: L`In welcher Phase werden die Schwesterchromatiden zu den Polen gezogen?`,
+           a: L`<p>In der Anaphase.</p>`}
+        ]}},
+      {id:'b-c4', t:'Meiose', h:'Reifeteilung, Rekombination, Bedeutung für die Vererbung.', s:'new', learn:{
+        explain: L`<p>Bei der <b>Meiose</b> entstehen aus einer diploiden (2n) Zelle in zwei Teilungsschritten vier haploide (n) Keimzellen.</p>
+        <div class="keybox">Genetische Vielfalt durch <b>Crossing-over</b> (Prophase I) und die zufällige Verteilung der Chromosomen. Grundlage der sexuellen Fortpflanzung.</div>`,
+        example:{ task: L`Warum ist die Meiose für die genetische Vielfalt wichtig?`,
+          solution: L`<p>Crossing-over und zufällige Chromosomenverteilung erzeugen immer neu kombinierte Keimzellen.</p>` },
+        problems:[
+          {q: L`Wie viele Zellen mit welchem Chromosomensatz entstehen aus einer diploiden Zelle durch Meiose?`,
+           a: L`<p>Vier haploide (n) Zellen.</p>`},
+          {q: L`Was geschieht beim Crossing-over?`,
+           a: L`<p>Homologe Chromosomen tauschen Abschnitte aus → neue Allelkombinationen.</p>`}
+        ]}}
+    ]},
+    {name:'Biomoleküle & Stoffwechsel', topics:[
+      {id:'b-s1', t:'Biomoleküle', h:'Kohlenhydrate, Lipide, Proteine, Nukleinsäuren — Bau und Funktion.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>Kohlenhydrate</b> (Bausteine: Monosaccharide wie Glucose) — Energie/Struktur. <b>Lipide</b> — Speicher & Membranen, unpolar. <b>Proteine</b> (Bausteine: Aminosäuren) — Enzyme, Struktur, Transport. <b>Nukleinsäuren</b> (Bausteine: Nukleotide) — Informationsspeicher (DNA/RNA).</div>`,
+        example:{ task: L`Aus welchen Bausteinen bestehen Proteine?`,
+          solution: L`<p>Aus Aminosäuren, die über Peptidbindungen verknüpft sind.</p>` },
+        problems:[
+          {q: L`Ordne zu: Glucose, Aminosäure, Nukleotid → Kohlenhydrat, Protein, Nukleinsäure.`,
+           a: L`<p>Glucose → Kohlenhydrat, Aminosäure → Protein, Nukleotid → Nukleinsäure.</p>`},
+          {q: L`Welche Biomolekülklasse bildet vor allem die Zellmembranen?`,
+           a: L`<p>Lipide (Phospholipide).</p>`}
+        ]}},
+      {id:'b-s2', t:'Enzyme', h:'Wirkungsweise, Spezifität, Enzymkinetik und Hemmung.', s:'new', learn:{
+        explain: L`<p><b>Enzyme</b> sind Biokatalysatoren (meist Proteine): Sie senken die <b>Aktivierungsenergie</b> und werden nicht verbraucht. Substratspezifisch (Schlüssel-Schloss / induced fit).</p>
+        <div class="keybox">Abhängig von Temperatur und pH (Optimum; bei zu hoher Temperatur <b>Denaturierung</b>). Hemmung: <b>kompetitiv</b> (am aktiven Zentrum) oder <b>nicht-kompetitiv</b>.</div>`,
+        example:{ task: L`Was passiert mit einem Enzym bei zu hoher Temperatur?`,
+          solution: L`<p>Es denaturiert — die räumliche Struktur (und damit das aktive Zentrum) wird zerstört, die Funktion geht verloren.</p>` },
+        problems:[
+          {q: L`Wie wirkt ein Enzym auf die Aktivierungsenergie einer Reaktion?`,
+           a: L`<p>Es senkt sie, sodass die Reaktion schneller abläuft.</p>`},
+          {q: L`Ein Hemmstoff ähnelt dem Substrat und blockiert das aktive Zentrum. Welche Hemmungsart?`,
+           a: L`<p>Kompetitive Hemmung.</p>`}
+        ]}},
+      {id:'b-s3', t:'Zellatmung', h:'Glykolyse, Citratzyklus, Atmungskette — Grundzüge der Dissimilation.', s:'new', learn:{
+        explain: L`<p>Abbau von Glucose zur ATP-Gewinnung: \(\ce{C6H12O6 + 6 O2 -> 6 CO2 + 6 H2O}\).</p>
+        <div class="keybox"><b>Glykolyse</b> (Cytoplasma): Glucose → 2 Pyruvat. <b>Citratzyklus</b> (Mitochondrienmatrix). <b>Atmungskette</b> (innere Mitochondrienmembran): O₂ als Endakzeptor, liefert den Grossteil des ATP.</div>`,
+        example:{ task: L`Wo entsteht der grösste Teil des ATP?`,
+          solution: L`<p>In der Atmungskette an der inneren Mitochondrienmembran.</p>` },
+        problems:[
+          {q: L`Nenne die Endprodukte der vollständigen Zellatmung von Glucose.`,
+           a: L`<p>\(\ce{CO2}\) und \(\ce{H2O}\) (sowie ATP).</p>`},
+          {q: L`Welches Molekül ist der finale Elektronenakzeptor der Atmungskette?`,
+           a: L`<p>Sauerstoff (\(\ce{O2}\)).</p>`}
+        ]}},
+      {id:'b-s4', t:'Fotosynthese', h:'Licht- und Dunkelreaktion, Bedeutung für den Energiehaushalt.', s:'new', learn:{
+        explain: L`<p>Aufbau von Glucose aus \(\ce{CO2}\) und Wasser mit Lichtenergie im Chloroplasten: \(\ce{6 CO2 + 6 H2O -> C6H12O6 + 6 O2}\).</p>
+        <div class="keybox"><b>Lichtreaktion</b> (Thylakoide): Wasser wird gespalten, \(\ce{O2}\) frei, ATP + NADPH entstehen. <b>Calvin-Zyklus</b> (Stroma): \(\ce{CO2}\)-Fixierung zu Glucose.</div>`,
+        example:{ task: L`Woher stammt der bei der Fotosynthese freigesetzte Sauerstoff?`,
+          solution: L`<p>Aus der Spaltung des Wassers in der Lichtreaktion.</p>` },
+        problems:[
+          {q: L`Nenne Ausgangsstoffe und Produkte der Fotosynthese.`,
+           a: L`<p>Aus \(\ce{CO2}\) + \(\ce{H2O}\) (+ Licht) entstehen Glucose + \(\ce{O2}\).</p>`},
+          {q: L`In welchem Teil des Chloroplasten läuft der Calvin-Zyklus ab?`,
+           a: L`<p>Im Stroma.</p>`}
+        ]}}
+    ]},
+    {name:'Genetik', topics:[
+      {id:'b-g1', t:'Klassische Genetik', h:'Mendelsche Regeln, Kreuzungsschemata, Erbgänge.', s:'review', learn:{
+        explain: L`<div class="keybox"><b>Mendel:</b> Uniformität (F1), Spaltung (3:1 im F2 monohybrid), Unabhängigkeit.</div>
+        <p>Begriffe: dominant/rezessiv, homozygot/heterozygot, Genotyp/Phänotyp. Kreuzungen mit dem Punnett-Quadrat auswerten.</p>`,
+        example:{ task: L`Kreuzung \(Aa\times Aa\). Welches Phänotyp-Verhältnis?`,
+          solution: L`<p>\(3:1\) (dominant : rezessiv); Genotypen \(1\,AA:2\,Aa:1\,aa\).</p>` },
+        problems:[
+          {q: L`\(Aa\times aa\): Welcher Anteil der Nachkommen ist phänotypisch rezessiv?`,
+           a: L`<p>50 % (Verhältnis \(1\,Aa:1\,aa\)).</p>`},
+          {q: L`Zwei heterozygote Eltern (\(Aa\)): Wahrscheinlichkeit für ein reinerbig rezessives Kind (\(aa\))?`,
+           a: L`<p>\(\tfrac14\).</p>`}
+        ]}},
+      {id:'b-g2', t:'Molekulargenetik', h:'DNA-Aufbau, Replikation, Chromosomen.', s:'deepen', learn:{
+        explain: L`<p><b>DNA:</b> Doppelhelix aus Nukleotiden (Desoxyribose, Phosphat, Base). Komplementäre Basenpaarung <b>A–T</b> und <b>G–C</b>.</p>
+        <div class="keybox"><b>Replikation</b> ist semikonservativ: Jeder Strang dient als Vorlage für einen neuen Gegenstrang.</div>`,
+        example:{ task: L`Ein DNA-Strang lautet 3'-TAC GGA-5'. Wie lautet der Komplementärstrang?`,
+          solution: L`<p>5'-ATG CCT-3' (A–T, G–C).</p>` },
+        problems:[
+          {q: L`Welche Base paart mit Guanin?`,
+           a: L`<p>Cytosin (G–C).</p>`},
+          {q: L`Was bedeutet „semikonservative" Replikation?`,
+           a: L`<p>Jede Tochter-DNA besteht aus einem alten und einem neu synthetisierten Strang.</p>`}
+        ]}},
+      {id:'b-g3', t:'Proteinbiosynthese', h:'Transkription, Translation, genetischer Code.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>Transkription</b> (Zellkern): DNA → mRNA (Base <b>U</b> statt T). <b>Translation</b> (Ribosom): mRNA-Codons (Basentripletts) → Aminosäuren, vermittelt durch tRNA.</div>
+        <p>Start: AUG; es gibt Stopp-Codons. Der genetische Code ist ein Triplett-Code.</p>`,
+        example:{ task: L`Wofür codiert das mRNA-Codon AUG?`,
+          solution: L`<p>Für Start / die Aminosäure Methionin.</p>` },
+        problems:[
+          {q: L`DNA-Vorlage 3'-TAC-5' → welches mRNA-Codon entsteht?`,
+           a: L`<p>AUG.</p>`},
+          {q: L`Wie viele Basen codieren eine Aminosäure?`,
+           a: L`<p>Drei (ein Triplett/Codon).</p>`}
+        ]}},
+      {id:'b-g4', t:'Genregulation', h:'Steuerung der Genaktivität (z. B. Operon-Modell).', s:'new', learn:{
+        explain: L`<p>Nicht alle Gene sind ständig aktiv. Bei Bakterien beschreibt das <b>Operon-Modell</b> (z. B. lac-Operon) die Steuerung: Regulatorgen, Operator, Promotor; das Substrat kann Gene an- oder abschalten.</p>
+        <div class="keybox">Bei Eukaryoten komplexer: Transkriptionsfaktoren, Epigenetik.</div>`,
+        example:{ task: L`Wozu dient Genregulation?`,
+          solution: L`<p>Damit die Zelle nur die aktuell benötigten Proteine bildet — Anpassung, Differenzierung und Ressourcen sparen.</p>` },
+        problems:[
+          {q: L`Welche Rolle spielt der Operator im Operon-Modell?`,
+           a: L`<p>Er ist die Bindestelle des Repressors und steuert, ob die Strukturgene abgelesen werden.</p>`},
+          {q: L`Warum bilden Körperzellen trotz gleicher DNA unterschiedliche Proteine?`,
+           a: L`<p>Durch unterschiedliche Genregulation — in verschiedenen Zellen sind verschiedene Gene aktiv.</p>`}
+        ]}},
+      {id:'b-g5', t:'Mutationen', h:'Gen-, Chromosomen- und Genommutationen und ihre Folgen.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Genmutation</b> (einzelne Basen, Punktmutation), <b>Chromosomenmutation</b> (Struktur), <b>Genommutation</b> (Chromosomenzahl, z. B. Trisomie).</div>
+        <p>Folgen: oft neutral, manchmal schädlich, selten vorteilhaft — Grundlage genetischer Variabilität.</p>`,
+        example:{ task: L`Eine einzelne Base wird ausgetauscht. Welche Mutationsebene?`,
+          solution: L`<p>Genmutation (Punktmutation).</p>` },
+        problems:[
+          {q: L`Trisomie 21 betrifft die Chromosomenzahl. Welcher Mutationstyp?`,
+           a: L`<p>Genommutation.</p>`},
+          {q: L`Sind Mutationen immer schädlich?`,
+           a: L`<p>Nein — viele sind neutral, manche schädlich, selten vorteilhaft.</p>`}
+        ]}},
+      {id:'b-g6', t:'Gentechnik & Biotechnologie', h:'Restriktionsenzyme, PCR, Klonierung, Anwendungen.', s:'new', learn:{
+        explain: L`<div class="keybox"><b>Werkzeuge:</b> Restriktionsenzyme (schneiden DNA an bestimmten Sequenzen), Ligase (verknüpft), Plasmide (Vektoren). <b>PCR:</b> vervielfältigt DNA (Denaturieren → Primer anlagern → verlängern), exponentiell.</div>
+        <p>Anwendungen: Insulinproduktion, Diagnostik, gentechnisch veränderte Organismen.</p>`,
+        example:{ task: L`Wozu dient die PCR?`,
+          solution: L`<p>Zum Vervielfältigen kleiner DNA-Mengen — die Menge verdoppelt sich pro Zyklus.</p>` },
+        problems:[
+          {q: L`Welches Enzym schneidet DNA an spezifischen Sequenzen?`,
+           a: L`<p>Ein Restriktionsenzym (Restriktionsendonuklease).</p>`},
+          {q: L`Um welchen Faktor steigt die DNA-Menge nach \(n\) PCR-Zyklen ungefähr?`,
+           a: L`<p>Etwa um den Faktor \(2^n\).</p>`}
+        ]}}
+    ]},
+    {name:'Neurobiologie', topics:[
+      {id:'b-n1', t:'Nervenzelle & Potenziale', h:'Bau des Neurons, Ruhe- und Aktionspotenzial.', s:'new', learn:{
+        explain: L`<p><b>Neuron:</b> Dendriten (Eingang) → Soma → Axon (Weiterleitung), oft mit Myelinscheide (schnellere, saltatorische Leitung).</p>
+        <div class="keybox"><b>Ruhepotential</b> \(\approx -70\,\mathrm{mV}\) (Na⁺/K⁺-Pumpe, ungleiche Ionenverteilung). <b>Aktionspotential:</b> Reiz über Schwelle → Depolarisation (Na⁺ ein) → Repolarisation (K⁺ aus). Es gilt das „Alles-oder-Nichts-Prinzip".</div>`,
+        example:{ task: L`Was hält das Ruhepotential aufrecht?`,
+          solution: L`<p>Die Na⁺/K⁺-Pumpe zusammen mit der selektiven Ionendurchlässigkeit der Membran.</p>` },
+        problems:[
+          {q: L`Welches Ion strömt bei der Depolarisation in die Zelle?`,
+           a: L`<p>Natrium (Na⁺).</p>`},
+          {q: L`Was bedeutet das „Alles-oder-Nichts-Prinzip"?`,
+           a: L`<p>Ab Überschreiten der Schwelle entsteht ein volles Aktionspotential, sonst keines — unabhängig von der Reizstärke.</p>`}
+        ]}},
+      {id:'b-n2', t:'Synapse', h:'Erregungsübertragung, Neurotransmitter, Verschaltung.', s:'new', learn:{
+        explain: L`<p>Die <b>Synapse</b> ist die Kontaktstelle zweier Neurone. Die Übertragung ist chemisch:</p>
+        <div class="keybox">Aktionspotential → Ca²⁺ strömt ein → Neurotransmitter (z. B. Acetylcholin) werden in den synaptischen Spalt ausgeschüttet → Bindung an Rezeptoren der Folgezelle (erregend oder hemmend) → anschliessend Abbau/Wiederaufnahme.</div>`,
+        example:{ task: L`Wie wird das Signal über den synaptischen Spalt übertragen?`,
+          solution: L`<p>Chemisch, durch Neurotransmitter.</p>` },
+        problems:[
+          {q: L`Welches Ion löst die Ausschüttung der Neurotransmitter aus?`,
+           a: L`<p>Calcium (Ca²⁺).</p>`},
+          {q: L`Nenne einen erregenden Neurotransmitter.`,
+           a: L`<p>Zum Beispiel Acetylcholin (oder Glutamat).</p>`}
+        ]}}
+    ]},
+    {name:'Evolution', topics:[
+      {id:'b-e1', t:'Evolutionsfaktoren', h:'Mutation, Rekombination, Selektion, Gendrift, Isolation.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Mutation</b> (liefert neue Allele) · <b>Rekombination</b> (neue Kombinationen) · <b>Selektion</b> (unterschiedlicher Fortpflanzungserfolg) · <b>Gendrift</b> (Zufall in kleinen Populationen) · <b>Isolation</b> (unterbindet Genfluss → Artbildung).</div>`,
+        example:{ task: L`Welcher Faktor liefert die „Rohstoffe" (neue Allele) der Evolution?`,
+          solution: L`<p>Die Mutation.</p>` },
+        problems:[
+          {q: L`In einer kleinen Population ändern sich Allelfrequenzen rein zufällig. Welcher Faktor?`,
+           a: L`<p>Gendrift.</p>`},
+          {q: L`Warum ist Selektion nicht zufällig?`,
+           a: L`<p>Sie bevorzugt gezielt besser angepasste Varianten mit höherem Fortpflanzungserfolg.</p>`}
+        ]}},
+      {id:'b-e2', t:'Belege der Evolution', h:'Fossilien, Homologien, molekulare Belege.', s:'deepen', learn:{
+        explain: L`<p>Belege: <b>Fossilien</b> (zeitliche Abfolge, Übergangsformen), <b>vergleichende Anatomie</b>, <b>molekulare</b> Ähnlichkeit von DNA/Proteinen, Embryologie.</p>
+        <div class="keybox"><b>Homologie:</b> gleicher Grundbauplan, gemeinsame Herkunft (z. B. Wirbeltier-Extremität). <b>Analogie:</b> gleiche Funktion, verschiedene Herkunft.</div>`,
+        example:{ task: L`Vordergliedmassen von Mensch, Wal und Fledermaus haben denselben Grundbauplan. Homologie oder Analogie?`,
+          solution: L`<p>Homologie.</p>` },
+        problems:[
+          {q: L`Vogelflügel und Insektenflügel: gleiche Funktion, verschiedene Herkunft. Was ist das?`,
+           a: L`<p>Analogie.</p>`},
+          {q: L`Warum sind DNA-Vergleiche ein Beleg für Verwandtschaft?`,
+           a: L`<p>Je ähnlicher die DNA, desto näher die Verwandtschaft bzw. desto jünger der gemeinsame Vorfahr.</p>`}
+        ]}},
+      {id:'b-e3', t:'Populationsgenetik', h:'Allelfrequenzen, Hardy-Weinberg-Gleichgewicht.', s:'new', learn:{
+        explain: L`<p>Im <b>Hardy-Weinberg-Gleichgewicht</b> bleiben die Allelfrequenzen einer idealen Population konstant.</p>
+        <div class="keybox">Mit \(p+q=1\) gilt \(p^2+2pq+q^2=1\): \(p^2\) = homozygot dominant, \(2pq\) = heterozygot, \(q^2\) = homozygot rezessiv. Abweichungen zeigen wirkende Evolutionsfaktoren.</div>`,
+        example:{ task: L`Der rezessive Phänotyp tritt mit \(q^2=0{,}04\) auf. Allelfrequenzen \(p\) und \(q\)?`,
+          solution: L`<p>\(q=\sqrt{0{,}04}=0{,}2\); \(p=1-q=0{,}8\).</p>` },
+        problems:[
+          {q: L`Wenn \(q=0{,}3\): Wie gross ist der Anteil Heterozygoter \(2pq\)?`,
+           a: L`<p>\(p=0{,}7\); \(2pq=2\cdot0{,}7\cdot0{,}3=0{,}42=42\%\).</p>`},
+          {q: L`16 % zeigen ein rezessives Merkmal (\(q^2=0{,}16\)). Wie gross ist \(q\)?`,
+           a: L`<p>\(q=\sqrt{0{,}16}=0{,}4\).</p>`}
+        ]}},
+      {id:'b-e4', t:'Artbildung & Stammesgeschichte', h:'Mechanismen der Artbildung, Verwandtschaft, Phylogenese.', s:'deepen', learn:{
+        explain: L`<p>Eine <b>Art</b> ist eine Fortpflanzungsgemeinschaft (Biospezies).</p>
+        <div class="keybox"><b>Allopatrische Artbildung:</b> geografische Trennung → unabhängige Entwicklung → reproduktive Isolation. <b>Sympatrisch:</b> ohne räumliche Trennung. Phylogenese zeigt Verwandtschaft in Stammbäumen.</div>`,
+        example:{ task: L`Wie führt geografische Trennung zu neuen Arten?`,
+          solution: L`<p>Die getrennten Populationen entwickeln sich unabhängig, bis sie sich nicht mehr miteinander fortpflanzen können (Isolation).</p>` },
+        problems:[
+          {q: L`Wie nennt man Artbildung durch geografische Trennung?`,
+           a: L`<p>Allopatrische Artbildung.</p>`},
+          {q: L`Was zeigt ein phylogenetischer Stammbaum?`,
+           a: L`<p>Verwandtschaftsbeziehungen und gemeinsame Vorfahren von Arten.</p>`}
+        ]}}
+    ]},
+    {name:'Ökologie', topics:[
+      {id:'b-o1', t:'Ökologische Grundbegriffe', h:'Biotop, Biozönose, ökologische Nische, Toleranzbereich.', s:'review', learn:{
+        explain: L`<div class="keybox"><b>Biotop</b> (Lebensraum) + <b>Biozönose</b> (Lebensgemeinschaft) = <b>Ökosystem</b>. <b>Population</b> = Individuen einer Art. <b>Ökologische Nische</b> = Gesamtheit der Umweltbeziehungen (der „Beruf" der Art).</div>
+        <p>Der <b>Toleranzbereich</b> eines Umweltfaktors hat ein Optimum sowie ein Minimum und Maximum.</p>`,
+        example:{ task: L`Worin unterscheiden sich Habitat und ökologische Nische?`,
+          solution: L`<p>Das Habitat ist der Wohnort, die Nische die funktionelle Rolle der Art im Ökosystem.</p>` },
+        problems:[
+          {q: L`Wie heisst die Gesamtheit aller Lebewesen in einem Lebensraum?`,
+           a: L`<p>Biozönose (Lebensgemeinschaft).</p>`},
+          {q: L`Was beschreibt der Toleranzbereich einer Art?`,
+           a: L`<p>Den Bereich eines Umweltfaktors, in dem die Art leben kann — mit einem Optimum.</p>`}
+        ]}},
+      {id:'b-o2', t:'Umweltfaktoren', h:'Abiotische und biotische Faktoren, Anpassungen.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Abiotisch:</b> Temperatur, Licht, Wasser, pH, Salz. <b>Biotisch:</b> Konkurrenz, Fressfeinde, Symbiose.</div>
+        <p>Anpassungen, z. B. Bergmannsche Regel (in kälteren Gebieten grössere Tiere → kleineres Oberflächen-Volumen-Verhältnis), Sonnen-/Schattenblätter.</p>`,
+        example:{ task: L`Warum sind Tiere in kalten Regionen tendenziell grösser (Bergmann)?`,
+          solution: L`<p>Grössere Körper haben ein kleineres Oberflächen-Volumen-Verhältnis und verlieren dadurch weniger Wärme.</p>` },
+        problems:[
+          {q: L`Nenne je einen abiotischen und einen biotischen Faktor.`,
+           a: L`<p>Abiotisch z. B. Temperatur; biotisch z. B. Konkurrenz.</p>`},
+          {q: L`Ein Schattenblatt ist grösser und dünner als ein Sonnenblatt. Welcher Faktortyp wirkt?`,
+           a: L`<p>Ein abiotischer Faktor (Licht).</p>`}
+        ]}},
+      {id:'b-o3', t:'Populationsdynamik & Wechselwirkungen', h:'Wachstum, Räuber-Beute, Konkurrenz, Symbiose.', s:'deepen', learn:{
+        explain: L`<p><b>Wachstum:</b> exponentiell (unbegrenzt) oder logistisch mit Kapazitätsgrenze \(K\).</p>
+        <div class="keybox"><b>Räuber-Beute</b> (zeitversetzte Schwankungen, Lotka-Volterra) · <b>Konkurrenz</b> · <b>Symbiose</b> (beide profitieren) · <b>Parasitismus</b>.</div>`,
+        example:{ task: L`Was beschreibt die Kapazitätsgrenze \(K\)?`,
+          solution: L`<p>Die maximale Individuenzahl, die ein Lebensraum dauerhaft tragen kann.</p>` },
+        problems:[
+          {q: L`Wie verläuft die Räuberzahl zeitlich gegenüber der Beutezahl?`,
+           a: L`<p>Zeitlich verzögert (sie eilt der Beute nach).</p>`},
+          {q: L`Beide Partner profitieren voneinander. Welche Wechselwirkung?`,
+           a: L`<p>Symbiose (Mutualismus).</p>`}
+        ]}},
+      {id:'b-o4', t:'Stoffkreisläufe & Energiefluss', h:'Nahrungsnetze, Trophieebenen, Kohlenstoff-/Stickstoffkreislauf.', s:'deepen', learn:{
+        explain: L`<div class="keybox"><b>Nahrungsnetz:</b> Produzenten (Pflanzen) → Konsumenten → Destruenten. Energie fliesst einseitig — pro Trophieebene gelangen nur etwa <b>10 %</b> in die nächste (Energiepyramide).</div>
+        <p>Stoffe zirkulieren dagegen: Kohlenstoffkreislauf (Fotosynthese/Atmung) und Stickstoffkreislauf.</p>`,
+        example:{ task: L`Warum gibt es weniger Endkonsumenten als Pflanzen?`,
+          solution: L`<p>Von Ebene zu Ebene gehen rund 90 % der Energie verloren; nur etwa 10 % stehen der nächsten Ebene zur Verfügung.</p>` },
+        problems:[
+          {q: L`Welche Organismengruppe baut tote Biomasse ab und führt Stoffe zurück?`,
+           a: L`<p>Destruenten (Zersetzer).</p>`},
+          {q: L`Ungefähr wie viel Energie gelangt von einer Trophieebene in die nächste?`,
+           a: L`<p>Etwa 10 %.</p>`}
+        ]}}
+    ]}
+  ]
+});
+const STATUS = { review:{label:'Wiederholen'}, deepen:{label:'Vertiefen'}, new:{label:'Neu lernen'} };
+const CYCLE = ['review','deepen','new'];
+
+/* ---------- Persistenz ---------- */
+const STORE_KEY = 'eth-prep-v2';
+let store = {}; let memoryOnly = false;
+try{ const raw = localStorage.getItem(STORE_KEY); store = raw ? JSON.parse(raw) : {}; localStorage.setItem(STORE_KEY, JSON.stringify(store)); }
+catch(e){ memoryOnly = true; store = {}; }
+function save(){ if(memoryOnly) return; try{ localStorage.setItem(STORE_KEY, JSON.stringify(store)); }catch(e){ memoryOnly = true; } }
+function rec(id){ return store[id] || (store[id] = {}); }
+function isDone(id){ return !!(store[id] && store[id].done); }
+function statusOf(topic){ const r = store[topic.id]; return (r && r.status) || topic.s; }
+
+/* ---------- Ableitungen ---------- */
+function subjectStats(subj){
+  const st = {total:0, done:0, review:0, deepen:0, new:0, openReview:0, openDeepen:0, openNew:0};
+  subj.areas.forEach(a=>a.topics.forEach(tp=>{
+    st.total++; const s = statusOf(tp); st[s]++;
+    if(isDone(tp.id)) st.done++; else st['open'+s.charAt(0).toUpperCase()+s.slice(1)]++;
+  }));
+  st.pct = st.total ? Math.round(st.done/st.total*100) : 0; return st;
+}
+function globalStats(){
+  const g = {total:0, done:0, openReview:0, openDeepen:0, openNew:0};
+  SUBJECTS.forEach(s=>{ const st = subjectStats(s);
+    g.total+=st.total; g.done+=st.done; g.openReview+=st.openReview; g.openDeepen+=st.openDeepen; g.openNew+=st.openNew; });
+  g.pct = g.total ? Math.round(g.done/g.total*100) : 0; return g;
+}
+function flatTopics(subj){ const f=[]; subj.areas.forEach(a=>a.topics.forEach(t=>f.push(t))); return f; }
+function findTopic(id){
+  for(const subj of SUBJECTS){ for(const area of subj.areas){
+    if(area.topics.some(t=>t.id===id)){ const flat=flatTopics(subj); return {subj, area, topic:area.topics.find(t=>t.id===id), flat, index:flat.findIndex(t=>t.id===id)}; } } }
+  return null;
+}
+
+/* ---------- MathJax ---------- */
+function typeset(el){ if(el && window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise([el]).catch(()=>{}); } }
+
+/* ---------- State ---------- */
+let currentView = 'overview'; let currentTopic = null; let filterStatus = 'all'; let hideDone = false;
+
+/* ---------- Nav ---------- */
+function renderNav(){
+  const nav = document.getElementById('nav'); const g = globalStats();
+  let html = `<div class="nav__label">Ansicht</div>` + navItem('overview','Übersicht','var(--accent)', g.pct, currentView==='overview' && !currentTopic);
+  html += `<div class="nav__label">Fächer</div>`;
+  SUBJECTS.forEach(s=>{ const st = subjectStats(s); html += navItem(s.id, s.name, s.dot, st.pct, currentView===s.id); });
+  nav.innerHTML = html;
+  nav.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click',()=>{ go(b.getAttribute('data-nav')); document.getElementById('nav').classList.remove('is-open'); }));
+}
+function navItem(id,name,color,pct,active){
+  return `<button class="navitem ${active?'is-active':''}" data-nav="${id}">
+    <span class="navitem__dot" style="background:${color}"></span>
+    <span class="navitem__name">${name}</span><span class="navitem__pct">${pct}%</span></button>`;
+}
+
+/* ---------- Router ---------- */
+function go(view){ currentView = view; currentTopic = null; filterStatus='all'; window.scrollTo(0,0); render(); }
+function openTopic(id){ const f = findTopic(id); if(!f) return; currentView = f.subj.id; currentTopic = id; window.scrollTo(0,0); render(); }
+function render(){ renderNav(); if(currentTopic){ renderTopicPage(); } else if(currentView==='overview'){ renderOverview(); } else { renderSubject(SUBJECTS.find(s=>s.id===currentView)); } }
+
+/* ---------- Overview ---------- */
+function renderOverview(){
+  const g = globalStats(); const openTotal = g.openReview+g.openDeepen+g.openNew;
+  const seg = (n)=> g.total? (n/g.total*100):0; const wrap = document.getElementById('wrap');
+  let subjHtml = '';
+  SUBJECTS.forEach(s=>{ const st = subjectStats(s); const p=(n)=> st.total?(n/st.total*100):0;
+    subjHtml += `<button class="subjrow" data-nav="${s.id}">
+      <div class="subjrow__top"><span class="subjrow__name">${s.name}</span>
+        <span class="subjrow__meta"><b>${st.done}</b>/${st.total} gelernt · <b>${st.pct}%</b></span></div>
+      <div class="segbar" style="height:14px">
+        <div class="segbar__seg seg--done" style="width:${p(st.done)}%"></div>
+        <div class="segbar__seg seg--review" style="width:${p(st.openReview)}%"></div>
+        <div class="segbar__seg seg--deepen" style="width:${p(st.openDeepen)}%"></div>
+        <div class="segbar__seg seg--new" style="width:${p(st.openNew)}%"></div>
+      </div></button>`; });
+  wrap.innerHTML = `
+  <div class="view-head"><h1 class="view-title">Übersicht</h1>
+    <p class="view-desc">Dein Lernstand für die reduzierte Aufnahmeprüfung der ETH Zürich — Mathematik, Physik, Chemie und Biologie auf gymnasialem Maturitätsniveau. Klick auf ein Thema, um seine eigene Lernseite mit Erklärung, Beispiel und Aufgaben zu öffnen.</p></div>
+  ${advisoryHtml()}
+  <div class="panel instrument">
+    <div class="instrument__top"><div class="instrument__big">${g.pct}<span>%</span></div>
+      <div class="instrument__cap">von <span class="instrument__count">${g.total}</span> Themen als gelernt markiert. Offen: <span class="instrument__count">${openTotal}</span>.</div></div>
+    <div class="segbar">
+      <div class="segbar__seg seg--done" style="width:${seg(g.done)}%"></div>
+      <div class="segbar__seg seg--review" style="width:${seg(g.openReview)}%"></div>
+      <div class="segbar__seg seg--deepen" style="width:${seg(g.openDeepen)}%"></div>
+      <div class="segbar__seg seg--new" style="width:${seg(g.openNew)}%"></div></div>
+    <div class="legend">
+      <div class="legend__item"><span class="legend__sw" style="background:var(--accent)"></span>Gelernt <span class="legend__n">${g.done}</span></div>
+      <div class="legend__item"><span class="legend__sw" style="background:var(--review)"></span>Wiederholen <span class="legend__n">${g.openReview}</span></div>
+      <div class="legend__item"><span class="legend__sw" style="background:var(--deepen)"></span>Vertiefen <span class="legend__n">${g.openDeepen}</span></div>
+      <div class="legend__item"><span class="legend__sw" style="background:var(--new)"></span>Neu lernen <span class="legend__n">${g.openNew}</span></div></div>
+  </div>
+  <div class="panel subj-prog">${subjHtml}</div>
+  <div class="how"><h3>So arbeitest du damit</h3><ul>
+    <li><b>Thema öffnen</b> (Klick auf die Zeile): eine eigene Lernseite mit Erklärung, gerechnetem Beispiel und Übungsaufgaben. Rechne die Aufgaben auf Papier und blende erst danach die Lösung ein.</li>
+    <li><b>Als gelernt markieren</b>, sobald du ein Thema sicher beherrschst — auf der Themenseite oder direkt über das Kästchen in der Liste. Der Stand wird automatisch auf diesem Gerät gespeichert.</li>
+    <li><b>Farbe = Aufwand für dich:</b> <b style="color:var(--review)">Wiederholen</b>, <b style="color:var(--deepen)">Vertiefen</b>, <b style="color:var(--new)">Neu lernen</b>. Passt eine Farbe nicht, klick auf das Etikett — sie wechselt durch die Stufen.</li>
+    <li><b>Notizfeld</b> je Thema für Merksätze, Formeln und offene Fragen.</li>
+    <li>Alle 112 Themen in Mathematik, Physik, Chemie und Biologie haben Erklärung, Beispiel und Übungsaufgaben.</li>
+    <li>Dein Fortschritt wird <b>im Browser dieses Geräts</b> gespeichert. Auf einem anderen Gerät oder Browser startest du mit leerem Stand.</li>
+  </ul></div>
+  ${memoryOnly?memoryWarn():''}`;
+  wrap.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click',()=>go(b.getAttribute('data-nav'))));
+  bindAdvisory();
+}
+
+/* ---------- Fach-Ansicht (Liste) ---------- */
+function renderSubject(subj){
+  const st = subjectStats(subj); const p = (n)=> st.total?(n/st.total*100):0; const wrap = document.getElementById('wrap');
+  let areasHtml = '';
+  subj.areas.forEach(area=>{
+    const rows = area.topics.filter(tp=>{
+      if(filterStatus!=='all' && statusOf(tp)!==filterStatus) return false;
+      if(hideDone && isDone(tp.id)) return false; return true; });
+    if(!rows.length) return;
+    areasHtml += `<section class="area"><div class="area__head">
+        <h2 class="area__title">${area.name}</h2>
+        <span class="area__count">${area.topics.filter(t=>isDone(t.id)).length}/${area.topics.length}</span>
+        <span class="area__rule"></span></div>
+      <div class="list">${rows.map(topicRow).join('')}</div></section>`;
+  });
+  if(!areasHtml) areasHtml = `<div class="empty">Mit diesem Filter sind hier keine Themen sichtbar.</div>`;
+  wrap.innerHTML = `
+  <div class="view-head"><h1 class="view-title">${subj.name}</h1><p class="view-desc">${subj.note}</p></div>
+  <div class="subhead"><div class="subhead__bar">
+    <div class="segbar">
+      <div class="segbar__seg seg--done" style="width:${p(st.done)}%"></div>
+      <div class="segbar__seg seg--review" style="width:${p(st.openReview)}%"></div>
+      <div class="segbar__seg seg--deepen" style="width:${p(st.openDeepen)}%"></div>
+      <div class="segbar__seg seg--new" style="width:${p(st.openNew)}%"></div></div>
+    <div class="subhead__stats">
+      <span class="stat"><span class="stat__dot" style="background:var(--accent)"></span>Gelernt <span class="stat__n">${st.done}/${st.total}</span></span>
+      <span class="stat"><span class="stat__dot" style="background:var(--review)"></span>Wiederholen <span class="stat__n">${st.review}</span></span>
+      <span class="stat"><span class="stat__dot" style="background:var(--deepen)"></span>Vertiefen <span class="stat__n">${st.deepen}</span></span>
+      <span class="stat"><span class="stat__dot" style="background:var(--new)"></span>Neu <span class="stat__n">${st.new}</span></span>
+    </div></div></div>
+  <div class="toolbar"><div class="chips">
+      ${chip('all','Alle')}${chip('review','Wiederholen')}${chip('deepen','Vertiefen')}${chip('new','Neu lernen')}</div>
+    <span class="toolbar__spacer"></span>
+    <label class="toggle"><input type="checkbox" id="hideDone" ${hideDone?'checked':''}>
+      <span class="toggle__track"></span>Gelernte ausblenden</label></div>
+  ${areasHtml}
+  ${memoryOnly?memoryWarn():''}`;
+  wrap.querySelectorAll('[data-chip]').forEach(c=>c.addEventListener('click',()=>{ filterStatus = c.getAttribute('data-chip'); renderSubject(subj); }));
+  wrap.querySelector('#hideDone').addEventListener('change',e=>{ hideDone=e.target.checked; renderSubject(subj); });
+  bindTopicRows(subj);
+}
+function chip(val,label){ return `<button class="chip ${filterStatus===val?'is-on':''}" data-chip="${val}">${label}</button>`; }
+
+function topicRow(tp){
+  const s = statusOf(tp); const done = isDone(tp.id); const r = store[tp.id]||{};
+  const overridden = r.status && r.status!==tp.s;
+  return `<div class="topic ${done?'is-done':''}" data-status="${s}" data-id="${tp.id}" tabindex="0" role="button" aria-label="${tp.t} öffnen">
+    <div class="topic__row">
+      <input type="checkbox" class="check" ${done?'checked':''} data-check aria-label="${tp.t} als gelernt markieren">
+      <div class="topic__body"><div class="topic__line">
+        <span class="topic__name">${tp.t}</span>
+        <button class="badge" data-s="${s}" data-badge title="Einstufung ändern">${STATUS[s].label}${overridden?' <span class="badge__edit">·angepasst</span>':''}</button>
+      </div><div class="topic__hint">${tp.h}</div></div>
+      <span class="topic__go" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+    </div></div>`;
+}
+
+function bindTopicRows(subj){
+  const wrap = document.getElementById('wrap');
+  wrap.querySelectorAll('.topic').forEach(row=>{
+    const id = row.getAttribute('data-id');
+    const skip = (e)=> e.target.closest('[data-check]') || e.target.closest('[data-badge]');
+    row.addEventListener('click', e=>{ if(skip(e)) return; openTopic(id); });
+    row.addEventListener('keydown', e=>{ if(skip(e)) return; if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openTopic(id); } });
+    const chk = row.querySelector('[data-check]');
+    chk.addEventListener('click', e=>e.stopPropagation());
+    chk.addEventListener('change', e=>{ rec(id).done = e.target.checked; save(); renderSubject(subj); });
+    row.querySelector('[data-badge]').addEventListener('click', e=>{
+      e.stopPropagation();
+      const cur = statusOf({id, s: row.getAttribute('data-status')});
+      rec(id).status = CYCLE[(CYCLE.indexOf(cur)+1)%CYCLE.length]; save(); renderSubject(subj);
+    });
+  });
+}
+
+/* ---------- Themenseite ---------- */
+function learnHtml(tp){
+  if(!tp.learn){ return `<div class="lesson-placeholder"><b>Lerninhalt folgt.</b> Für dieses Thema kommen Erklärung, Beispiel und Übungsaufgaben in einer der nächsten Etappen dazu. Notizen kannst du hier schon festhalten.</div>`; }
+  const l = tp.learn;
+  const probs = (l.problems||[]).map((p,i)=>`
+    <div class="prob">
+      <div class="prob__q"><span class="prob__num">${i+1}</span><span>${p.q}</span></div>
+      <button class="prob__reveal" data-reveal aria-expanded="false">Lösung anzeigen</button>
+      <div class="prob__sol">${p.a}</div>
+    </div>`).join('');
+  return `<div class="lesson">
+    <div class="lesson__sec"><div class="lesson__label">Erklärung</div><div class="lesson__body">${l.explain}</div></div>
+    ${l.example?`<div class="lesson__sec"><div class="lesson__label">Beispiel</div>
+      <div class="example"><div class="example__q">${l.example.task}</div><div class="example__a">${l.example.solution}</div></div></div>`:''}
+    ${probs?`<div class="lesson__sec"><div class="lesson__label">Übungsaufgaben — auf Papier lösen</div>${probs}</div>`:''}
+  </div>`;
+}
+
+function renderTopicPage(){
+  const f = findTopic(currentTopic);
+  if(!f){ currentTopic=null; render(); return; }
+  const { subj, area, topic, flat, index } = f;
+  const s = statusOf(topic); const done = isDone(topic.id); const r = store[topic.id]||{};
+  const overridden = r.status && r.status!==topic.s;
+  const prev = flat[index-1]; const next = flat[index+1];
+  const wrap = document.getElementById('wrap');
+  wrap.innerHTML = `
+    <button class="tp-back" data-back>← ${subj.name}</button>
+    <div class="tp-crumb"><b>${subj.name}</b> · ${area.name}</div>
+    <div class="tp-head">
+      <h1 class="tp-title">${topic.t}</h1>
+      <button class="tp-badge" data-s="${s}" data-badge title="Einstufung ändern">${STATUS[s].label}</button>
+    </div>
+    <p class="tp-hint">${topic.h}</p>
+    <button class="tp-mark ${done?'is-done':''}" data-mark><span class="box"></span>${done?'Als gelernt markiert':'Als gelernt markieren'}</button>
+    <div class="tp-panel">
+      ${learnHtml(topic)}
+      <div class="note-block"><label class="note-label">Deine Notizen zu „${topic.t}"</label>
+        <textarea class="note" data-note placeholder="Merksätze, Formeln, offene Fragen, Aufgabennummern …">${escapeHtml(r.note||'')}</textarea>
+        ${overridden?`<div><button class="drawer__reset" data-resetstatus>Einstufung zurücksetzen (Vorschlag: ${STATUS[topic.s].label})</button></div>`:''}
+      </div>
+    </div>
+    <div class="tp-nav">
+      ${prev?`<button class="tp-navbtn prev" data-open="${prev.id}"><span class="tp-navbtn__lbl">← Vorheriges</span><span class="tp-navbtn__name">${prev.t}</span></button>`:`<span class="tp-navbtn is-empty"></span>`}
+      ${next?`<button class="tp-navbtn next" data-open="${next.id}"><span class="tp-navbtn__lbl">Nächstes →</span><span class="tp-navbtn__name">${next.t}</span></button>`:`<span class="tp-navbtn is-empty"></span>`}
+    </div>`;
+  wrap.querySelector('[data-back]').addEventListener('click',()=>go(subj.id));
+  wrap.querySelector('[data-mark]').addEventListener('click',()=>{ rec(topic.id).done = !isDone(topic.id); save(); renderTopicPage(); });
+  wrap.querySelector('[data-badge]').addEventListener('click',()=>{ const cur=statusOf(topic); rec(topic.id).status = CYCLE[(CYCLE.indexOf(cur)+1)%CYCLE.length]; save(); renderTopicPage(); });
+  const note = wrap.querySelector('[data-note]'); if(note) note.addEventListener('input',()=>{ rec(topic.id).note = note.value; save(); });
+  const rs = wrap.querySelector('[data-resetstatus]'); if(rs) rs.addEventListener('click',()=>{ delete rec(topic.id).status; save(); renderTopicPage(); });
+  wrap.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>openTopic(b.getAttribute('data-open'))));
+  wrap.querySelectorAll('[data-reveal]').forEach(btn=>btn.addEventListener('click',()=>{
+    const sol = btn.nextElementSibling; const shown = sol.classList.toggle('is-shown');
+    btn.textContent = shown ? 'Lösung verbergen' : 'Lösung anzeigen'; btn.setAttribute('aria-expanded', shown);
+  }));
+  typeset(wrap); window.scrollTo(0,0);
+}
+
+/* ---------- Advisory / Utils ---------- */
+function advisoryHtml(){
+  if(store.__advisoryClosed) return '';
+  return `<div class="advisory" id="advisory">
+    <button class="advisory__close" id="advisoryClose" aria-label="Hinweis schliessen">×</button>
+    <h3>Zuerst prüfen: Brauchst du die Prüfung überhaupt?</h3>
+    <p>Dein Abitur enthält <b>Mathematik als Leistungskurs</b> und <b>durchgehend Physik</b>. Damit erfüllst du zentrale Bedingungen, die die ETH an ausländische Reifezeugnisse stellt — möglicherweise ermöglicht dein Abitur bereits eine <b>prüfungsfreie Zulassung</b>.</p>
+    <p>Kläre das <b>vor</b> monatelanger Vorbereitung direkt bei der ETH-Zulassungsstelle Bachelor ab (Akademische Dienste). Falls die reduzierte Prüfung doch nötig ist, bist du mit dieser Plattform vorbereitet.</p>
+    <p style="color:var(--text-3);font-size:12.5px;margin-top:10px">Die Themenkarte bildet den Prüfungsstoff auf gymnasialem Maturitätsniveau ab (bestätigte „Fächergruppe 1"). Gleiche Schwerpunkte und Tiefe zusätzlich mit der offiziellen ETH-Wegleitung und alten Prüfungen ab.</p></div>`;
+}
+function bindAdvisory(){ const c = document.getElementById('advisoryClose'); if(c) c.addEventListener('click',()=>{ store.__advisoryClosed = true; save(); const a=document.getElementById('advisory'); if(a) a.remove(); }); }
+function memoryWarn(){
+  return `<div class="advisory" style="border-left-color:var(--deepen);margin-top:26px">
+    <h3>Fortschritt wird hier nicht gespeichert</h3>
+    <p>Dein Browser blockiert gerade den Speicher (z. B. privates Fenster oder gesperrte Website-Daten). Öffne die Seite in einem normalen Browserfenster, dann bleiben Häkchen und Notizen auf diesem Gerät erhalten.</p></div>`;
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ---------- Reset & Menü ---------- */
+document.getElementById('resetAll').addEventListener('click',()=>{
+  if(confirm('Wirklich den gesamten Fortschritt (Häkchen, Notizen, angepasste Einstufungen) löschen?')){ store = {}; save(); go(currentView); }
+});
+document.getElementById('railToggle').addEventListener('click',()=>{ document.getElementById('nav').classList.toggle('is-open'); });
+
+render();
+</script>
+</body>
+</html>
